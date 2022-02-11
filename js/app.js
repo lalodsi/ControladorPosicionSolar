@@ -1,2 +1,4 @@
-const contenido = document.getElementsByClassName("principal");
+let manager = new HTMLManager();
+manager.init();
+
 
