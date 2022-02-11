@@ -1,5 +1,5 @@
 body{
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: sans-serif;
     background-color: black;
     height: 100%;
     /* width: 100%; */
@@ -54,4 +54,20 @@ hr{
 }
 .desconectado{
     color: rgb(255, 0, 0);
+}
+
+.boton{
+    border: none;
+    padding: 15px;
+    width: 100%;
+    background-color: #606060;
+    border-radius: 25px;
+    color: white;
+    font-size: 26px;
+    margin-bottom: 20px;
+    font-family: inherit;
+}
+.boton:hover{
+    background-color: #959595;
+    cursor: pointer;
 }
