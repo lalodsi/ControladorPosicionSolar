@@ -5,6 +5,7 @@ class HTMLManager{
     init = function() {
         this.ocultarMenu(0);
         this.btnShowContent();
+        this.changeState(1)
     }
 
     /**
@@ -45,5 +46,14 @@ class HTMLManager{
                 this.ocultarMenu(index);
             } )
         } )
+    }
+
+    changeState = function(state) {
+        const Elemento = document.getElementById("state");
+        if (state == 1) {
+            Elemento.setAttribute("class", "conectado")
+        } else {
+            Elemento.setAttribute("class", "desconectado")
+        }
     }
 }

@@ -1,0 +1,16 @@
+{
+  "name": "Tesis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./js/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "gitignore": "^0.7.0",
+    "serialport": "^9.2.8"
+  }
+}

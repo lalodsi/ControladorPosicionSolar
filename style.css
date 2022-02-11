@@ -48,11 +48,31 @@ hr{
 #state{
     text-align: center;
     font-size: 50px;
+    display: inline;
+    margin-left: 50px;
 }
-.conectado{
+#state > span{
+    font-size: 95px;
+}
+/* #stateCircle{
+    background-color: aqua;
+    height: 15px;
+    width: 15px;
+    margin-left: 25px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    display: inline-block;
+} */
+.conectado > span{
     color: rgb(0, 255, 34);
 }
+.conectado{
+    color: rgb(0, 183, 255);
+}
 .desconectado{
+    color: rgb(51, 51, 51);
+}
+.desconectado > span{
     color: rgb(255, 0, 0);
 }
 
