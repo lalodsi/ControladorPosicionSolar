@@ -1,10 +1,11 @@
 {
   "name": "Tesis",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ./js/server.js"
+    "start": "node ./js/pruebaServer.js"
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,7 @@
 let manager = new HTMLManager();
 manager.init();
 
-
+manager.onPressArduino();
 
 // const conectar = document.getElementsByClassName("botonConectar")[0]
 // conectar.addEventListener('click', () => {

@@ -56,4 +56,14 @@ class HTMLManager{
             Elemento.setAttribute("class", "desconectado")
         }
     }
+
+    /**
+     * Prepara una conexión con el puerto serial
+     */
+    onPressArduino = function (myCallBack) {
+        const botonConectar = document.getElementsByClassName('botonConectar')[0]
+        botonConectar.addEventListener('click', ()=>{
+            return myCallBack()
+        })
+    }
 }
