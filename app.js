@@ -23,11 +23,14 @@ server.listen(3000, ()=>{
     console.log('Server on port 3000');
 })
 
-app.get('/', (req, res, next) => {
-    // console.log( __dirname + "\\index.html");
-    res.sendFile( __dirname + "/index.html")
-})
+// app.get('/', (req, res, next) => {
+//     // console.log( __dirname + "\\index.html");
+//     res.sendFile( __dirname + "/public/index.html")
+// })
+app.use(express.static('public'))
 
 arduino.init()
 arduino.openPort()
 arduino.receiveData()
+
+HTMLManager.init()
