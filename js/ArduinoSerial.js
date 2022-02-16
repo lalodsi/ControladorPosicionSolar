@@ -35,9 +35,10 @@ class ArduinoSerial{
         }
     }
 
-    receiveData = function () {
+    receiveData = function (callback) {
         this.mySerial.on('data', function(data){
-            console.log(data.toString());
+            // console.log(data.toString());
+            callback(data.toString)
         })
     }
 }
