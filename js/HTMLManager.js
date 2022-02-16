@@ -67,3 +67,5 @@ class HTMLManager{
         })
     }
 }
+
+module.exports = HTMLManager

@@ -1,6 +1,8 @@
-import { ArduinoSerial } from './Serial.js'
-// import './Serial'
+const ArduinoSerial = require('./ArduinoSerial.js')
+const HTMLManager = require('./HTMLManager.js')
 
-console.log(ArduinoSerial);
-let Arduino = new ArduinoSerial()
-// Serial.openPort()
+let arduino = new ArduinoSerial()
+
+arduino.init()
+arduino.openPort()
+arduino.receiveData()
