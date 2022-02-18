@@ -60,10 +60,11 @@ class HTMLManager{
     /**
      * Prepara una conexión con el puerto serial
      */
-    onPressArduino = function (myCallBack) {
+    onPressArduino = function ( socket ) {
         const botonConectar = document.getElementsByClassName('botonConectar')[0]
         botonConectar.addEventListener('click', ()=>{
-            return myCallBack()
+            console.log('Intentando conectar con arduino');
+            socket.emit("connect-to-arduino", true);
         })
     }
 }
