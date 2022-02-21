@@ -5,6 +5,7 @@
   "description": "",
   "main": "./app.js",
   "scripts": {
+    "dev": "npx nodemon ./app.js",
     "start": "node ./app.js",
     "prueba": "node ./js/pruebaServer"
   },

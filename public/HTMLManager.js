@@ -3,9 +3,9 @@ class HTMLManager{
      * Inicializa el documento
      */
     init = function() {
-        this.ocultarMenu(0);
+        this.ocultarTodoExcepto(0, ".principal");
+        this.ocultarTodoExcepto(0, ".Contenido_Estado");
         this.btnShowContent();
-        this.changeState(1)
     }
 
     /**
@@ -19,12 +19,12 @@ class HTMLManager{
     }
 
     /**
-     * OcultarMenu
+     * OcultarTodoExcepto
      * Oculta todos los campos de contenido menos el indicado en la sección de contenido
      * @param {int} index Formulario que no se estará ocultando
      */
-    ocultarMenu = function(index){
-        const forms = document.querySelectorAll(".principal");
+    ocultarTodoExcepto = function(index, className){
+        const forms = document.querySelectorAll(className);
         const arrayForms = this.devolverArrayHTML(forms);
         // arrayForms.shift();
         arrayForms.forEach( (elem, ArrIndex) => {
@@ -43,28 +43,30 @@ class HTMLManager{
         const arrBotones = this.devolverArrayHTML(botones);
         arrBotones.forEach( (elem, index) => {
             elem.addEventListener( "click", () => {
-                this.ocultarMenu(index);
+                this.ocultarTodoExcepto(index, ".principal");
             } )
         } )
-    }
-
-    changeState = function(state) {
-        const Elemento = document.getElementById("state");
-        if (state == 1) {
-            Elemento.setAttribute("class", "conectado")
-        } else {
-            Elemento.setAttribute("class", "desconectado")
-        }
     }
 
     /**
      * Prepara una conexión con el puerto serial
      */
     onPressArduino = function ( socket ) {
-        const botonConectar = document.getElementsByClassName('botonConectar')[0]
+        const botonConectar = document.getElementById('botonConectar')
+        const puerto = document.getElementsByClassName('port')[0].value
+        const data = {
+            connect: true,
+            port: puerto
+        }
         botonConectar.addEventListener('click', ()=>{
-            console.log('Intentando conectar con arduino');
-            socket.emit("connect-to-arduino", true);
+            socket.emit("connect-to-arduino", data);
+            this.ocultarTodoExcepto(1, ".Contenido_Estado");
+        })
+        // Desconección
+        const botonDesconectar = document.getElementById('botonDesconectar')
+        botonDesconectar.addEventListener('click', ()=>{
+            socket.emit('connect-to-arduino', {connect: false})
+            this.ocultarTodoExcepto(0, ".Contenido_Estado");
         })
     }
 }

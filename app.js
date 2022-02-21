@@ -1,34 +1,23 @@
 const ArduinoSerial = require('./js/ArduinoSerial.js');
 const Server = require('./js/Server.js')
+console.clear()
 
 
 let arduino = new ArduinoSerial();
 let Servidor = new Server();
 
 
-// Avisar cuando un usuario este conectado
-Servidor.getIO().on('connection', function(socket) {
-    console.log(socket.id);
-})
+Servidor.start()
+Servidor.socket(sockets)
 
-Servidor.connect()
-
-// Conexion con Arduino
-arduino.init()
-arduino.openPort()
-// arduino.receiveData(function(datos) {
-//     Servidor.io.emit('arduino:data', {
-//         value: datos
-//     })
-// })
-
-Servidor.getIO().on("connect-to-arduino", (data)=>{
-    // console.log(data);
-    if (data) {
-        console.log('Conectando al arduino');
-    }
-})
-
-Servidor.getIO.on("data", () => {
-    console.log('datos');
-})
+function sockets(socket) {
+    socket.on('connect-to-arduino', data => {
+        if (data.connect) {
+            const port = data.port
+            arduino.init(port, socket)
+        } else {
+            arduino.disconnect()
+            socket.emit('arduinoConnectionState', {isConnected: false})
+        }
+    })
+}

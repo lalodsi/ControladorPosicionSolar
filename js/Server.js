@@ -1,33 +1,42 @@
 const socketIo = require("socket.io")
 const express = require('express');
+const routerApi = require('./routes')
 // const ArduinoSerial = require('./js/ArduinoSerial.js');
 
 class Server{
 
     constructor(){
         this.http = require('http')
-        // this.{ Server } = require("socket.io")
         this.app = express();
         this.server = this.http.createServer(this.app);
-        this.io = new socketIo.Server(this.server);
-        // let arduino = new ArduinoSerial()
+        // Socket IO
+        this.io = socketIo(this.server);
+
+        this.app.use(express.json())
     }
 
     init = function () {
     }
 
-    connect = function() {
-        // Activa el servidor
-        this.server.listen(3000, ()=>{
-            console.log('Server on port 3000');
+    start = function() {
+        this.app.set('port', process.env.PORT || 3000)
+        this.server.listen(this.app.get('port'), ()=>{
+            console.log('Servidor conectado en el puerto: ' + this.app.get('port'));
         })
         // Enviar la carpeta public al servidor
         this.app.use(express.static('public'))
     }
 
-    socket = function() {
-        return this.io
+    socket = function(callback) {
+        this.io.on('connection', (socket)=>{
+            console.log('Tenemos una nueva conexión, Id: '+ socket.id);
+            callback(socket);
+        })
     }
+
+    // Api = function () {
+    //     routerApi(this.app)
+    // }
 
 }
 

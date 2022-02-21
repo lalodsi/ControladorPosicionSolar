@@ -44,12 +44,16 @@ hr{
     text-align: left;
     background-color: black;
 }
+.estado > div > h3{
+    position: absolute;
+}
 
 #state{
     text-align: center;
-    font-size: 50px;
+    /* font-size: 50px; */
     display: inline;
-    margin-left: 50px;
+    /* margin-left: 50px; */
+    display: block;
 }
 #state > span{
     font-size: 95px;
@@ -67,13 +71,22 @@ hr{
     color: rgb(0, 255, 34);
 }
 .conectado{
-    color: rgb(0, 183, 255);
+    color: rgb(0, 255, 34);
+    font-size: 40px;
 }
 .desconectado{
-    color: rgb(51, 51, 51);
+    margin-top: 0;
+    font-size: 25px;
+    color: rgb(255, 255, 255);
 }
 .desconectado > span{
-    color: rgb(255, 0, 0);
+    color: rgb(51, 0, 0);
+}
+.conectando, .conectando > span{
+    color:azure;
+}
+.conectando, .conectando > span{
+    font-size: 40px;
 }
 
 .boton{
@@ -90,4 +103,30 @@ hr{
 .boton:hover{
     background-color: #959595;
     cursor: pointer;
+}
+.botonArduino{
+    display: block;
+    width: 100%;
+    padding: 12px;
+    color: white;
+    border-style: none;
+}
+.botonArduino.conectar{
+    background-color: #014206;
+}
+.botonArduino.desconectar{
+    background-color: #420101;
+}
+.Contenido_Estado > div{
+    width: 100%;
+}
+.menuConectar{
+    color: aliceblue;
+}
+.menuConectar > input{
+    background-color: rgba(0, 0, 0, 0.1);
+    color: azure;
+    /* border-style: none; */
+    font-size: 20px;
+    width: 150px;
 }

@@ -51,10 +51,27 @@
         </div>
     </section>
     <section class="section estado">
-        <h3>Estado</h3>
-        <div id="state">Conectado <span>•</span></div>
-        <button class="botonConectar">Conectar</button>
-        <!-- <div id="stateCircle"></div> -->
+        <div>
+            <h3>Estado</h3>
+            <div class="Contenido_Estado">
+                <div id="state" class="desconectado">Desconectado<span>•</span>
+                    <br>
+                    <div class="menuConectar">
+                        <label for="port">Puerto:</label>
+                        <input class="port" type="text" value="COM3">
+                        <button id="botonConectar" class="botonArduino conectar">Conectar</button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="Contenido_Estado">
+                <div id="state" class="conectando">Conectando <span>•••</span></div>
+            </div>
+            <div class="Contenido_Estado">
+                <div id="state" class="conectado">Conectado <span>•</span></div>
+                <button id="botonDesconectar" class="botonArduino desconectar">Desconectar</button>
+            </div>
+        </div>
     </section>
 
     <script src="./HTMLManager.js"></script>
