@@ -1,7 +1,6 @@
 const html = new HTMLManager()
 const socket = io()
 
-
 html.init()
 html.onPressArduino(socket)
 

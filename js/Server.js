@@ -1,7 +1,6 @@
 const socketIo = require("socket.io")
 const express = require('express');
 const routerApi = require('./routes')
-// const ArduinoSerial = require('./js/ArduinoSerial.js');
 
 class Server{
 
@@ -15,9 +14,9 @@ class Server{
         this.app.use(express.json())
     }
 
-    init = function () {
-    }
-
+    /**
+     * Despliega el servidor y envía la carpeta public al cliente que se conecte
+     */
     start = function() {
         this.app.set('port', process.env.PORT || 3000)
         this.server.listen(this.app.get('port'), ()=>{
@@ -27,6 +26,10 @@ class Server{
         this.app.use(express.static('public'))
     }
 
+    /**
+     * Establece un websocket
+     * @param {function} callback funcion a ejecutar cuando se conecte el socket
+     */
     socket = function(callback) {
         this.io.on('connection', (socket)=>{
             console.log('Tenemos una nueva conexión, Id: '+ socket.id);
@@ -34,9 +37,12 @@ class Server{
         })
     }
 
-    // Api = function () {
-    //     routerApi(this.app)
-    // }
+    /**
+     * Establece la restAPI
+     */
+    setApi = function () {
+        routerApi(this.app)
+    }
 
 }
 

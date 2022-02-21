@@ -2,10 +2,8 @@ const ArduinoSerial = require('./js/ArduinoSerial.js');
 const Server = require('./js/Server.js')
 console.clear()
 
-
-let arduino = new ArduinoSerial();
-let Servidor = new Server();
-
+const arduino = new ArduinoSerial();
+const Servidor = new Server();
 
 Servidor.start()
 Servidor.socket(sockets)

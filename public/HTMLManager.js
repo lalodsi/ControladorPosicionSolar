@@ -22,11 +22,11 @@ class HTMLManager{
      * OcultarTodoExcepto
      * Oculta todos los campos de contenido menos el indicado en la sección de contenido
      * @param {int} index Formulario que no se estará ocultando
+     * @param {string} className nombre de la clase para los elementos que serán ocultados
      */
     ocultarTodoExcepto = function(index, className){
         const forms = document.querySelectorAll(className);
         const arrayForms = this.devolverArrayHTML(forms);
-        // arrayForms.shift();
         arrayForms.forEach( (elem, ArrIndex) => {
             elem.setAttribute( "style", "display: none" )
             if (index == ArrIndex) {
@@ -36,7 +36,7 @@ class HTMLManager{
     }
 
     /**
-     * Agrega funcionalidad a los botones de la sección 
+     * Agrega funcionalidad a los botones para mostrar diferente contenido
      */
     btnShowContent = function() {
         const botones = document.querySelectorAll(".boton");
@@ -49,7 +49,9 @@ class HTMLManager{
     }
 
     /**
-     * Prepara una conexión con el puerto serial
+     * Establece el proceso de conexión y desconexión del servidor con arduino enviando las solicitudes
+     * por websockets y mostrando los menus correspondientes según el estado de la conexión
+     * @param {socket} socket websocket al cual comunicar la solicitud de conexión con arduino
      */
     onPressArduino = function ( socket ) {
         const botonConectar = document.getElementById('botonConectar')
@@ -70,5 +72,3 @@ class HTMLManager{
         })
     }
 }
-
-// module.exports = HTMLManager

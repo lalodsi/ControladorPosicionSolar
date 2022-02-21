@@ -1,17 +1,26 @@
 SerialPort = require('serialport');
 
 class ArduinoSerial{
-    
-    constructor() {    
-        this.inicializado = false
-        this.mySerial = null
+    constructor() {
     }
 
+    /**
+     * Inicializa la conexión con arduino mostrando un mensaje de espera
+     * @param {number} port puerto serie en el que se estará estableciendo la conexión
+     * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
+     */
     init = async function (port, socket) {
          await this.wait('Conectando...')
          this.mySerial = await this.establishConnection(port, socket)
     }
 
+    /**
+     * Se Establece una conexión con el puerto serial indicado y comunica el estado de la conexión a
+     * través de un web socket
+     * @param {number} port Puerto serie en el que se estará estableciendo la conexión
+     * @param {io.socket} socket Websocket en el que se comunicará el estado de la conexión con arduino
+     * @returns {Promise}
+     */
     establishConnection = function (port, socket) {
         return new Promise( function (resolve, reject) {
             // console.log('Se pidió una conexión con el arduino, intentando conectar...');
@@ -27,10 +36,14 @@ class ArduinoSerial{
                 }
             });
             resolve(serial)
-            this.inicializado = true
         })
     }
 
+    /**
+     * Espera un momento y muestra un mensaje
+     * @param {string} message mensaje que mostrar en el servidor
+     * @returns {Promise}
+     */
     wait = function (message) {
         return new Promise( (resolve, reject)=> {
             console.log(message);
@@ -40,6 +53,10 @@ class ArduinoSerial{
         })
     }
 
+    /**
+     * TODO: establecer el intercambio de información con arduino
+     * @param {function} callback funcion a ejecutar
+     */
     receiveData = function (callback) {
         this.mySerial.on('data', function(data){
             console.log(data.toString());
@@ -47,6 +64,9 @@ class ArduinoSerial{
         })
     }
 
+    /**
+     * Desconecta el arduino del puerto serie
+     */
     disconnect = async function () {
         await this.wait("Desconectando...")
         this.mySerial.close()
