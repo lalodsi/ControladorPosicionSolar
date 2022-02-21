@@ -2,6 +2,7 @@ SerialPort = require('serialport');
 
 class ArduinoSerial{
     constructor() {
+        this.isConnected = false
     }
 
     /**
@@ -9,9 +10,10 @@ class ArduinoSerial{
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
-    init = async function (port, socket) {
-         await this.wait('Conectando...')
-         this.mySerial = await this.establishConnection(port, socket)
+    init = async function (port, socket, callback) {
+        await this.wait('Conectando...')
+        this.mySerial = await this.establishConnection(port, socket)
+        await this.receiveData(callback)
     }
 
     /**
@@ -30,9 +32,11 @@ class ArduinoSerial{
                 if (err) {
                     console.log('Hubo un error al conectar con arduino: ', err);
                     socket.emit('arduinoConnectionState', {isConnected: false})
+                    this.isConnected = false
                 } else {
                     console.log('Conectado exitosamente al arduino');
                     socket.emit('arduinoConnectionState', {isConnected: true})
+                    this.isConnected = true
                 }
             });
             resolve(serial)
@@ -59,8 +63,8 @@ class ArduinoSerial{
      */
     receiveData = function (callback) {
         this.mySerial.on('data', function(data){
-            console.log(data.toString());
-            callback(data.toString)
+            // console.log(data.toString());
+            callback(data)
         })
     }
 
@@ -71,6 +75,7 @@ class ArduinoSerial{
         await this.wait("Desconectando...")
         this.mySerial.close()
         console.log("Se ha desconectado el Arduino");
+        this.isConnected = false
     }
     
 }

@@ -12,10 +12,14 @@ function sockets(socket) {
     socket.on('connect-to-arduino', data => {
         if (data.connect) {
             const port = data.port
-            arduino.init(port, socket)
+            arduino.init(port, socket, collectData)
         } else {
             arduino.disconnect()
             socket.emit('arduinoConnectionState', {isConnected: false})
         }
     })
+}
+
+function collectData(data) {
+    console.log('Recibiendo datos: '+ data.toString());
 }
