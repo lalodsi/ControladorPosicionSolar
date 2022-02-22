@@ -15,3 +15,12 @@ socket.on('arduinoConnectionState', data => {
         html.ocultarTodoExcepto(0, ".Contenido_Estado")
     }
 })
+
+html.apagar( function () {
+    const instruccion = {
+        quieresApagar: true
+    }
+    socket.emit('apagar', instruccion)
+})
+
+html.forms();

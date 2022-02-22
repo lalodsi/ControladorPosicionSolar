@@ -40,8 +40,8 @@ class Server{
     /**
      * Establece la restAPI
      */
-    setApi = function () {
-        routerApi(this.app)
+    setApi = function (arduino) {
+        routerApi(this.app, arduino)
     }
 
 }

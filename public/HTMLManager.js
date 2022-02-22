@@ -71,4 +71,30 @@ class HTMLManager{
             this.ocultarTodoExcepto(0, ".Contenido_Estado");
         })
     }
+
+    forms = function () {
+        this.formCalibrarReloj();
+    }
+    
+    setForm = function (id, callback) {
+        const formulario = document.getElementById(id);
+        formulario.addEventListener('submit', event => {
+            event.preventDefault();
+            callback()
+        })
+        
+    }
+
+    formCalibrarReloj = function () {
+        this.setForm('formSetTime', () => {
+            
+        })
+    }
+
+    apagar = function (callback) {
+        const boton = document.getElementsByClassName('apagar')[0]
+        boton.addEventListener('click', ()=>{
+            callback()
+        })
+    }
 }

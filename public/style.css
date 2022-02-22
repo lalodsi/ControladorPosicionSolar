@@ -130,3 +130,44 @@ hr{
     font-size: 20px;
     width: 150px;
 }
+.contenido {
+    font-size: 18px;
+    /* max-height: max-content; */
+    height: 90%;
+    overflow-y: scroll;
+}
+.contenido::-webkit-scrollbar{
+    width: 12px;
+}
+.contenido::-webkit-scrollbar-track{
+    background: rgb(41, 41, 41);
+}
+.contenido::-webkit-scrollbar-thumb {
+    background-color: #003e3e;
+    border-radius: 20px;
+    border: 3px solid #00da98;
+}
+
+.contenido .header{
+    font-size: 24px;
+    color: rgb(0, 151, 197);
+    font-weight: bold;
+    text-align: left;
+}
+.contenido .info{
+    color: #959595;
+    text-align: left;
+}
+.contenido .botonContenido{
+    background-color: #606060;
+    color: white;
+    border-style: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin: 15px 5px;
+}
+.contenido .botonContenido:hover{
+    background-color: #4c6375;
+    /* font-weight: bold; */
+    cursor: pointer;
+}

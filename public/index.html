@@ -38,16 +38,50 @@
             <h1>Calibrar Sistema</h1>
         </div>
         <hr>
-        <div class="contenido"></div>
+        <div class="contenido">
+            <p class="info">Ingresa los valores que deseas calibrar</p>
+            <p class="header">Calibración del reloj</p>
+            <!-- <form action="/api/arduino/setTime/"> -->
+                <form id="formSetTime">
+                    <label for="arduinoDate">Ingresa la fecha y hora</label>
+                    <input name="arduinoDate" type="date">
+                    <input name="arduinoTime" type="time">
+                    <button class="botonContenido" type="submit">Calibrar</button>
+                </form>
+            <p class="header">Posición del sistema</p>
+            <form id="formSetPosition">
+                <p class="info">Ingresa las coordenadas de ubicación del sistema</p>
+                <label for="latitud">Latitud</label>
+                <input name="latitud" type="number">
+                <label for="longitud">Longitud</label>
+                <input name="longitud" type="number">
+                <button class="botonContenido" type="submit">Ingresar posición</button>
+            </form>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>A</p>
+            <p>Z</p>
+        </div>
     </section>
     <section class="section menu">
         <h2>Menú</h2>
         <hr>
-        <div class="contenido">
+        <div class="contenidoMenu">
             <button class="boton">Información General</button>
             <button class="boton">Gráficas</button>
             <button class="boton">Panel de Control</button>
             <button class="boton">Calibrar Sistema</button>
+            <button class="apagar">Apagar sistema</button>
         </div>
     </section>
     <section class="section estado">
