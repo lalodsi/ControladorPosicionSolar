@@ -16,11 +16,4 @@ socket.on('arduinoConnectionState', data => {
     }
 })
 
-html.apagar( function () {
-    const instruccion = {
-        quieresApagar: true
-    }
-    socket.emit('apagar', instruccion)
-})
-
 html.forms();

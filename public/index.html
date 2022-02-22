@@ -17,7 +17,6 @@
                 <button class="boton">Gráficas</button>
                 <button class="boton">Panel de Control</button>
                 <button class="boton">Calibrar Sistema</button>
-                <button class="apagar">Apagar sistema</button>
             </div>
         </section>
         <section class="subsection estado">
@@ -68,6 +67,27 @@
                 <p>Motor Azimut:</p> <p class="dato">####</p>
                 <p>Motor Elevación:</p> <p class="dato">####</p>
             </div>
+            <p class="header">Resultados Algoritmos</p>
+            <p class="info">Algoritmo de Posición Astronómica</p>
+            <div class="dosColumnas">
+                <p>Azimut</p><p class="dato">###</p>
+                <p>Elevacion</p><p class="dato">###</p>
+            </div>
+            <p class="info">Algoritmo de Seguimiento de punto luminoso</p>
+            <div class="dosColumnas">
+                <p>Azimut</p><p class="dato">###</p>
+                <p>Elevacion</p><p class="dato">###</p>
+            </div>
+            <p class="info">Algoritmo Mixto</p>
+            <div class="dosColumnas">
+                <p>Azimut</p><p class="dato">###</p>
+                <p>Elevacion</p><p class="dato">###</p>
+            </div>
+            <p class="info">Estado Fijo</p>
+            <div class="dosColumnas">
+                <p>Azimut</p><p class="dato">###</p>
+                <p>Elevacion</p><p class="dato">###</p>
+            </div>
         </div>
     </section>
     <!-- Gráficas -->
@@ -76,7 +96,9 @@
             <h1>Gráficas</h1>
         </div>
         <hr>
-        <div class="contenido"></div>
+        <div class="contenido">
+            <p>Trabajando en ello....</p>
+        </div>
     </section>
     <!-- Panel de Control -->
     <section class="section principal">
@@ -84,7 +106,22 @@
             <h1>Panel de Control</h1>
         </div>
         <hr>
-        <div class="contenido"></div>
+        <div class="contenido">
+            <p class="header">Control Manual</p>
+            <p class="subheader">Motores</p>
+            <p class="info">Ingresa la información para controlar manualmente los motores</p>
+            <div class="dosColumnas">
+                <p>Azimut</p><p class="data">####</p>
+                <p>Elevación</p><p class="data">####</p>
+            </div>
+            <p class="header">Algoritmo a utilizar</p>
+            <p class="info">Elige el tipo de algoritmo con el que funcionará el seguidor solar.</p>
+            <p class="info">Se actualizará la información en el arduino para que comience a funcionar con el algoritmo elegido.</p>
+            <button class="botonContenido">Algoritmo de posición Astronómica</button>
+            <button class="botonContenido">Algoritmo de seguimiendo de punto luminoso</button>
+            <button class="botonContenido">Algoritmo Mixto</button>
+            <button class="botonContenido">Sistema Fijo</button>
+        </div>
     </section>
     <!-- Calibrar Sistema -->
     <section class="section principal">
@@ -93,13 +130,13 @@
         </div>
         <hr>
         <div class="contenido">
-            <p class="info">Ingresa los valores que deseas calibrar</p>
+            <p >Ingresa los valores que deseas calibrar</p>
             <p class="header">Calibración del reloj</p>
-            <!-- <form action="/api/arduino/setTime/"> -->
                 <form id="formSetTime">
-                    <label for="arduinoDate">Ingresa la fecha y hora</label>
+                    <p class="info">Ingresa la fecha y hora</p>
                     <input name="arduinoDate" type="date">
                     <input name="arduinoTime" type="time">
+                    <br>
                     <button class="botonContenido" type="submit">Calibrar</button>
                 </form>
             <p class="header">Posición del sistema</p>
@@ -113,20 +150,16 @@
                 </div>
                 <button class="botonContenido" type="submit">Ingresar posición</button>
             </form>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>A</p>
-            <p>Z</p>
+            <p class="header">Orientación del sistema</p>
+            <form id="formSetOrientation">
+                <p class="info">Ingresa los valores de orientación en el sistema.</p>
+                <p class="info">Toma en cuenta que el valor recibido deberá estar en grados</p>
+                <div class="dosColumnas">
+                    <label for="orientacion">Orientación</label>
+                    <input name="orientacion" type="number">
+                </div>
+                <button class="botonContenido" type="submit">Ingresar orientación</button>
+            </form>
         </div>
     </section>
     

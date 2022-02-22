@@ -90,11 +90,4 @@ class HTMLManager{
             
         })
     }
-
-    apagar = function (callback) {
-        const boton = document.getElementsByClassName('apagar')[0]
-        boton.addEventListener('click', ()=>{
-            callback()
-        })
-    }
 }

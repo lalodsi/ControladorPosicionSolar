@@ -21,27 +21,10 @@ function sockets(socket) {
             socket.emit('arduinoConnectionState', {isConnected: false})
         }
     })
-    socket.on('apagar', data => {
-        if (data.quieresApagar) {
-            shutdown( function (output) {
-                console.log(output);
-            })
-            // console.log('Si se apagara');
-        }
-        else{
-            // console.log('No se apagara');
-        }
-    } )
 }
 
 function collectData(data) {
     console.log('Recibiendo datos: '+ data.toString());
-}
-
-
-// Crear función de apagado
-function shutdown(callback){
-    exec('shutdown /s', function(error, stdout, stderr){ callback(stdout); });
 }
 
 module.exports = arduino

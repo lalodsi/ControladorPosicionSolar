@@ -1,5 +1,6 @@
 :root {
     --verdeClaro: #00da98;
+    --verdeMenta: #1fffbc;
     --verdeDiscreto: #4ca78c;
     --fondo: #0e1826;
     --fondoContenido: #294D53
@@ -8,7 +9,7 @@
 body{
     font-family: sans-serif;
     background-color: var(--fondo);
-    height: 100%;
+    /* height: 100%; */
     /* width: 100%; */
     margin: 0%;
     padding: 5%;
@@ -25,9 +26,11 @@ hr{
 input{
     background: rgba(0, 0, 0, 0.3);
     border-style: none;
-    font-size: 15px;
-    color: white;
+    font-size: 18px;
+    color: var(--verdeClaro);
     font-family: inherit;
+    padding: 10px;
+    padding: 5px 10px;
 }
 
 .section, .subsection{
@@ -52,7 +55,7 @@ input{
 }
 
 .principal{
-    height: 800px;
+    height: 750px;
 }
 
 .menu{
@@ -131,16 +134,21 @@ input{
 }
 .botonArduino.conectar:hover{
     background-color: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
 }
 .botonArduino.desconectar{
     background-color: #3a131361;
+}
+.botonArduino.desconectar:hover{
+    background-color: #8d0c0c61;
+    cursor: pointer;
 }
 .Contenido_Estado > div{
     width: inherit;
 }
 .Contenido_Estado .info{
     font-size: 20px;
-    color: var(--verdeClaro);
+    color: var(--verdeDiscreto);
     margin: 0;
     text-align: left;
 }
@@ -176,7 +184,13 @@ input{
 
 .contenido .header{
     font-size: 24px;
-    color: rgb(0, 151, 197);
+    color: var(--verdeClaro);
+    font-weight: bold;
+    text-align: left;
+}
+.contenido .subheader{
+    font-size: 20px;
+    color: var(--verdeDiscreto);
     font-weight: bold;
     text-align: left;
 }
