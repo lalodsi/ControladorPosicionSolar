@@ -8,13 +8,67 @@
     <title>Tesis</title>
 </head>
 <body>
+    <div class="control">
+        <section class="subsection menu">
+            <h2>Menú</h2>
+            <hr>
+            <div class="contenidoMenu">
+                <button class="boton">Información General</button>
+                <button class="boton">Gráficas</button>
+                <button class="boton">Panel de Control</button>
+                <button class="boton">Calibrar Sistema</button>
+                <button class="apagar">Apagar sistema</button>
+            </div>
+        </section>
+        <section class="subsection estado">
+            <div>
+                <div>Estado</div>
+                <div class="Contenido_Estado">
+                    <div id="state" class="desconectado">Desconectado
+                    </div>
+                    <div class="menuConectar">
+                            <p class="info">Establecer una conexión con arduino</p>
+                            <div class="dosColumnas">
+                                <label for="port">Puerto:</label>
+                                <input class="port" type="text" value="COM3">
+                            </div>
+                            <button id="botonConectar" class="botonArduino conectar">Conectar</button>
+                        </div>
+                </div>
+                <div class="Contenido_Estado">
+                    <div id="state" class="conectando">Conectando...</div>
+                </div>
+                <div class="Contenido_Estado">
+                    <div id="state" class="conectado">Conectado</div>
+                    <button id="botonDesconectar" class="botonArduino desconectar">Desconectar</button>
+                </div>
+            </div>
+        </section>
+    </div>
     <!-- Información Principal -->
     <section class="section principal">
         <div>
             <h1>Información Principal</h1>
         </div>
         <hr>
-        <div class="contenido"></div>
+        <div class="contenido">
+            <p class="info">Estado de la conexión</p>
+            <p class="header">Sensores</p>
+            <p class="info">Valor de cada uno de los sensores del sistema</p>
+            <div class="dosColumnas">
+                <p>Sensor 1:</p> <p class="dato">####</p>
+                <p>Sensor 2:</p> <p class="dato">####</p>
+                <p>Sensor 3:</p> <p class="dato">####</p>
+                <p>Sensor 4:</p> <p class="dato">####</p>
+                <p>Sensor 5:</p> <p class="dato">####</p>
+            </div>
+            <p class="header">Posición de los motores</p>
+            <p class="info">Se muestra la posición de los motores del sistema:</p>
+            <div class="dosColumnas">
+                <p>Motor Azimut:</p> <p class="dato">####</p>
+                <p>Motor Elevación:</p> <p class="dato">####</p>
+            </div>
+        </div>
     </section>
     <!-- Gráficas -->
     <section class="section principal">
@@ -51,10 +105,12 @@
             <p class="header">Posición del sistema</p>
             <form id="formSetPosition">
                 <p class="info">Ingresa las coordenadas de ubicación del sistema</p>
-                <label for="latitud">Latitud</label>
-                <input name="latitud" type="number">
-                <label for="longitud">Longitud</label>
-                <input name="longitud" type="number">
+                <div class="dosColumnas">
+                    <label for="latitud">Latitud</label>
+                    <input name="latitud" type="number">
+                    <label for="longitud">Longitud</label>
+                    <input name="longitud" type="number">
+                </div>
                 <button class="botonContenido" type="submit">Ingresar posición</button>
             </form>
             <p>A</p>
@@ -73,40 +129,7 @@
             <p>Z</p>
         </div>
     </section>
-    <section class="section menu">
-        <h2>Menú</h2>
-        <hr>
-        <div class="contenidoMenu">
-            <button class="boton">Información General</button>
-            <button class="boton">Gráficas</button>
-            <button class="boton">Panel de Control</button>
-            <button class="boton">Calibrar Sistema</button>
-            <button class="apagar">Apagar sistema</button>
-        </div>
-    </section>
-    <section class="section estado">
-        <div>
-            <h3>Estado</h3>
-            <div class="Contenido_Estado">
-                <div id="state" class="desconectado">Desconectado<span>•</span>
-                    <br>
-                    <div class="menuConectar">
-                        <label for="port">Puerto:</label>
-                        <input class="port" type="text" value="COM3">
-                        <button id="botonConectar" class="botonArduino conectar">Conectar</button>
-
-                    </div>
-                </div>
-            </div>
-            <div class="Contenido_Estado">
-                <div id="state" class="conectando">Conectando <span>•••</span></div>
-            </div>
-            <div class="Contenido_Estado">
-                <div id="state" class="conectado">Conectado <span>•</span></div>
-                <button id="botonDesconectar" class="botonArduino desconectar">Desconectar</button>
-            </div>
-        </div>
-    </section>
+    
 
     <script src="./HTMLManager.js"></script>
     <!-- <script src="../js/ArduinoSerial.js"></script> -->

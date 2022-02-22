@@ -1,48 +1,70 @@
+:root {
+    --verdeClaro: #00da98;
+    --verdeDiscreto: #4ca78c;
+    --fondo: #0e1826;
+    --fondoContenido: #294D53
+  }
+
 body{
     font-family: sans-serif;
-    background-color: black;
+    background-color: var(--fondo);
     height: 100%;
     /* width: 100%; */
     margin: 0%;
     padding: 5%;
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
 }
 
 hr{
-    border-top: 4px solid rgba(255, 255, 255, 0.5);
+    border-top: 4px solid var(--verdeDiscreto);
     border-radius: 4px;
 }
-
-.section{
+input{
+    background: rgba(0, 0, 0, 0.3);
+    border-style: none;
+    font-size: 15px;
     color: white;
-    height:max-content;
-    width: max-content;
+    font-family: inherit;
+}
+
+.section, .subsection{
+    color: white;
     padding: 10px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 15px;
     text-align: center;
-}
-.section {
     display:block;
-    height: 80%;
-    width: 500px;
     margin-bottom: 25px;
+}
+.section{
+    width: 55%;
+}
+.subsection{
+    width: 100%;
+}
+.control{
+    width: 40%;
+    display: flex;
+    flex-direction: column;
 }
 
 .principal{
     height: 800px;
-    float: left;
 }
 
 .menu{
-    float: right;
-    height: 600px;
+    /* height: 600px; */
 }
 
 .estado{
     float: right;
     height: 150px;
     text-align: left;
-    background-color: black;
+    height: fit-content;
+    background-color: var(--fondoContenido);
 }
 .estado > div > h3{
     position: absolute;
@@ -54,9 +76,7 @@ hr{
     display: inline;
     /* margin-left: 50px; */
     display: block;
-}
-#state > span{
-    font-size: 95px;
+    margin: 15px auto;
 }
 /* #stateCircle{
     background-color: aqua;
@@ -67,11 +87,8 @@ hr{
     border-radius: 50%;
     display: inline-block;
 } */
-.conectado > span{
-    color: rgb(0, 255, 34);
-}
 .conectado{
-    color: rgb(0, 255, 34);
+    color: rgb(151 255 168);
     font-size: 40px;
 }
 .desconectado{
@@ -79,13 +96,10 @@ hr{
     font-size: 25px;
     color: rgb(255, 255, 255);
 }
-.desconectado > span{
-    color: rgb(51, 0, 0);
-}
-.conectando, .conectando > span{
+.conectando{
     color:azure;
 }
-.conectando, .conectando > span{
+.conectando{
     font-size: 40px;
 }
 
@@ -93,7 +107,7 @@ hr{
     border: none;
     padding: 15px;
     width: 100%;
-    background-color: #606060;
+    background-color: #ffffff2a;
     border-radius: 25px;
     color: white;
     font-size: 26px;
@@ -110,24 +124,36 @@ hr{
     padding: 12px;
     color: white;
     border-style: none;
+    font-size: 16px;
 }
 .botonArduino.conectar{
-    background-color: #014206;
+    background-color: rgba(255, 255, 255, 0.15);
+}
+.botonArduino.conectar:hover{
+    background-color: rgba(255, 255, 255, 0.35);
 }
 .botonArduino.desconectar{
-    background-color: #420101;
+    background-color: #3a131361;
 }
 .Contenido_Estado > div{
-    width: 100%;
+    width: inherit;
+}
+.Contenido_Estado .info{
+    font-size: 20px;
+    color: var(--verdeClaro);
+    margin: 0;
+    text-align: left;
 }
 .menuConectar{
-    color: aliceblue;
+    color: #a5a5a5;
+    font-size: 18px;
+    padding: 10px;
 }
 .menuConectar > input{
     background-color: rgba(0, 0, 0, 0.1);
     color: azure;
     /* border-style: none; */
-    font-size: 20px;
+    font-size: 18px;
     width: 150px;
 }
 .contenido {
@@ -140,7 +166,7 @@ hr{
     width: 12px;
 }
 .contenido::-webkit-scrollbar-track{
-    background: rgb(41, 41, 41);
+    background: rgba(0, 0, 0, 0);
 }
 .contenido::-webkit-scrollbar-thumb {
     background-color: #003e3e;
@@ -170,4 +196,21 @@ hr{
     background-color: #4c6375;
     /* font-weight: bold; */
     cursor: pointer;
+}
+.dosColumnas{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+.dosColumnas > p,
+.dosColumnas > label, 
+.dosColumnas > input 
+{
+    width: 40%;
+    margin: 10px 0;
+}
+.dato{
+    background: #00000069;
+    padding: 5px 10px;
+    text-align: center;
 }
