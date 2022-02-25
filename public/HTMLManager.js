@@ -2,13 +2,9 @@ class HTMLManager{
     eventos = {
         calibrarFecha: "setDate",
         calibrarPosicion: "setPosition",
-        calibrarOrientacion: "",
+        calibrarOrientacion: "setOrientation",
         controlarMotores: "",
         controlarAlgoritmo: "",
-    }
-    
-    defineSocket = function (socket) {
-        this.socket = socket;
     }
     
     /**
@@ -21,6 +17,9 @@ class HTMLManager{
         this.interactuarInput();
     }
 
+    defineSocket = function (socket) {
+        this.socket = socket;
+    }
 
 
     /**
@@ -66,9 +65,8 @@ class HTMLManager{
     /**
      * Establece el proceso de conexión y desconexión del servidor con arduino enviando las solicitudes
      * por websockets y mostrando los menus correspondientes según el estado de la conexión
-     * @param {socket} socket websocket al cual comunicar la solicitud de conexión con arduino
      */
-    onPressArduino = function ( socket ) {
+    onPressArduino = function () {
         const botonConectar = document.getElementById('botonConectar')
         const puerto = document.getElementsByClassName('port')[0].value
         const data = {
@@ -76,13 +74,13 @@ class HTMLManager{
             port: puerto
         }
         botonConectar.addEventListener('click', ()=>{
-            socket.emit("connect-to-arduino", data);
+            this.socket.emit("connect-to-arduino", data);
             this.ocultarTodoExcepto(1, ".Contenido_Estado");
         })
         // Desconección
         const botonDesconectar = document.getElementById('botonDesconectar')
         botonDesconectar.addEventListener('click', ()=>{
-            socket.emit('connect-to-arduino', {connect: false})
+            this.socket.emit('connect-to-arduino', {connect: false})
             this.ocultarTodoExcepto(0, ".Contenido_Estado");
         })
     }
@@ -90,9 +88,10 @@ class HTMLManager{
     /**
      * Ejecutar todos los metodos que evaluan formularios
      */
-    forms = function (socket) {
+    forms = function () {
         this.formCalibrarReloj();
         this.formCalibrarPosicion();
+        this.formCalibrarOrientacion();
     }
     
     /**
@@ -112,7 +111,6 @@ class HTMLManager{
 
     formCalibrarReloj = function () {
         this.setForm('formSetTime', (form) => {
-            console.log(form);
             const fecha = form.children[1].value;
             const hora = form.children[2].value;
 
@@ -120,7 +118,7 @@ class HTMLManager{
                 fecha: fecha,
                 hora: hora
             };
-            socket.emit(this.eventos.calibrarFecha, objeto);
+            this.socket.emit(this.eventos.calibrarFecha, objeto);
         })
     }
 
@@ -133,8 +131,19 @@ class HTMLManager{
                 latitud: latitud,
                 longitud: longitud
             };
-            console.log(socket);
-            socket.on(this.eventos.calibrarPosicion, dato);
+            this.socket.on(this.eventos.calibrarPosicion, dato);
+        })
+    }
+
+    formCalibrarOrientacion = function () {
+        this.setForm("formSetOrientation", (form) => {
+            const orientacion = form.children[2].children[1].value;
+            console.log(orientacion);
+
+            const data = {
+                orientacion: orientacion
+            };
+            this.socket.on(this.eventos.calibrarOrientacion, data);
         })
     }
 

@@ -3,7 +3,7 @@ const socket = io();
 
 html.defineSocket(socket);
 html.init();
-html.onPressArduino(socket);
+html.onPressArduino();
 
 socket.on('connect', ()=>{
     console.log(socket.id);
