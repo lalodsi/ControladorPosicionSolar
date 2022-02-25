@@ -1,4 +1,16 @@
 class HTMLManager{
+    eventos = {
+        calibrarFecha: "setDate",
+        calibrarPosicion: "setPosition",
+        calibrarOrientacion: "",
+        controlarMotores: "",
+        controlarAlgoritmo: "",
+    }
+    
+    defineSocket = function (socket) {
+        this.socket = socket;
+    }
+    
     /**
      * Inicializa el documento
      */
@@ -8,6 +20,8 @@ class HTMLManager{
         this.btnShowContent();
         this.interactuarInput();
     }
+
+
 
     /**
      * Convierte una colección HTML a Array para poder utilizar las funciones internas de los arrays
@@ -73,22 +87,54 @@ class HTMLManager{
         })
     }
 
-    forms = function () {
+    /**
+     * Ejecutar todos los metodos que evaluan formularios
+     */
+    forms = function (socket) {
         this.formCalibrarReloj();
+        this.formCalibrarPosicion();
     }
     
+    /**
+     * Escucha el evento "submit" de todos los forms, evita la recarga y ejecuta
+     * la función de callback.
+     * @param {string} id del formulario a evaluar
+     * @param {function} callback accion a realizar al ocurrir el evento submit
+     */
     setForm = function (id, callback) {
         const formulario = document.getElementById(id);
-        formulario.addEventListener('submit', event => {
+        formulario.addEventListener('submit', function(event) {
             event.preventDefault();
-            callback()
+            callback(this)
         })
         
     }
 
     formCalibrarReloj = function () {
-        this.setForm('formSetTime', () => {
+        this.setForm('formSetTime', (form) => {
+            console.log(form);
+            const fecha = form.children[1].value;
+            const hora = form.children[2].value;
+
+            const objeto = {
+                fecha: fecha,
+                hora: hora
+            };
+            socket.emit(this.eventos.calibrarFecha, objeto);
+        })
+    }
+
+    formCalibrarPosicion = function () {
+        this.setForm("formSetPosition", (form)=> {
+            const latitud = form.children[1].children[1].value;
+            const longitud = form.children[1].children[3].value;
             
+            const dato = {
+                latitud: latitud,
+                longitud: longitud
+            };
+            console.log(socket);
+            socket.on(this.eventos.calibrarPosicion, dato);
         })
     }
 
@@ -96,12 +142,7 @@ class HTMLManager{
         const entradasDocument = document.querySelectorAll('input[type="number" i]')
         const entradas = this.devolverArrayHTML(entradasDocument);
         entradas.forEach( (entrada) => {
-            entrada.addEventListener('mouseover', ()=>{
-                console.log('mouse over');
-            })
-            entrada.parentElement.addEventListener('wheel', ()=>{
-                console.log('mover el mouse');
-            })
+            entrada.parentElement.addEventListener('wheel', ()=>{})
         })
     }
 }

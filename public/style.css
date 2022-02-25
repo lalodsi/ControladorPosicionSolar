@@ -12,7 +12,7 @@ body{
     /* height: 100%; */
     /* width: 100%; */
     margin: 0%;
-    padding: 5%;
+    padding: 15px 60px;
     justify-content: space-between;
     display: flex;
     flex-wrap: wrap;
@@ -40,7 +40,7 @@ input{
     border-radius: 15px;
     text-align: center;
     display:block;
-    margin-bottom: 25px;
+    margin: 0;
 }
 .section{
     width: 55%;
@@ -55,16 +55,16 @@ input{
 }
 
 .principal{
-    height: 750px;
+    height: 650px;
 }
 
 .menu{
     /* height: 600px; */
+    margin-bottom: 25px;
 }
 
 .estado{
     float: right;
-    height: 150px;
     text-align: left;
     height: fit-content;
     background-color: var(--fondoContenido);
@@ -75,9 +75,7 @@ input{
 
 #state{
     text-align: center;
-    /* font-size: 50px; */
     display: inline;
-    /* margin-left: 50px; */
     display: block;
     margin: 15px auto;
 }
@@ -114,7 +112,7 @@ input{
     border-radius: 25px;
     color: white;
     font-size: 26px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-family: inherit;
 }
 .boton:hover{
@@ -167,7 +165,7 @@ input{
 .contenido {
     font-size: 18px;
     /* max-height: max-content; */
-    height: 90%;
+    height: 85%;
     overflow-y: scroll;
 }
 .contenido::-webkit-scrollbar{

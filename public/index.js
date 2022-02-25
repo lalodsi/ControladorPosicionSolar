@@ -1,8 +1,9 @@
-const html = new HTMLManager()
-const socket = io()
+const html = new HTMLManager();
+const socket = io();
 
-html.init()
-html.onPressArduino(socket)
+html.defineSocket(socket);
+html.init();
+html.onPressArduino(socket);
 
 socket.on('connect', ()=>{
     console.log(socket.id);
@@ -16,4 +17,4 @@ socket.on('arduinoConnectionState', data => {
     }
 })
 
-html.forms();
+html.forms(socket);
