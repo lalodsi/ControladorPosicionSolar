@@ -6,6 +6,7 @@ class HTMLManager{
         this.ocultarTodoExcepto(0, ".principal");
         this.ocultarTodoExcepto(0, ".Contenido_Estado");
         this.btnShowContent();
+        this.interactuarInput();
     }
 
     /**
@@ -88,6 +89,19 @@ class HTMLManager{
     formCalibrarReloj = function () {
         this.setForm('formSetTime', () => {
             
+        })
+    }
+
+    interactuarInput = function () {
+        const entradasDocument = document.querySelectorAll('input[type="number" i]')
+        const entradas = this.devolverArrayHTML(entradasDocument);
+        entradas.forEach( (entrada) => {
+            entrada.addEventListener('mouseover', ()=>{
+                console.log('mouse over');
+            })
+            entrada.parentElement.addEventListener('wheel', ()=>{
+                console.log('mover el mouse');
+            })
         })
     }
 }

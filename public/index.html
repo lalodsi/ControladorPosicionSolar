@@ -111,8 +111,8 @@
             <p class="subheader">Motores</p>
             <p class="info">Ingresa la información para controlar manualmente los motores</p>
             <div class="dosColumnas">
-                <p>Azimut</p><p class="data">####</p>
-                <p>Elevación</p><p class="data">####</p>
+                <p>Azimut</p><input name="arduinoMotorAzimut" type="number" value="0">
+                <p>Elevación</p><input name="arduinoMotorElevacion" type="number" value="0">
             </div>
             <p class="header">Algoritmo a utilizar</p>
             <p class="info">Elige el tipo de algoritmo con el que funcionará el seguidor solar.</p>
@@ -144,9 +144,9 @@
                 <p class="info">Ingresa las coordenadas de ubicación del sistema</p>
                 <div class="dosColumnas">
                     <label for="latitud">Latitud</label>
-                    <input name="latitud" type="number">
+                    <input name="latitud" type="number" value="0">
                     <label for="longitud">Longitud</label>
-                    <input name="longitud" type="number">
+                    <input name="longitud" type="number" value="0">
                 </div>
                 <button class="botonContenido" type="submit">Ingresar posición</button>
             </form>
@@ -156,7 +156,7 @@
                 <p class="info">Toma en cuenta que el valor recibido deberá estar en grados</p>
                 <div class="dosColumnas">
                     <label for="orientacion">Orientación</label>
-                    <input name="orientacion" type="number">
+                    <input name="orientacion" type="number" value="0">
                 </div>
                 <button class="botonContenido" type="submit">Ingresar orientación</button>
             </form>
