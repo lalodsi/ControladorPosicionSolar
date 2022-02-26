@@ -10,6 +10,7 @@ socket.on('connect', ()=>{
 })
 
 socket.on('arduinoConnectionState', data => {
+    html.botonStart(data.isConnected)
     if (data.isConnected) {
         html.ocultarTodoExcepto(2, ".Contenido_Estado")
     } else {

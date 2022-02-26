@@ -154,4 +154,13 @@ class HTMLManager{
             entrada.parentElement.addEventListener('wheel', ()=>{})
         })
     }
+
+    botonStart = function (data) {
+        const botonStart =document.getElementById('startMonitoreo')
+        if (data) {
+            botonStart.className = "boton start"
+        } else {
+            botonStart.className = "boton"
+        }
+    }
 }

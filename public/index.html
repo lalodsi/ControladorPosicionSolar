@@ -17,6 +17,7 @@
                 <button class="boton">Gráficas</button>
                 <button class="boton">Panel de Control</button>
                 <button class="boton">Calibrar Sistema</button>
+                <button class="boton" id="startMonitoreo">Comenzar Monitoreo</button>
             </div>
         </section>
         <section class="subsection estado">
@@ -51,6 +52,11 @@
         </div>
         <hr>
         <div class="contenido">
+            <p class="header">Potencia generada</p>
+            <p class="info">Se muestra la potencia generada</p>
+            <div class="dosColumnas">
+                <p>Potencia en Watts</p><p class="dato">####</p>
+            </div>
             <p class="info">Estado de la conexión</p>
             <p class="header">Sensores</p>
             <p class="info">Valor de cada uno de los sensores del sistema</p>
@@ -164,8 +170,7 @@
     </section>
     
 
-    <script src="./HTMLManager.js"></script>
-    <!-- <script src="../js/ArduinoSerial.js"></script> -->
+    <script src="./HTMLManager.js"></script>    <!-- <script src="../js/ArduinoSerial.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="index.js"></script>
 </body>

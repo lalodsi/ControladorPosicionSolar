@@ -226,3 +226,9 @@ input{
     padding: 5px 10px;
     text-align: center;
 }
+.start{
+    background-color: var(--verdeDiscreto);
+}
+.start:hover{
+    background-color: var(--verdeMenta);
+}
