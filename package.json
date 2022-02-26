@@ -6,16 +6,20 @@
   "main": "./app.js",
   "scripts": {
     "dev": "npx nodemon ./app.js",
+    "update": "git pull origin master; npx nodemon ./app.js",
     "start": "node ./app.js",
     "prueba": "node ./js/pruebaServer"
   },
   "keywords": [],
-  "author": "",
+  "author": "Luis Eduardo Rodriguez Ramirez",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
     "gitignore": "^0.7.0",
     "serialport": "^9.2.8",
     "socket.io": "^4.4.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
