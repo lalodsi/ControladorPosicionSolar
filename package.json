@@ -6,7 +6,7 @@
   "main": "./app.js",
   "scripts": {
     "dev": "npx nodemon ./app.js",
-    "update": "git pull origin master; npx nodemon ./app.js",
+    "update": "git pull origin master; npm run dev",
     "start": "node ./app.js",
     "prueba": "node ./js/pruebaServer"
   },

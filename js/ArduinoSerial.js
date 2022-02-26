@@ -15,7 +15,7 @@ class ArduinoSerial{
     init = async function (port, socket, callback) {
         await this.wait('Conectando...')
         this.mySerial = await this.establishConnection(port, socket)
-        await this.receiveData(callback)
+        this.receiveData(callback)
     }
 
     /**
@@ -27,7 +27,7 @@ class ArduinoSerial{
      */
     establishConnection = function (port, socket) {
         return new Promise( function (resolve, reject) {
-            // console.log('Se pidió una conexión con el arduino, intentando conectar...');
+            console.log('Se pidió una conexión con el arduino en el puerto ' + port + ', intentando conectar...');
             const serial = new SerialPort(port ,{
                 baudRate: 115200
             }, function (err) {
