@@ -1,4 +1,5 @@
 const SerialPort = require('serialport');
+const readLine = require('@serialport/parser-readline');
 
 class ArduinoSerial{
     constructor() {
@@ -14,7 +15,9 @@ class ArduinoSerial{
      */
     init = async function (port, socket, callback) {
         await this.wait('Conectando...')
-        this.mySerial = await this.establishConnection(port, socket)
+        this.port = await this.establishConnection(port, socket)
+        this.parser = new readLine();
+        this.port.pipe(this.parser)
         this.receiveData(callback)
     }
 
@@ -28,7 +31,7 @@ class ArduinoSerial{
     establishConnection = function (port, socket) {
         return new Promise( function (resolve, reject) {
             console.log('Se pidió una conexión con el arduino en el puerto ' + port + ', intentando conectar...');
-            const serial = new SerialPort(port ,{
+            const serial = new SerialPort(port,{
                 baudRate: 115200
             }, function (err) {
                 if (err) {
@@ -64,14 +67,14 @@ class ArduinoSerial{
      * @param {function} callback funcion a ejecutar
      */
     receiveData = function (callback) {
-        // this.parser.on('data', function(data){
-        //     // console.log(data.toString());
-        //     callback(data)
-        // })
-        this.mySerial.on('data', function(data){
+        this.parser.on('data', function(data){
             // console.log(data.toString());
             callback(data)
         })
+        // this.mySerial.on('data', function(data){
+        //     // console.log(data.toString());
+        //     callback(data)
+        // })
     }
 
     /**
@@ -79,7 +82,7 @@ class ArduinoSerial{
      */
     disconnect = async function () {
         await this.wait("Desconectando...");
-        this.mySerial.close();
+        this.port.close();
         console.log("Se ha desconectado el Arduino");
         this.isConnected = false;
     }
