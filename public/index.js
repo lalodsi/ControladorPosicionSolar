@@ -1,17 +1,15 @@
-const html = new HTMLManager();
 const socket = io();
+const html = new HTMLManager(socket);
 
-html.defineSocket(socket);
-html.init();
-html.onPressArduino();
+html.botonConectarConArduino();
 
-html.botonStart(false)
+html.activarBotonComenzar(false)
 socket.on('connect', ()=>{
     console.log(socket.id);
 })
 
 socket.on('arduinoConnectionState', data => {
-    html.botonStart(data.isConnected)
+    html.activarBotonComenzar(data.isConnected)
     if (data.isConnected) {
         html.ocultarTodoExcepto(2, ".Contenido_Estado")
     } else {
@@ -19,6 +17,6 @@ socket.on('arduinoConnectionState', data => {
     }
 })
 
-socket.on('send-receive', html.asignaDatos)
+socket.on('data', html.asignaDatos)
 
-html.forms(socket);
+html.activarForms();

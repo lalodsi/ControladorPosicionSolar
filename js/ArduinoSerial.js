@@ -1,5 +1,6 @@
 const SerialPort = require('serialport');
 const readLine = require('@serialport/parser-readline');
+const isOdd = require("is-odd");
 
 class ArduinoSerial{
     mensajes = {
@@ -8,7 +9,8 @@ class ArduinoSerial{
         disconnecting: "Desconectando...",
         errorConnecting: "Hubo un error al conectar con arduino: ",
         connectionSuccessful: "Conectado exitosamente al arduino",
-        ArduinoDisconnection: "Se ha desconectado el Arduino"
+        ArduinoDisconnection: "Se ha desconectado el Arduino",
+        shareData: "Compartiendo datos"
     }
     
     constructor() {
@@ -22,13 +24,14 @@ class ArduinoSerial{
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
-    init = async function (port, socket, callback, server) {
-        await this.wait(this.mensajes.connecting)
-        this.server = server
-        this.port = await this.establishConnection(port, socket)
+    init = async function (port, socket, server) {
+        await this.wait(this.mensajes.connecting);
+        this.server = server;
+        this.port = await this.establishConnection(port, socket);
         this.parser = new readLine();
-        this.port.pipe(this.parser)
-        this.receiveData(callback, socket)
+        this.port.pipe(this.parser);
+        // this.socket = socket
+        // this.receiveData(socket)
     }
 
     /**
@@ -78,9 +81,23 @@ class ArduinoSerial{
      * TODO: establecer el intercambio de información con arduino
      * @param {function} callback funcion a ejecutar
      */
-    receiveData = function (callback, socket) {
+    receiveData = function (socket, sendData) {
+        console.log("Recibiendo datos en el arduino");
+        const servidor = this.server;
         this.parser.on('data', function(data){
-            callback(data, socket)
+            let arrayFinal = [];
+            const datosEnteros = data.toString();
+            const datosLimpios = datosEnteros.trim();
+            const grupoDatos = datosLimpios.split(",");
+            grupoDatos.forEach(element => {
+                element.split("=").forEach( (dato, index) => {
+                    if (isOdd(index)) {
+                        arrayFinal.push(dato.trim());
+                    }
+                } )
+            });
+            // Enviar datos al servidor por web sockets
+            socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
         })
     }
 

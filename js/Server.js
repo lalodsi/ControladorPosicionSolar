@@ -6,7 +6,8 @@ class Server{
     sockets = {
         estadoArduino: 'arduinoConnectionState',
         iniciarConexion: 'connect-to-arduino',
-        intercambiar: 'send-receive',
+        comenzarRecepcionDeDatos: "startSendingData",
+        intercambiarDatos: "data"
     }
 
     constructor(){
