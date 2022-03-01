@@ -3,11 +3,16 @@ const express = require('express');
 const routerApi = require('./routes')
 
 class Server{
+    sockets = {
+        estadoArduino: 'arduinoConnectionState',
+        iniciarConexion: 'connect-to-arduino',
+        intercambiar: 'send-receive',
+    }
 
     constructor(){
         this.http = require('http')
         this.app = express();
-        this.server = this.http.createServer(this.app);
+        this.server = this.http.createServer(this.app); 
         // Socket IO
         this.io = socketIo(this.server);
 

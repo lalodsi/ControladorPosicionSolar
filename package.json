@@ -16,6 +16,7 @@
   "dependencies": {
     "express": "^4.17.2",
     "gitignore": "^0.7.0",
+    "is-odd": "^3.0.1",
     "serialport": "^9.2.8",
     "socket.io": "^4.4.1"
   },

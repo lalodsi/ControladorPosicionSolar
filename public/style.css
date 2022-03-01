@@ -104,7 +104,7 @@ input{
     font-size: 40px;
 }
 
-.boton{
+.boton, .botonStart{
     border: none;
     padding: 15px;
     width: 100%;
@@ -115,7 +115,7 @@ input{
     margin-bottom: 15px;
     font-family: inherit;
 }
-.boton:hover{
+.boton:hover, .botonStart:hover{
     background-color: #959595;
     cursor: pointer;
 }

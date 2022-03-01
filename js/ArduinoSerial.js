@@ -2,6 +2,15 @@ const SerialPort = require('serialport');
 const readLine = require('@serialport/parser-readline');
 
 class ArduinoSerial{
+    mensajes = {
+        arduinoRequest: "Se pidió una conexión con el arduino en el puerto ",
+        connecting: "Conectando...",
+        disconnecting: "Desconectando...",
+        errorConnecting: "Hubo un error al conectar con arduino: ",
+        connectionSuccessful: "Conectado exitosamente al arduino",
+        ArduinoDisconnection: "Se ha desconectado el Arduino"
+    }
+    
     constructor() {
         this.isConnected = false;
         // this.readLine = SerialPort.parser.readLine();
@@ -13,12 +22,13 @@ class ArduinoSerial{
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
-    init = async function (port, socket, callback) {
-        await this.wait('Conectando...')
+    init = async function (port, socket, callback, server) {
+        await this.wait(this.mensajes.connecting)
+        this.server = server
         this.port = await this.establishConnection(port, socket)
         this.parser = new readLine();
         this.port.pipe(this.parser)
-        this.receiveData(callback)
+        this.receiveData(callback, socket)
     }
 
     /**
@@ -29,18 +39,20 @@ class ArduinoSerial{
      * @returns {Promise}
      */
     establishConnection = function (port, socket) {
+        const messages = this.mensajes
+        const servidor = this.server;
         return new Promise( function (resolve, reject) {
-            console.log('Se pidió una conexión con el arduino en el puerto ' + port + ', intentando conectar...');
+            console.log(messages.arduinoRequest + port);
             const serial = new SerialPort(port,{
                 baudRate: 115200
             }, function (err) {
                 if (err) {
-                    console.log('Hubo un error al conectar con arduino: ', err);
-                    socket.emit('arduinoConnectionState', {isConnected: false})
+                    console.log(messages.errorConnecting, err);
+                    socket.emit(servidor.sockets.estadoArduino, {isConnected: false})
                     this.isConnected = false
                 } else {
-                    console.log('Conectado exitosamente al arduino');
-                    socket.emit('arduinoConnectionState', {isConnected: true})
+                    console.log(messages.connectionSuccessful);
+                    socket.emit(servidor.sockets.estadoArduino, {isConnected: true})
                     this.isConnected = true
                 }
             });
@@ -66,24 +78,19 @@ class ArduinoSerial{
      * TODO: establecer el intercambio de información con arduino
      * @param {function} callback funcion a ejecutar
      */
-    receiveData = function (callback) {
+    receiveData = function (callback, socket) {
         this.parser.on('data', function(data){
-            // console.log(data.toString());
-            callback(data)
+            callback(data, socket)
         })
-        // this.mySerial.on('data', function(data){
-        //     // console.log(data.toString());
-        //     callback(data)
-        // })
     }
 
     /**
      * Desconecta el arduino del puerto serie
      */
     disconnect = async function () {
-        await this.wait("Desconectando...");
+        await this.wait(this.mensajes.disconnecting);
         this.port.close();
-        console.log("Se ha desconectado el Arduino");
+        console.log(this.mensajes.ArduinoDisconnection);
         this.isConnected = false;
     }
     

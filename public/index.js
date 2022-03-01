@@ -5,6 +5,7 @@ html.defineSocket(socket);
 html.init();
 html.onPressArduino();
 
+html.botonStart(false)
 socket.on('connect', ()=>{
     console.log(socket.id);
 })
@@ -17,5 +18,7 @@ socket.on('arduinoConnectionState', data => {
         html.ocultarTodoExcepto(0, ".Contenido_Estado")
     }
 })
+
+socket.on('send-receive', html.asignaDatos)
 
 html.forms(socket);

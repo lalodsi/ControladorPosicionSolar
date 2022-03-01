@@ -3,9 +3,10 @@ class HTMLManager{
         calibrarFecha: "setDate",
         calibrarPosicion: "setPosition",
         calibrarOrientacion: "setOrientation",
-        controlarMotores: "",
-        controlarAlgoritmo: "",
+        controlarMotores: "setMotores",
+        controlarAlgoritmo: "setAlgoritmo",
     }
+    
     
     /**
      * Inicializa el documento
@@ -158,9 +159,18 @@ class HTMLManager{
     botonStart = function (data) {
         const botonStart =document.getElementById('startMonitoreo')
         if (data) {
-            botonStart.className = "boton start"
+            botonStart.className = "botonStart start"
+            botonStart.setAttribute('style', 'display: block;')
         } else {
-            botonStart.className = "boton"
+            botonStart.className = "botonStart"
+            botonStart.setAttribute('style', 'display: none;')
         }
+    }
+
+    asignaDatos = function (dataArray) {
+        const sensores = document.querySelectorAll("#showSensores");
+        dataArray.forEach( (dato, index) => {
+            sensores[index].innerHTML = dato;
+        } )
     }
 }
