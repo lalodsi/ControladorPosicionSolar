@@ -96,6 +96,7 @@ class ArduinoSerial{
                     }
                 } )
             });
+            console.log(arrayFinal);
             // Enviar datos al servidor por web sockets
             socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
         })
