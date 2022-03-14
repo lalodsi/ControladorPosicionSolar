@@ -6,11 +6,17 @@
 class sensor: public external
 {
 private:
-    double value = 0;
+    // double value = 0;
 
 public:
     sensor(int pin){
-
+        pins = pin;
     }
-    double getData(int pin);
+    double getData(){
+        return analogRead(pins);
+    };
+
+    void init(){
+        // Nothing
+    }
 };

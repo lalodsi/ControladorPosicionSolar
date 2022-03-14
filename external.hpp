@@ -3,8 +3,8 @@
  */
 class external
 {
-private:
-    int pins;
+protected:
+    const int pins;
 
 public:
     virtual void init();
