@@ -19,6 +19,7 @@ socket.on('arduinoConnectionState', data => {
 })
 
 const sensor1 = document.getElementById('sensor1');
+const grafica1 = new graficas("Sensor 1");
 
 const A = [[],[],[],[],[]];
 const B = [];
@@ -36,29 +37,7 @@ socket.on('data', data => {
         // B.shift();
     }
 
-
-    const layout = {
-        title: 'Datos',
-        xaxis: {
-          title: 'Numero',
-        },
-        yaxis: {
-          title: 'Valor',
-        },
-        margin: { t: 0 },
-        
-      };
-    
-    Plotly.newPlot( sensor1, [{
-        x: B,
-        y: A[0],
-    }], layout );
-
-    var update = {
-        'xaxis.range': [0, 25],   // updates the xaxis range
-        'yaxis.range': [0, 1024]     // updates the end of the yaxis range
-    };
-    Plotly.relayout( sensor1, update)
+    grafica1.draw(sensor1, B, A[0]);
 });
 
 
