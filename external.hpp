@@ -3,9 +3,9 @@
  */
 class external
 {
-private:
+protected:
     int pins;
 
-public:
-    virtual void init();
+// public:
+    // virtual void init();
 };

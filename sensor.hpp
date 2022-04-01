@@ -10,7 +10,11 @@ private:
 
 public:
     sensor(int pin){
-
+        pins = pin;
     }
-    double getData(int pin);
+
+    double getData(){
+        return analogRead(this->pins);
+    };
+
 };
