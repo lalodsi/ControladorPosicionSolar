@@ -12,11 +12,9 @@ public:
     sensor(int pin){
         pins = pin;
     }
+
     double getData(){
-        return analogRead(pins);
+        return analogRead(this->pins);
     };
 
-    void init(){
-        // Nothing
-    }
 };

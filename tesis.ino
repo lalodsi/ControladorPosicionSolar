@@ -7,18 +7,35 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
+String entrada;
+
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(115200);
 }
 
 void loop() {
-  // map it to the range of the analog out:
-  // outputValue = map(sensorValue, 0, 1023, 0, 255);
-  // change the analog out value:
-  // analogWrite(analogOutPin, outputValue);
+  
+  // enviarSensores();
 
-  // print the results to the Serial Monitor:
+  if (Serial.available())
+  {
+    entrada = Serial.readString();
+    Serial.print(entrada);
+
+    if (entrada.equals("calibrar"))
+    {
+      calibrar();
+    }
+    if(entrada.equals("controlar")){
+      controlar();
+    } 
+  }
+
+  delay(1000);
+}
+
+void enviarSensores(){
   Serial.print("sensor1 = ");
   Serial.print(sensor1.getData());
   Serial.print(",sensor2 = ");
@@ -29,5 +46,32 @@ void loop() {
   Serial.print(sensor4.getData());
   Serial.print(",sensor5 = ");
   Serial.println(sensor5.getData());
-  delay(100);
+}
+
+void calibrar(){
+  // Señal de entrada
+  Serial.println("ok");
+  // Calibrar
+  while (true){
+    if (Serial.available()){
+      entrada = Serial.readString();
+    }
+      if (entrada.equals("salir"))
+      {
+        break;
+      }
+      
+
+    Serial.println("Calibracion");
+  }
+}
+
+void controlar(){
+  // Señal de entrada
+  Serial.println("ok");
+  // Controlar
+    Serial.println("Ciclo de control");
+  // while (true){
+  // }
+  
 }

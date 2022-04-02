@@ -4,8 +4,8 @@
 class external
 {
 protected:
-    const int pins;
+    int pins;
 
-public:
-    virtual void init();
+// public:
+    // virtual void init();
 };
