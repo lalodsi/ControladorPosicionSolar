@@ -20,22 +20,17 @@ class graficas{
         this.layout.title = title;
     }
 
-    draw = function (id, arrayX, arrayY) {
+    draw = function (id, data) {
         if (!this.isPlotted) {
-            Plotly.newPlot( id, [{
-                x: arrayX,
-                y: arrayY,
-            }], this.layout , {staticPlot: true});
+            Plotly.newPlot( id, data, this.layout , {staticPlot: true});
             this.isPlotted = true;
         }
         else{
-            const data = {
-                x: arrayX,
-                y: arrayY,
-                'xaxis.range': [0, 25],   
-                'yaxis.range': [0, 1024],
-            };
-            Plotly.relayout( id, data);
+            data.forEach(element => {
+                element['xaxis.range'] = [0, 25]
+                element['yaxis.range'] = [0, 1024]
+            });
+            Plotly.relayout( id, data[0]);
         }
     }
 

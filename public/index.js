@@ -18,28 +18,59 @@ socket.on('arduinoConnectionState', data => {
     }
 })
 
-const sensor1 = document.getElementById('sensor1');
-const grafica1 = new graficas("Sensor 1");
+const sensores = document.getElementById('sensor1');
+const grafica1 = new graficas("Sensores");
 
-const A = [[],[],[],[],[]];
-const B = [];
+
+const trazo1 = {
+    x: [],
+    y: []
+}
+const trazo2 = {
+    x: [],
+    y: []
+}
+const trazo3 = {
+    x: [],
+    y: []
+}
+const trazo4 = {
+    x: [],
+    y: []
+}
+const trazo5 = {
+    x: [],
+    y: []
+}
+
 socket.on('data', data => {
     html.asignaDatos(data);
-    data.forEach( (one, index) => {
-        A[index].push(one);
-        if (A[0].length > 25) {
-            A[index].shift();
-        }
-    } )
-
-    if (B.length < 25) {
-        B.push(A[0].length);
-        // B.shift();
-    }
-
-    grafica1.draw(sensor1, B, A[0]);
+    limitarA25(trazo1, data[0])
+    limitarA25(trazo2, data[1])
+    limitarA25(trazo3, data[2])
+    limitarA25(trazo4, data[3])
+    limitarA25(trazo5, data[4])
+    const datos = [
+        trazo1,
+        trazo2,
+        trazo3,
+        trazo4,
+        trazo5
+    ]
+    grafica1.draw(sensores, datos);
 });
 
+function limitarA25(grafica, data) {
+    grafica.y.push(data);
+    
+    if (grafica.y.length > 25) {
+        grafica.y.shift();
+    }
+    if (grafica.x.length < 25) {
+        grafica.x.push(grafica.y.length);
+    }
+
+}
 
 html.activarForms();
 
