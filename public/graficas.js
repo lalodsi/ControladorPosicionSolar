@@ -76,6 +76,7 @@ class graficas{
         else{
             // Plotly.animate( id, data );
             // Plotly.react( id, data);
+            Plotly.react( id, data);
         }
         
     }

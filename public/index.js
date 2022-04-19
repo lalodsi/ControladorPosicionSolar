@@ -46,19 +46,19 @@ const homeTrace = {
     x: [0, 1],
     y: [0, 1],
     z: [0, 1],
-	marker: {
-		size: 8,
-		line: {
-		    color: 'rgba(217, 217, 217, 0.14)',
-		    width: 0.5
-        },
-		opacity: 0.8
-    },
-    line: {
-        width: 10,
-        color: [2],
-        colorscale: "Viridis"
-    },
+	// marker: {
+	// 	size: 8,
+	// 	line: {
+	// 	    color: 'rgba(217, 217, 217, 0.14)',
+	// 	    width: 0.5
+    //     },
+	// 	opacity: 0.8
+    // },
+    // line: {
+    //     width: 10,
+    //     color: [2],
+    //     colorscale: "Viridis"
+    // },
     type: 'scatter3d',
     scene: 'scene1',
     // xaxis: {

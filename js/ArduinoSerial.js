@@ -10,7 +10,7 @@ class ArduinoSerial{
         errorConnecting: "Hubo un error al conectar con arduino: ",
         connectionSuccessful: "Conectado exitosamente al arduino",
         ArduinoDisconnection: "Se ha desconectado el Arduino",
-        shareData: "Compartiendo datos"
+        shareData: "Compartiendo datos",
     }
     
     constructor() {

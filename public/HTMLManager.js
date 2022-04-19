@@ -1,3 +1,4 @@
+// Llamar DOM
 class HTMLManager{
     eventos = {
         calibrarFecha: "setDate",
