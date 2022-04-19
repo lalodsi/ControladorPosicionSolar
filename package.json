@@ -18,7 +18,7 @@
     "gitignore": "^0.7.0",
     "is-odd": "^3.0.1",
     "plotly.js-dist": "^2.9.0",
-    "serialport": "^9.2.8",
+    "serialport": "^10.4.0",
     "socket.io": "^4.4.1"
   },
   "devDependencies": {
