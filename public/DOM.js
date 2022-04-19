@@ -1,5 +1,5 @@
 // Llamar DOM
-class HTMLManager{
+class DOM{
     eventos = {
         calibrarFecha: "setDate",
         calibrarPosicion: "setPosition",

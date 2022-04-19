@@ -1,5 +1,5 @@
 const ArduinoSerial = require('./ArduinoSerial.js')
-const HTMLManager = require('./HTMLManager.js')
+const DOM = require('./DOM.js')
 
 let arduino = new ArduinoSerial()
 

@@ -9,7 +9,6 @@ const servidor = new Server();
 
 servidor.start()
 servidor.socket(sockets)
-servidor.setApi(arduino)
 
 function sockets(socket) {
     socket.on(servidor.sockets.iniciarConexion, data => {

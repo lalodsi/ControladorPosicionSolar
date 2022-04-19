@@ -1,20 +1,20 @@
 const socket = io();
-const html = new HTMLManager(socket);
+const dom = new DOM(socket);
 
 
-html.botonConectarConArduino();
+dom.botonConectarConArduino();
 
-html.activarBotonComenzar(false)
+dom.activarBotonComenzar(false)
 socket.on('connect', ()=>{
     console.log(socket.id);
 })
 
 socket.on('arduinoConnectionState', data => {
-    html.activarBotonComenzar(data.isConnected)
+    dom.activarBotonComenzar(data.isConnected)
     if (data.isConnected) {
-        html.ocultarTodoExcepto(2, ".Contenido_Estado");
+        dom.ocultarTodoExcepto(2, ".Contenido_Estado");
     } else {
-        html.ocultarTodoExcepto(0, ".Contenido_Estado");
+        dom.ocultarTodoExcepto(0, ".Contenido_Estado");
     }
 })
 
@@ -92,7 +92,7 @@ socket.on('data', data => {
     }
 
     
-    html.asignaDatos(data);
+    dom.asignaDatos(data);
     limitarCantidadDatosRecibidos(trazo1, data[0])
     limitarCantidadDatosRecibidos(trazo2, data[1])
     limitarCantidadDatosRecibidos(trazo3, data[2])
@@ -120,6 +120,6 @@ socket.on('data', data => {
 });
 
 
-html.activarForms();
+dom.activarForms();
 
 
