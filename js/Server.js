@@ -1,6 +1,5 @@
 const socketIo = require("socket.io")
 const express = require('express');
-const routerApi = require('./routes')
 
 class Server{
     sockets = {
@@ -41,13 +40,6 @@ class Server{
             console.log('Tenemos una nueva conexión, Id: '+ socket.id);
             callback(socket);
         })
-    }
-
-    /**
-     * Establece la restAPI
-     */
-    setApi = function (arduino) {
-        routerApi(this.app, arduino)
     }
 
 }

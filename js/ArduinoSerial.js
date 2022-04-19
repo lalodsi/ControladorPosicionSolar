@@ -1,5 +1,5 @@
-const SerialPort = require('serialport');
-const readLine = require('@serialport/parser-readline');
+const {SerialPort} = require('serialport');
+const {ReadlineParser} = require('@serialport/parser-readline');
 const isOdd = require("is-odd");
 
 class ArduinoSerial{
@@ -28,7 +28,7 @@ class ArduinoSerial{
         await this.wait(this.mensajes.connecting);
         this.server = server;
         this.port = await this.establishConnection(port, socket);
-        this.parser = new readLine();
+        this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
         // this.socket = socket
         // this.receiveData(socket)
@@ -46,7 +46,8 @@ class ArduinoSerial{
         const servidor = this.server;
         return new Promise( function (resolve, reject) {
             console.log(messages.arduinoRequest + port);
-            const serial = new SerialPort(port,{
+            const serial = new SerialPort({
+                path: port,
                 baudRate: 115200
             }, function (err) {
                 if (err) {
