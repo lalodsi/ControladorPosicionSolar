@@ -16,8 +16,7 @@ function sockets(socket) {
             const port = data.port;
             arduino.init(port, socket, servidor);
         } else {
-            arduino.disconnect();
-            socket.emit(servidor.sockets.estadoArduino, {isConnected: false});
+            arduino.disconnect(socket, servidor);
         }
     })
     socket.on(servidor.sockets.comenzarRecepcionDeDatos, data => {

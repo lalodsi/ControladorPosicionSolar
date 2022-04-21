@@ -85,32 +85,43 @@ class ArduinoSerial{
     receiveData = function (socket, sendData) {
         console.log("Recibiendo datos en el arduino");
         const servidor = this.server;
-        this.parser.on('data', function(data){
-            let arrayFinal = [];
-            const datosEnteros = data.toString();
-            const datosLimpios = datosEnteros.trim();
-            const grupoDatos = datosLimpios.split(",");
-            grupoDatos.forEach(element => {
-                element.split("=").forEach( (dato, index) => {
-                    if (isOdd(index)) {
-                        arrayFinal.push(dato.trim());
-                    }
-                } )
-            });
-            // console.log(arrayFinal);
-            // Enviar datos al servidor por web sockets
-            socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
+        this.parser.on('data', data => {
+            try{
+                const datos = JSON.parse(data);
+                // console.log(datos.accion);
+                if (datos.accion == "monitoreo") 
+                {
+                    this.analizaDatosDeEntrada(datos, socket, servidor);
+                }
+            }
+            catch(err){
+                console.log("LLegó un dato erroneo: ",err.message);
+                this.disconnect(socket, servidor);
+            }
         })
     }
 
     /**
      * Desconecta el arduino del puerto serie
      */
-    disconnect = async function () {
+    disconnect = async function (socket, servidor) {
         await this.wait(this.mensajes.disconnecting);
-        this.port.close();
+        await this.port.close();
         console.log(this.mensajes.ArduinoDisconnection);
         this.isConnected = false;
+        socket.emit(servidor.sockets.estadoArduino, {isConnected: false})
+    }
+
+    analizaDatosDeEntrada = function (datos, socket, servidor) {
+        let arrayFinal = [];
+        arrayFinal.push(datos.sensor1);
+        arrayFinal.push(datos.sensor2);
+        arrayFinal.push(datos.sensor3);
+        arrayFinal.push(datos.sensor4);
+        arrayFinal.push(datos.sensor5);
+        // console.log(arrayFinal);
+        // Enviar datos al servidor por web sockets
+        socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
     }
     
 }
