@@ -85,7 +85,7 @@ class ArduinoSerial{
     receiveData = function (socket, sendData) {
         console.log("Recibiendo datos en el arduino");
         const servidor = this.server;
-        this.parser.on('data', data => {
+        this.parser.on('data', function(data){
             try{
                 const datos = JSON.parse(data);
                 // console.log(datos.accion);
@@ -98,7 +98,7 @@ class ArduinoSerial{
                 console.log("LLegó un dato erroneo: ",err.message);
                 this.disconnect(socket, servidor);
             }
-        })
+        }.bind(this))
     }
 
     /**
