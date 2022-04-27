@@ -173,7 +173,7 @@ class DOM{
                 latitud: latitud,
                 longitud: longitud
             };
-            this.socket.on(this.eventos.calibrarPosicion, dato);
+            this.socket.emit(this.eventos.calibrarPosicion, dato);
         })
     }
 
@@ -188,7 +188,7 @@ class DOM{
             const data = {
                 orientacion: orientacion
             };
-            this.socket.on(this.eventos.calibrarOrientacion, data);
+            this.socket.emit(this.eventos.calibrarOrientacion, data);
         })
     }
 

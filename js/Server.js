@@ -6,7 +6,10 @@ class Server{
         estadoArduino: 'arduinoConnectionState',
         iniciarConexion: 'connect-to-arduino',
         comenzarRecepcionDeDatos: "startSendingData",
-        intercambiarDatos: "data"
+        intercambiarDatos: "data",
+        cambiarFechaYHora: "setDate",
+        cambiarPosicion: "setPosition",
+        cambiarOrientacion: "setOrientation",
     }
 
     constructor(){
