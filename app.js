@@ -30,15 +30,15 @@ function sockets(socket) {
 
     socket.on( servidor.sockets.cambiarOrientacion, data =>{
         console.log(`Se cambiará la orientación a ${data.orientacion} grados`);
-    } )
+    } );
     socket.on( servidor.sockets.cambiarFechaYHora, data =>{
         console.log(`Se cambiará la fecha y hora a ${data.fecha}, ${data.hora}`);
         
-    } )
+    } );
     socket.on( servidor.sockets.cambiarPosicion, data =>{
         console.log(`Se cambiará la posición a ${data.latitud}, ${data.longitud}`);
 
-    } )
+    } );
 
 }
 
