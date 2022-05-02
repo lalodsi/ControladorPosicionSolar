@@ -39,7 +39,7 @@ class ArduinoSerial{
      * través de un web socket
      * @param {number} port Puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket Websocket en el que se comunicará el estado de la conexión con arduino
-     * @returns {Promise}
+     * @returns {Promise} Al resolver la promesa se retornará el objeto serial para conectarse
      */
     establishConnection = function (port, socket) {
         const messages = this.mensajes
@@ -83,22 +83,31 @@ class ArduinoSerial{
      * @param {function} callback funcion a ejecutar
      */
     receiveData = function (socket, sendData) {
-        console.log("Recibiendo datos en el arduino");
-        const servidor = this.server;
-        this.parser.on('data', function(data){
+        console.log("Recibiendo datos desde el arduino");
+        this.parser.on('data', data => {
             try{
+                // console.log(data);
                 const datos = JSON.parse(data);
                 // console.log(datos.accion);
                 if (datos.accion == "monitoreo") 
                 {
-                    this.analizaDatosDeEntrada(datos, socket, servidor);
+                    this.analizaDatosDeEntrada(datos, socket, this.server);
+                }
+                if (datos.accion == "confirmacion") {
+
+                    console.log(datos.message);
                 }
             }
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);
-                this.disconnect(socket, servidor);
+                this.disconnect(socket, this.server);
             }
-        }.bind(this))
+        });
+    }
+
+    sendData = function (data) {
+        // console.log("Enviando datos al arduino");
+        return this.port.write(data);
     }
 
     /**

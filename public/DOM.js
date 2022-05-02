@@ -104,14 +104,28 @@ class DOM{
     }
 
     /**
-     * Comienza el intercambio de información con arduino
+     * Controla la actividad de monitoreo del arduino
+     * El control de esta actividad se hace a través de las siguientes acciones:
+     * - Cambiar el boton para comenzar y terminar monitoreo
+     * - Enviar el socket correspondiente para 
      */
     botonComenzarRecepcionDeDatos = function () {
-        const socketName = this.eventosSockets.comenzarRecepcionDeDatos;
+        const socketName = this.eventosSockets.comenzarRecepcionDeDatos; // startSendingData
         const boton = document.getElementById('startMonitoreo');
+        const botonComenzarFuncion = this.activarBotonComenzar;
         boton.addEventListener( "click", () => {
-            this.socket.emit(socketName, { comenzar : true });
-            this.activarBotonComenzar(false);
+            const texto = boton.innerHTML;
+            console.log(texto.innerHTML);
+            if (texto === "Comenzar Monitoreo") {
+                this.socket.emit(socketName, { comenzar : true });
+                botonComenzarFuncion("stop");
+                boton.innerHTML = "Terminar Monitoreo";
+            }
+            if (texto === "Terminar Monitoreo") {
+                this.socket.emit(socketName, { comenzar : false });
+                botonComenzarFuncion("start");
+                boton.innerHTML = "Comenzar Monitoreo";
+            }
             // this.comenzarConexion = !this.comenzarConexion;
         })
     }
@@ -208,12 +222,17 @@ class DOM{
      * Activa o desactiva el botón para comenzar el envío de datos según el estado del arduino
      * @param {boolean} data bandera para activar o desactivar el boton comenzar
      */
-    activarBotonComenzar = function (data) {
+    activarBotonComenzar = function (state) {
         const botonStart =document.getElementById('startMonitoreo');
-        if (data) {
+        if (state === "start") {
             botonStart.className = "botonStart start";
             botonStart.setAttribute('style', 'display: block;')
-        } else {
+        }
+        else if (state === "stop") {
+            botonStart.className = "botonStart stop";
+            botonStart.setAttribute('style', 'display: block;')
+        }
+        else if(state === "desactivado"){
             botonStart.className = "botonStart";
             botonStart.setAttribute('style', 'display: none;')
         }

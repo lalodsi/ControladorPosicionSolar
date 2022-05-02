@@ -4,13 +4,14 @@ const dom = new DOM(socket);
 
 dom.botonConectarConArduino();
 
-dom.activarBotonComenzar(false)
+dom.activarBotonComenzar("desactivado")
+// Conexión entre servidor y cliente
 socket.on('connect', ()=>{
     console.log(socket.id);
 })
-
+// Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
-    dom.activarBotonComenzar(data.isConnected)
+    dom.activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         dom.ocultarTodoExcepto(2, ".Contenido_Estado");
     } else {

@@ -5,7 +5,7 @@ class Server{
     sockets = {
         estadoArduino: 'arduinoConnectionState',
         iniciarConexion: 'connect-to-arduino',
-        comenzarRecepcionDeDatos: "startSendingData",
+        monitorear: "startSendingData",
         intercambiarDatos: "data",
         cambiarFechaYHora: "setDate",
         cambiarPosicion: "setPosition",
