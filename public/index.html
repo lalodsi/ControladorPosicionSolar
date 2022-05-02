@@ -15,10 +15,10 @@
             <h2>Menú</h2>
             <hr>
             <div class="contenidoMenu">
-                <button class="boton">Información General</button>
+                <button class="boton">Información de Monitoreo</button>
                 <button class="boton">Gráficas</button>
+                <button class="boton">Control Manual</button>
                 <button class="boton">Panel de Control</button>
-                <button class="boton">Calibrar Sistema</button>
                 <button class="botonStart" id="startMonitoreo">Comenzar Monitoreo</button>
             </div>
         </section>
@@ -47,7 +47,7 @@
             </div>
         </section>
     </div>
-    <!-- Información Principal -->
+    <!-- Información de Monitoreo -->
     <section class="section principal">
         <div>
             <h1>Información Principal</h1>
@@ -113,7 +113,7 @@
             <div id="robot3d"></div>
         </div>
     </section>
-    <!-- Panel de Control -->
+    <!-- Control Manual -->
     <section class="section principal">
         <div>
             <h1>Panel de Control</h1>
@@ -127,16 +127,9 @@
                 <p>Azimut</p><input name="arduinoMotorAzimut" type="number" value="0">
                 <p>Elevación</p><input name="arduinoMotorElevacion" type="number" value="0">
             </div>
-            <p class="header">Algoritmo a utilizar</p>
-            <p class="info">Elige el tipo de algoritmo con el que funcionará el seguidor solar.</p>
-            <p class="info">Se actualizará la información en el arduino para que comience a funcionar con el algoritmo elegido.</p>
-            <button class="botonContenido">Algoritmo de posición Astronómica</button>
-            <button class="botonContenido">Algoritmo de seguimiendo de punto luminoso</button>
-            <button class="botonContenido">Algoritmo Mixto</button>
-            <button class="botonContenido">Sistema Fijo</button>
         </div>
     </section>
-    <!-- Calibrar Sistema -->
+    <!-- Panel de Control -->
     <section class="section principal">
         <div>
             <h1>Calibrar Sistema</h1>
@@ -146,7 +139,8 @@
             <p >Ingresa los valores que deseas calibrar</p>
             <p class="header">Calibración del reloj</p>
                 <form id="formSetTime">
-                    <p class="info">Ingresa la fecha y hora</p>
+                    <p class="info">Ingresa la fecha y hora exactas de la zona horaria GMT-5</p>
+                    <p class="info">Esta información será actualizada en el arduino para el correcto funcionamiento del algoritmo</p>
                     <input name="arduinoDate" type="date">
                     <input name="arduinoTime" type="time">
                     <br>
@@ -155,6 +149,7 @@
             <p class="header">Posición del sistema</p>
             <form id="formSetPosition">
                 <p class="info">Ingresa las coordenadas de ubicación del sistema</p>
+                <p class="info">Esta información deberá de estar en formato decimal</p>
                 <div class="dosColumnas">
                     <label for="latitud">Latitud</label>
                     <input name="latitud" type="number" value="0">
@@ -173,6 +168,13 @@
                 </div>
                 <button class="botonContenido" type="submit">Ingresar orientación</button>
             </form>
+            <p class="header">Algoritmo a utilizar</p>
+            <p class="info">Elige el tipo de algoritmo con el que funcionará el seguidor solar.</p>
+            <p class="info">Se actualizará la información en el arduino para que comience a funcionar con el algoritmo elegido.</p>
+            <button class="botonContenido">Algoritmo de posición Astronómica</button>
+            <button class="botonContenido">Algoritmo de seguimiendo de punto luminoso</button>
+            <button class="botonContenido">Algoritmo Mixto</button>
+            <button class="botonContenido">Sistema Fijo</button>
         </div>
     </section>
     
