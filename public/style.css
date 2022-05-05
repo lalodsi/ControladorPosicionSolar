@@ -3,14 +3,15 @@
     --verdeMenta: #1fffbc;
     --verdeDiscreto: #4ca78c;
     --fondo: #0e1826;
-    --fondoContenido: #294D53
+    --fondoContenidoEstado: #294D53;
+    --fondoTransparente: rgba(0, 0, 0, 0.3);
+    --rojo: rgb(48, 0, 0);
+    --rojoPresionado: rgb(80, 0, 0);
   }
 
 body{
     font-family: sans-serif;
     background-color: var(--fondo);
-    /* height: 100%; */
-    /* width: 100%; */
     margin: 0%;
     padding: 15px 60px;
     justify-content: space-between;
@@ -24,7 +25,7 @@ hr{
     border-radius: 4px;
 }
 input{
-    background: rgba(0, 0, 0, 0.3);
+    background: var(--fondoTransparente);
     border-style: none;
     font-size: 18px;
     color: var(--verdeClaro);
@@ -36,6 +37,7 @@ input{
 .section, .subsection{
     color: white;
     padding: 10px;
+    /* background: var(--fondoContenidoEstado); */
     background: rgba(255, 255, 255, 0.15);
     border-radius: 15px;
     text-align: center;
@@ -66,7 +68,7 @@ input{
     float: right;
     text-align: left;
     height: fit-content;
-    background-color: var(--fondoContenido);
+    background-color: var(--fondoContenidoEstado);
 }
 .estado > div > h3{
     position: absolute;
@@ -78,15 +80,7 @@ input{
     display: block;
     margin: 15px auto;
 }
-/* #stateCircle{
-    background-color: aqua;
-    height: 15px;
-    width: 15px;
-    margin-left: 25px;
-    margin-bottom: 8px;
-    border-radius: 50%;
-    display: inline-block;
-} */
+
 .conectado{
     color: rgb(151 255 168);
     font-size: 40px;
@@ -155,7 +149,7 @@ input{
     padding: 10px;
 }
 .menuConectar > input{
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: var(--fondoTransparente);
     color: azure;
     /* border-style: none; */
     font-size: 18px;
@@ -174,9 +168,9 @@ input{
     background: rgba(0, 0, 0, 0);
 }
 .contenido::-webkit-scrollbar-thumb {
-    background-color: #003e3e;
+    background-color: var(--fondoContenidoEstado);
     border-radius: 20px;
-    border: 3px solid #00da98;
+    border: 3px solid var(--verdeClaro);
 }
 
 .contenido .header{
@@ -232,13 +226,13 @@ input{
     background-color: var(--verdeMenta);
 }
 .stop{
-    background-color: rgb(48, 0, 0);
+    background-color: var(--rojo);
 }
 .stop:hover{
-    background-color: rgb(80, 0, 0);
+    background-color: var(--rojoPresionado);
 }
 /* Graficas */
 .main-svg{
-    background-color: #00000000;
+    /* background-color: #00000000; */
 }
 /* /Graficas */
