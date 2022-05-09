@@ -2,6 +2,13 @@
 
 Se trata de una interfaz web con nodejs y express en el servidor que establece una conexión serial con arduino
 
+![logo1](https://raw.githubusercontent.com/devicons/devicon/c7d326b6009e60442abc35fa45706d6f30ee4c8e/icons/nodejs/nodejs-original.svg)
+![logo2](https://raw.githubusercontent.com/devicons/devicon/c7d326b6009e60442abc35fa45706d6f30ee4c8e/icons/npm/npm-original-wordmark.svg)
+![logo3](https://raw.githubusercontent.com/devicons/devicon/c7d326b6009e60442abc35fa45706d6f30ee4c8e/icons/javascript/javascript-plain.svg)
+![logo4](https://raw.githubusercontent.com/devicons/devicon/c7d326b6009e60442abc35fa45706d6f30ee4c8e/icons/html5/html5-original.svg)
+![logo5](https://raw.githubusercontent.com/devicons/devicon/c7d326b6009e60442abc35fa45706d6f30ee4c8e/icons/git/git-original.svg)
+![logo6](https://raw.githubusercontent.com/devicons/devicon/c7d326b6009e60442abc35fa45706d6f30ee4c8e/icons/css3/css3-original.svg)
+
 ## Menú de conexión con arduino
 
 Sirve para establecer una conexión con arduino a través del puerto serial. Su interacción con el servidor sirve para que este realice la conexión y comunique el estado con la interfaz.
