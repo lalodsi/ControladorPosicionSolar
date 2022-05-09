@@ -26,45 +26,55 @@ void loop() {
   if (Serial.available())
   {
     entrada = Serial.readString();
-    Serial.print(entrada);
+    // Serial.print(entrada);
 
-    if (entrada.equals("calibrar"))
-    {
+    // Control de flujo
+    if (entrada.equals("calibrar")){
       calibrar();
     }
     if(entrada.equals("controlar")){
       controlar();
     } 
+    if(entrada.equals("monitorear")){
+      enviarSensores();
+    } 
   }
 
   // SPL_algorithm();
-  enviarSensores();
 
   delay(100);
 }
 
 void enviarSensores(){
-  Serial.print("sensor1 = ");
-  Serial.print(sensor1.getData());
-  Serial.print(",sensor2 = ");
-  Serial.print(sensor2.getData());
-  Serial.print(",sensor3 = ");
-  Serial.print(sensor3.getData());
-  Serial.print(",sensor4 = ");
-  Serial.print(sensor4.getData());
-  Serial.print(",sensor5 = ");
-  Serial.println(sensor5.getData());
 
+  while (true)
+  {
+    Serial.print("{");
+    Serial.print("\"accion\":\"monitoreo\",");
+    Serial.print("\"sensor1\":");
+    Serial.print(sensor1.getData());
+    Serial.print(",\"sensor2\":");
+    Serial.print(sensor2.getData());
+    Serial.print(",\"sensor3\":");
+    Serial.print(sensor3.getData());
+    Serial.print(",\"sensor4\":");
+    Serial.print(sensor4.getData());
+    Serial.print(",\"sensor5\":");
+    Serial.print(sensor5.getData());
+    Serial.println("}");
 
-  // Serial.print(sensor1.getData());
-  // Serial.print(", ");
-  // Serial.print(sensor2.getData());
-  // Serial.print(", ");
-  // Serial.print(sensor3.getData());
-  // Serial.print(", ");
-  // Serial.print(sensor4.getData());
-  // Serial.print(", ");
-  // Serial.println(sensor5.getData());
+    if (Serial.available())
+    {
+      entrada = Serial.readString();
+      if (entrada.equals("salir"))
+      {
+        break;
+      }
+      
+    }
+
+    delay(100);
+  }
   
 }
 
@@ -143,23 +153,51 @@ void moverX(){
   // 
 }
 
+/**
+ * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
+ * 
+ */
+void waitForSerial(){
+  Serial.flush();
+  while (!Serial.available()){
+    // Wait
+  }
+}
 
 void calibrar(){
-  // Señal de entrada
-  Serial.println("ok");
-  // Calibrar
-  while (true){
-    if (Serial.available()){
-      entrada = Serial.readString();
-    }
-      if (entrada.equals("salir"))
-      {
-        break;
-      }
-      
+  // Señal de confirmación
+  Serial.println("{accion: 'confirmacion',estado: true}");
+  Serial.flush();
+  waitForSerial();
+  
 
-    Serial.println("Calibracion");
-  }
+  entrada = Serial.readString();
+    // Serial.print(entrada);
+    if (entrada.equals("position")){
+      waitForSerial();
+      entrada = Serial.readString();
+      Serial.println("{message: 'Se cambió la posicion'}");
+    }
+    if (entrada.equals("date")){
+      waitForSerial();
+      entrada = Serial.readString();
+      // Actualizar la info en el modulo de reloj
+      Serial.println("{message: 'Se cambió la fecha y hora'}");
+    }
+    if (entrada.equals("orientation")){
+      waitForSerial();
+      entrada = Serial.readString();
+      Serial.println("{message: 'Se cambió la orientacion'}");
+    }
+
+  Serial.flush();
+    // if (entrada.equals("salir"))
+    // {
+    //   break;
+    // }
+    
+
+  // Serial.println("Calibracion");
 }
 
 void controlar(){
