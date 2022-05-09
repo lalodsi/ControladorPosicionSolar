@@ -45,14 +45,22 @@ class DOM{
      * Funciona correctamente si los diferentes elementos comparten el mismo className
      * @param {int} index Formulario que no se estará ocultando
      * @param {string} className nombre de la clase para los elementos que serán ocultados
+     * @param {function} callbacks funciones que se estarán ejecutando en el orden de elementos a ocultar según el array
+     * 
+     * El parámetro "...callbacks" recibe los parametros restantes y será llamado sólo el parámetro llamado en {index} lugar
      */
-    ocultarTodoExcepto = function(index, className){
+    ocultarTodoExcepto = function(index, className, ...callbacks){
         const forms = document.querySelectorAll(className);
         const arrayForms = this.devolverArrayHTML(forms);
-        arrayForms.forEach( (elem, ArrIndex) => {
+        arrayForms.forEach( function(elem, ArrIndex, origArray) {
             elem.setAttribute( "style", "display: none" )
             if (index == ArrIndex) {
                 elem.setAttribute( "style", "display: block" )
+                if (callbacks.length && callbacks.length <= origArray.length) {
+                    if(typeof(callbacks[ArrIndex] === "function")){
+                        callbacks[ArrIndex]();
+                    }
+                }
             }
         } )
     }
