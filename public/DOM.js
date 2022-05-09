@@ -1,6 +1,7 @@
 // Llamar DOM
 class DOM{
     eventos = {
+        enviarPalabra: "sendString",
         calibrarFecha: "setDate",
         calibrarPosicion: "setPosition",
         calibrarOrientacion: "setOrientation",
@@ -66,16 +67,32 @@ class DOM{
     }
 
     /**
-     * Agrega funcionalidad a los botones para mostrar diferente contenido
+     * Agrega funcionalidad a los botones para mostrar las diferentes vistas de la sección para información principal
      */
     btnShowContent = function() {
         const botones = document.querySelectorAll(".boton");
         const arrBotones = this.devolverArrayHTML(botones);
         arrBotones.forEach( (elem, index) => {
             elem.addEventListener( "click", () => {
-                this.ocultarTodoExcepto(index, ".principal");
+                this.ocultarTodoExcepto(index, ".principal", 
+                ()=>{},
+                ()=>{},
+                ()=>{},
+                this.activarCalibracion
+                );
             } )
         } )
+    }
+
+    /**
+     * # ActivarCalibración
+     * Función que envía un socket al servidor para enviar el dato de calibración al arduino
+     */
+    activarCalibracion = () => {
+        console.log("Se ha activado la calibración desde el Front");
+        this.socket.emit(this.eventos.enviarPalabra, 
+            {word: "calibrar", message: "Se envió la palabra 'calibrar' al arduino"}
+            );
     }
 
     /**

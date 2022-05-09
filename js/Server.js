@@ -7,6 +7,7 @@ class Server{
         iniciarConexion: 'connect-to-arduino',
         monitorear: "startSendingData",
         intercambiarDatos: "data",
+        enviarPalabra: "sendString",
         cambiarFechaYHora: "setDate",
         cambiarPosicion: "setPosition",
         cambiarOrientacion: "setOrientation",
