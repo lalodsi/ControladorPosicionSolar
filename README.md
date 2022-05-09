@@ -45,4 +45,4 @@ Esta sección sólo funciona cuanco esta activado el monitoreo y tendrá la sigu
 Estas secciones servirán para actualizar la información interna del arduino como fecha, hora, posición y orientación.
 A través de web sockets se enviará la información al servidor, el cual será quien haga la interacción con arduino.
 
-![Imagen7](https://github.com/lalodsi/tesis/blob/master/description/principal2.PNG)
+![Imagen7](https://github.com/lalodsi/tesis/blob/master/description/principal3.PNG)
