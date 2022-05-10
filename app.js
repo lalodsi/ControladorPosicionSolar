@@ -24,7 +24,7 @@ function sockets(socket) {
     })
     socket.on(servidor.sockets.monitorear, data => {
         if (data.comenzar) {
-            arduino.receiveData(socket, data.comenzar);
+            // arduino.receiveData(socket, data.comenzar);
             console.log("Solicitaste el intercambio de información");
             arduino.sendData("monitorear");
         } else {
@@ -32,29 +32,29 @@ function sockets(socket) {
             arduino.sendData("salir");
         }
     } )
+    // Socket para envío de palabras al arduino
     socket.on( servidor.sockets.enviarPalabra, data => {
         console.log(data.message);
         arduino.sendData(data.word);
     })
+    /**
+     * Sockets para actualización de datos
+     */
     socket.on( servidor.sockets.cambiarOrientacion, data =>{
         console.log(`Se cambiará la orientación a ${data.orientacion} grados`);
         arduino.sendData("orientation");
-        arduino.sendData(data.orientacion);
+        setTimeout(() => arduino.sendData(`${data.orientacion}\n`), 1000);
     } );
     socket.on( servidor.sockets.cambiarFechaYHora, data =>{
         console.log(`Se cambiará la fecha y hora a ${data.fecha}, ${data.hora}`);
         arduino.sendData("date");
-        arduino.sendData(data.fecha);
-        arduino.sendData(data.hora);
-        
+        setTimeout(() => arduino.sendData(`${data.fecha},${data.hora}`), 1000);
     } );
     socket.on( servidor.sockets.cambiarPosicion, data =>{
         console.log(`Se cambiará la posición a ${data.latitud}, ${data.longitud}`);
         arduino.sendData("position");
-        // arduino.sendData(data.latitud);
-        // arduino.sendData(data.longitud);
-        arduino.receiveData(socket, ()=>{} )
-
+        // arduino.sendData(`${data.latitud},${data.longitud}`);
+        setTimeout(() => arduino.sendData(`${data.latitud},${data.longitud}`), 1000);
     } );
 
 }

@@ -205,8 +205,9 @@ class DOM{
      */
     formCalibrarPosicion = function () {
         this.setForm("formSetPosition", (form)=> {
-            const latitud = form.children[1].children[1].value;
-            const longitud = form.children[1].children[3].value;
+            // TypeError: Cannot read properties of undefined (reading 'value')
+            const latitud = form.children[2].children[1].value;
+            const longitud = form.children[2].children[3].value;
             
             const dato = {
                 latitud: latitud,

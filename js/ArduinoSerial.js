@@ -1,5 +1,6 @@
 const {SerialPort} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
+const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
 
 class ArduinoSerial{
@@ -21,6 +22,7 @@ class ArduinoSerial{
 
     /**
      * Inicializa la conexión con arduino mostrando un mensaje de espera
+     * También activa la recepción de información
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
@@ -30,8 +32,7 @@ class ArduinoSerial{
         this.port = await this.establishConnection(port, socket);
         this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
-        // this.socket = socket
-        // this.receiveData(socket)
+        this.receiveData(socket);
     }
 
     /**
@@ -83,18 +84,17 @@ class ArduinoSerial{
      * @param {function} callback funcion a ejecutar
      */
     receiveData = function (socket, sendData) {
-        console.log("Recibiendo datos desde el arduino");
+        console.log("Activada la recepción de información desde arduino");
         this.parser.on('data', data => {
             try{
-                // console.log(data);
+                console.log(data);
                 const datos = JSON.parse(data);
                 // console.log(datos.accion);
-                if (datos.accion == "monitoreo") 
+                if (datos.accion === "monitoreo") 
                 {
                     this.analizaDatosDeEntrada(datos, socket, this.server);
                 }
-                if (datos.accion == "confirmacion") {
-
+                if (datos.accion === "mensaje") {
                     console.log(datos.message);
                 }
             }
@@ -105,8 +105,7 @@ class ArduinoSerial{
         });
     }
 
-    sendData = function (data) {
-        // console.log("Enviando datos al arduino");
+    sendData = async function (data) {
         return this.port.write(data);
     }
 
