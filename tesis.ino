@@ -38,10 +38,10 @@ void loop() {
     if(entrada.equals("monitorear")){
       enviarSensores();
     } 
+    Serial.flush();
   }
 
   // SPL_algorithm();
-
   delay(100);
 }
 
@@ -158,36 +158,33 @@ void moverX(){
  * 
  */
 void waitForSerial(){
-  Serial.flush();
+  // Serial.flush();
   while (!Serial.available()){
     // Wait
   }
 }
 
 void calibrar(){
-  // Señal de confirmación
-  Serial.println("{accion: 'confirmacion',estado: true}");
-  Serial.flush();
+  Serial.println("{\"accion\":\"mensaje\",\"message\":\"Calibracion activada\"}");
   waitForSerial();
-  
 
   entrada = Serial.readString();
     // Serial.print(entrada);
     if (entrada.equals("position")){
       waitForSerial();
       entrada = Serial.readString();
-      Serial.println("{message: 'Se cambió la posicion'}");
+      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
     }
     if (entrada.equals("date")){
       waitForSerial();
       entrada = Serial.readString();
       // Actualizar la info en el modulo de reloj
-      Serial.println("{message: 'Se cambió la fecha y hora'}");
+      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora\"}");
     }
     if (entrada.equals("orientation")){
       waitForSerial();
       entrada = Serial.readString();
-      Serial.println("{message: 'Se cambió la orientacion'}");
+      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion\"}");
     }
 
   Serial.flush();
