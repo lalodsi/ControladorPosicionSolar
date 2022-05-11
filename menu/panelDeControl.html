@@ -1,0 +1,45 @@
+<div>
+    <h1>Panel de Control</h1>
+</div>
+<hr>
+<div class="contenido">
+    <p >Ingresa los valores que deseas calibrar</p>
+    <p class="header">Calibración del reloj</p>
+        <form id="formSetTime">
+            <p class="info">Ingresa la fecha y hora exactas de la zona horaria GMT-5</p>
+            <p class="info">Esta información será actualizada en el arduino para el correcto funcionamiento del algoritmo</p>
+            <input name="arduinoDate" type="date">
+            <input name="arduinoTime" type="time">
+            <br>
+            <button class="botonContenido" type="submit">Calibrar</button>
+        </form>
+    <p class="header">Posición del sistema</p>
+    <form id="formSetPosition">
+        <p class="info">Ingresa las coordenadas de ubicación del sistema</p>
+        <p class="info">Esta información deberá de estar en formato decimal</p>
+        <div class="dosColumnas">
+            <label for="latitud">Latitud</label>
+            <input name="latitud" type="number" value="0">
+            <label for="longitud">Longitud</label>
+            <input name="longitud" type="number" value="0">
+        </div>
+        <button class="botonContenido" type="submit">Ingresar posición</button>
+    </form>
+    <p class="header">Orientación del sistema</p>
+    <form id="formSetOrientation">
+        <p class="info">Ingresa los valores de orientación en el sistema.</p>
+        <p class="info">Toma en cuenta que el valor recibido deberá estar en grados</p>
+        <div class="dosColumnas">
+            <label for="orientacion">Orientación</label>
+            <input name="orientacion" type="number" value="0">
+        </div>
+        <button class="botonContenido" type="submit">Ingresar orientación</button>
+    </form>
+    <p class="header">Algoritmo a utilizar</p>
+    <p class="info">Elige el tipo de algoritmo con el que funcionará el seguidor solar.</p>
+    <p class="info">Se actualizará la información en el arduino para que comience a funcionar con el algoritmo elegido.</p>
+    <button class="botonContenido">Algoritmo de posición Astronómica</button>
+    <button class="botonContenido">Algoritmo de seguimiendo de punto luminoso</button>
+    <button class="botonContenido">Algoritmo Mixto</button>
+    <button class="botonContenido">Sistema Fijo</button>
+</div>
