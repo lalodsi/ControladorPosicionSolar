@@ -13,6 +13,9 @@ class DOM{
         comenzarRecepcionDeDatos: "startSendingData"
 
     }
+    banderas = {
+        interactuarInputConRuedaDelMouse: false
+    }
     
     /**
      * Inicializa todos los módulos 
@@ -81,6 +84,10 @@ class DOM{
             if (index === 3) {
                 this.activarCalibracion();
                 this.activarForms();
+                this.interactuarInputConRuedaDelMouse()
+            }
+            if (index === 2) {
+                this.interactuarInputConRuedaDelMouse()
             }
         }.bind(this);
 
@@ -247,7 +254,7 @@ class DOM{
         const entradasDocument = document.querySelectorAll('input[type="number" i]')
         const entradas = this.devolverArrayHTML(entradasDocument);
         entradas.forEach( (entrada) => {
-            entrada.parentElement.addEventListener('wheel', ()=>{})
+            entrada.addEventListener('wheel', ()=>{});
         })
     }
 
