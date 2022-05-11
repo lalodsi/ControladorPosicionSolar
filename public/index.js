@@ -121,6 +121,3 @@ socket.on('data', data => {
 });
 
 
-dom.activarForms();
-
-

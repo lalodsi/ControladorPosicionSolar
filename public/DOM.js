@@ -68,28 +68,25 @@ class DOM{
 
     /**
      * Agrega funcionalidad a los botones para mostrar las diferentes vistas de la sección para información principal
+     * Los botones realizarán una consulta GET a través de la ruta 'api/v1/menu/contenido/:id' para recibir el menu correspondiente y añadirlo a la aplicación
      */
     btnShowContent = function() {
         const botones = document.querySelectorAll(".boton");
         const arrBotones = this.devolverArrayHTML(botones);
-        const http = new XMLHttpRequest();
-        const contenedor = document.getElementsByClassName("principal")[0];
-        
+        const request = async function (index) {
+            const contenedor = document.getElementsByClassName("principal")[0];
+            const url = `http://localhost:3000/api/v1/menu/contenido/${index + 1}`;
+            const response = await fetch(url);
+            contenedor.innerHTML = await response.text();
+            if (index === 3) {
+                this.activarCalibracion();
+                this.activarForms();
+            }
+        }.bind(this);
+
         arrBotones.forEach( (elem, index) => {
             elem.addEventListener( "click", () => {
-                const url = `http://localhost:3000/menu/${index + 1}`;
-                http.open("GET", url);
-                http.onreadystatechange = function () {
-                    if (this.readyState === 4 && this.status === 200) {
-                        contenedor.innerHTML = this.response;
-                    }
-                }
-                // this.ocultarTodoExcepto(index, ".principal", 
-                // ()=>{},
-                // ()=>{},
-                // ()=>{},
-                // this.activarCalibracion
-                // );
+                request(index);
             } )
         } )
     }

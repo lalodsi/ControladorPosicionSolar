@@ -6,7 +6,6 @@ router.get('/contenido/:id', function (req, res) {
     const { id } = req.params;
     const jsDirectory = path.parse(__dirname);
     const tesisDirectory = path.parse(jsDirectory.dir);
-    console.log(tesisDirectory.dir + "\\informacionGeneral.html");
     if (id == 1){
         res.sendFile(tesisDirectory.dir + "\\menu\\informacionGeneral.html");
     }
