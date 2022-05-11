@@ -168,7 +168,6 @@ class DOM{
         const botonComenzarFuncion = this.activarBotonComenzar;
         boton.addEventListener( "click", () => {
             const texto = boton.innerHTML;
-            console.log(texto.innerHTML);
             if (texto === "Comenzar Monitoreo") {
                 this.socket.emit(socketName, { comenzar : true });
                 botonComenzarFuncion("stop");
@@ -302,9 +301,11 @@ class DOM{
      */
     asignaDatos = function (dataArray) {
         const sensores = document.querySelectorAll("#showSensores");
-        dataArray.forEach( (dato, index) => {
-            sensores[index].innerHTML = dato;
-        } )
+        if (sensores.length) {
+            dataArray.forEach( (dato, index) => {
+                sensores[index].innerHTML = dato;
+            } )
+        }
     }
 
     oscurecerFondo = function () {
