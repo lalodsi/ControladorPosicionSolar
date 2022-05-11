@@ -13,9 +13,6 @@ class DOM{
         comenzarRecepcionDeDatos: "startSendingData"
 
     }
-    banderas = {
-        interactuarInputConRuedaDelMouse: false
-    }
     
     /**
      * Inicializa todos los módulos 
@@ -29,7 +26,7 @@ class DOM{
 
         this.comenzarConexion = false;
         this.botonComenzarRecepcionDeDatos();
-        this.oscurecerFondo();
+        this.introduccion();
     }
 
 
@@ -143,6 +140,11 @@ class DOM{
         })
     }
 
+    /**
+     * # Desvanecer Fondo
+     * Desvanece el fondo negro de la 'introducción' y posiciona la sección de estado en su lugar original de modo que el proyecto se pueda utilizar de manera normal
+     * Función que se ejecuta sólo cuando el servidor haya comunicado una conexión exitosa con el arduino
+     */
     desvanecerFondo = function () {
         const estado = document.getElementsByClassName("estado")[0];
         estado.className = "subsection estado animado";
@@ -308,15 +310,19 @@ class DOM{
         }
     }
 
-    oscurecerFondo = function () {
+    /**
+     * # Introduccion
+     * ### Sólo se activará el proyecto en cuanto se conecte un arduino por primera vez
+     * Se trata de una función que encapsula toda la interacción necesaria para mostrar la introducción a la app
+     * ¿Qué es la introducción?
+     * Para evitar que el usuario haga peticiones o interactue con elementos de la app sin que un arduino se encuentre conectado, se oscurecerá toda la pantalla y sólo se mostrará el menú correspondiente para conexión con arduino.
+     * Además se tiene el detalle de mostrar una sección donde vienen los nombres de los creadores del proyecto
+     */
+    introduccion = function () {
         const fondo = document.getElementsByClassName("oscurecido")[0];
         const estado = document.getElementsByClassName("subsection")[1];
         const botonContinuar = document.getElementsByClassName("contenedorIntroduccion")[0];
         fondo.insertBefore(estado, botonContinuar);
-        this.introduccion();
-    }
-
-    introduccion = function () {
         const html = document.querySelectorAll(".oscurecido>section");
         const secciones = this.devolverArrayHTML(html);
         secciones[0].setAttribute("style", "display: none;");
