@@ -19,7 +19,7 @@ class DOM{
      */
     constructor(socket){
         this.socket = socket;
-        this.ocultarTodoExcepto(0, ".principal");
+        this.ocultarTodoExcepto(0, ".principal"); //Cambiar
         this.ocultarTodoExcepto(0, ".Contenido_Estado");
         this.btnShowContent();
         this.interactuarInputConRuedaDelMouse();
@@ -72,14 +72,24 @@ class DOM{
     btnShowContent = function() {
         const botones = document.querySelectorAll(".boton");
         const arrBotones = this.devolverArrayHTML(botones);
+        const http = new XMLHttpRequest();
+        const contenedor = document.getElementsByClassName("principal")[0];
+        
         arrBotones.forEach( (elem, index) => {
             elem.addEventListener( "click", () => {
-                this.ocultarTodoExcepto(index, ".principal", 
-                ()=>{},
-                ()=>{},
-                ()=>{},
-                this.activarCalibracion
-                );
+                const url = `http://localhost:3000/menu/${index + 1}`;
+                http.open("GET", url);
+                http.onreadystatechange = function () {
+                    if (this.readyState === 4 && this.status === 200) {
+                        contenedor.innerHTML = this.response;
+                    }
+                }
+                // this.ocultarTodoExcepto(index, ".principal", 
+                // ()=>{},
+                // ()=>{},
+                // ()=>{},
+                // this.activarCalibracion
+                // );
             } )
         } )
     }
@@ -277,5 +287,9 @@ class DOM{
         dataArray.forEach( (dato, index) => {
             sensores[index].innerHTML = dato;
         } )
+    }
+
+    pedirContenido = function () {
+        this.
     }
 }
