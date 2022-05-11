@@ -151,9 +151,7 @@ class DOM{
         setTimeout( ()=>{
             const posicionOriginal = document.getElementsByClassName("control")[0];
             const padre = estado.parentNode;
-            console.log(padre);
             posicionOriginal.appendChild(estado);
-            // padre.removeChild(estado);
             fondo.parentNode.removeChild(fondo);
         }, 1000 );
     }
@@ -312,6 +310,28 @@ class DOM{
     oscurecerFondo = function () {
         const fondo = document.getElementsByClassName("oscurecido")[0];
         const estado = document.getElementsByClassName("subsection")[1];
-        fondo.appendChild(estado);
+        const botonContinuar = document.getElementsByClassName("contenedorIntroduccion")[0];
+        fondo.insertBefore(estado, botonContinuar);
+        this.introduccion();
+    }
+
+    introduccion = function () {
+        const html = document.querySelectorAll(".oscurecido>section");
+        const secciones = this.devolverArrayHTML(html);
+        secciones[0].setAttribute("style", "display: none;");
+        const boton = document.getElementsByClassName("botonIntroduccion")[0];
+        boton.addEventListener("click", function(){
+            if (secciones[0].getAttribute("style") === "display: none;") {
+                secciones[0].setAttribute("style", "display: block;");
+                secciones[1].setAttribute("style", "display: none;");
+                this.innerHTML = "Regresar al proyecto";
+            }
+            else{
+                secciones[1].setAttribute("style", "display: block;");
+                secciones[0].setAttribute("style", "display: none;");
+                this.innerHTML = "Creadores";
+            }
+            
+        });
     }
 }
