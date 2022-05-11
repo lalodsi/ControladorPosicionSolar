@@ -288,8 +288,4 @@ class DOM{
             sensores[index].innerHTML = dato;
         } )
     }
-
-    pedirContenido = function () {
-        this.
-    }
 }

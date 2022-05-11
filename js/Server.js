@@ -1,5 +1,6 @@
 const socketIo = require("socket.io")
 const express = require('express');
+const routerApi = require("./routes");
 
 class Server{
     sockets = {
@@ -33,6 +34,12 @@ class Server{
         })
         // Enviar la carpeta public al servidor
         this.app.use(express.static('public'))
+        routerApi(this.app);
+        // this.app.get('/menu/:id', function (req, res) {
+        //     const { id } = req.params;
+        //     console.log(`Se realizó una peticion con el id: ${id}`);
+        //     res.json({estado: "excelente"});
+        // })
     }
 
     /**
