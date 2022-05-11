@@ -29,6 +29,7 @@ class DOM{
 
         this.comenzarConexion = false;
         this.botonComenzarRecepcionDeDatos();
+        this.oscurecerFondo();
     }
 
 
@@ -84,10 +85,10 @@ class DOM{
             if (index === 3) {
                 this.activarCalibracion();
                 this.activarForms();
-                this.interactuarInputConRuedaDelMouse()
+                this.interactuarInputConRuedaDelMouse();
             }
             if (index === 2) {
-                this.interactuarInputConRuedaDelMouse()
+                this.interactuarInputConRuedaDelMouse();
             }
         }.bind(this);
 
@@ -140,6 +141,21 @@ class DOM{
             this.socket.emit(this.eventosSockets.requestConnection, {connect: false})
             this.ocultarTodoExcepto(0, ".Contenido_Estado");
         })
+    }
+
+    desvanecerFondo = function () {
+        const estado = document.getElementsByClassName("estado")[0];
+        estado.className = "subsection estado animado";
+        const fondo = document.getElementsByClassName("oscurecido")[0];
+        fondo.className = "desvanecido";
+        setTimeout( ()=>{
+            const posicionOriginal = document.getElementsByClassName("control")[0];
+            const padre = estado.parentNode;
+            console.log(padre);
+            posicionOriginal.appendChild(estado);
+            // padre.removeChild(estado);
+            fondo.parentNode.removeChild(fondo);
+        }, 1000 );
     }
 
     /**
@@ -291,5 +307,11 @@ class DOM{
         dataArray.forEach( (dato, index) => {
             sensores[index].innerHTML = dato;
         } )
+    }
+
+    oscurecerFondo = function () {
+        const fondo = document.getElementsByClassName("oscurecido")[0];
+        const estado = document.getElementsByClassName("subsection")[1];
+        fondo.appendChild(estado);
     }
 }

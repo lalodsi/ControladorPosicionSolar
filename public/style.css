@@ -235,4 +235,43 @@ input{
 .main-svg{
     /* background-color: #00000000; */
 }
-/* /Graficas */
+/* Animación de inicio */
+.oscurecido > .estado, .desvanecido > .estado{
+    /* height: 5; */
+    width: calc((100% - 120px)*.4);
+    /* transition: all 500ms; */
+}
+.desvanecido > .animado{
+    /* transform: translate(74%, 187px); */
+    /* transform: translate(74%, 150%); */
+    transform: translateY(-200px);
+    opacity: 0;
+    
+    transition: all 500ms ease;
+}
+.oscurecido, .desvanecido{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    transition: all 500ms ease;
+}
+.oscurecido{
+    background-color: rgba(0,0,0,0.9);
+}
+.oscurecido:hover{
+    background-color: rgba(0,0,0,0.85);
+
+}
+.desvanecido{
+    opacity: 0;
+}
+.presentacion{
+    margin-bottom: 20px;
+}

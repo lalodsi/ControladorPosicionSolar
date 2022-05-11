@@ -14,6 +14,7 @@ socket.on('arduinoConnectionState', data => {
     dom.activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         dom.ocultarTodoExcepto(2, ".Contenido_Estado");
+        dom.desvanecerFondo();
     } else {
         dom.ocultarTodoExcepto(0, ".Contenido_Estado");
     }

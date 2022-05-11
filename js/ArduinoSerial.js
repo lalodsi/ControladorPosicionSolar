@@ -27,7 +27,7 @@ class ArduinoSerial{
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
     init = async function (port, socket, server) {
-        await this.wait(this.mensajes.connecting);
+        await this.wait(500, this.mensajes.connecting);
         this.server = server;
         this.port = await this.establishConnection(port, socket);
         this.parser = new ReadlineParser();
@@ -70,12 +70,14 @@ class ArduinoSerial{
      * @param {string} message mensaje que mostrar en el servidor
      * @returns {Promise}
      */
-    wait = function (message) {
+    wait = function (time, message) {
         return new Promise( (resolve, reject)=> {
-            console.log(message);
+            if (message) {
+                console.log(message);
+            }
             setTimeout(() => {
                 resolve(true)
-            }, 500);
+            }, time);
         })
     }
 
@@ -113,7 +115,7 @@ class ArduinoSerial{
      * Desconecta el arduino del puerto serie
      */
     disconnect = async function (socket, servidor) {
-        await this.wait(this.mensajes.disconnecting);
+        await this.wait(500, this.mensajes.disconnecting);
         await this.port.close();
         console.log(this.mensajes.ArduinoDisconnection);
         this.isConnected = false;
