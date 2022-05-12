@@ -8,9 +8,10 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
-// Variables para el movimiento
+// Variables para el movimiento del motor a pasos
   int marcha = 0;
-  int pasos = 1;
+  int ciclos = 0;
+  int pasos = 0;
 
 String entrada;
 
@@ -20,8 +21,8 @@ void setup() {
 }
 
 void loop() {
-  
-  // enviarSensores();
+  // SPL_algorithm();
+  // moverY(1);
 
   if (Serial.available())
   {
@@ -74,78 +75,76 @@ void enviarSensores(){
     }
 
     delay(100);
+    SPL_algorithm();
   }
   
 }
 
 void SPL_algorithm(){
-  // int sensor1 = sensor1.getData();
-  // int sensor2 = sensor2.getData();
-  // int sensor3 = sensor3.getData();
-  // int sensor4 = sensor4.getData();
-  // int sensor5 = sensor5.getData();
+  const float umbral = 30; // Sirve de referencia para la comparación
 
-  const float umbral = 0.01; // Sirve de referencia para la comparación
+  int diferenciaY = sensor2.getData() - sensor4.getData();
+  int diferenciaX = sensor3.getData() - sensor5.getData();
+  
+  if (sensor1.getData() > umbral)
+  {
+    if ( abs(diferenciaY) > umbral ){
+      moverY(diferenciaY);
+    }
 
-
-  // if (sensor1 > umbral)
-  // {
-  //   if ( abs(sensor2 - sensor4) > umbral ){
-  //     moverY();
-  //   }
-
-  //   if ( abs(sensor3 - sensor5) > umbral ){
-  //     moverX();
-  //   }
-  // }
+    if ( abs(diferenciaX) > umbral ){
+      moverX();
+    }
+  }
   
 }
 
-void moverY(int velocidad){
-  
-
+void moverY(int direccion){
   marcha++;
+  ciclos = marcha / 4;
+  pasos = (marcha - (ciclos * 4)) + 1;
 
-  if (marcha > velocidad){
-    pasos++;
+  if (direccion < 0)
+  {
+    pasos = 5 - pasos;
   }
   
 
   switch (pasos)
   {
   case 1:
-    digitalWrite(1, HIGH);
-    digitalWrite(2, LOW);
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    break;
-  
-  case 2:
-    digitalWrite(1, LOW);
     digitalWrite(2, HIGH);
     digitalWrite(3, LOW);
     digitalWrite(4, LOW);
+    digitalWrite(5, HIGH);
+    break;
+  
+  case 2:
+    digitalWrite(2, HIGH);
+    digitalWrite(3, LOW);
+    digitalWrite(4, HIGH);
+    digitalWrite(5, LOW);
     break;
   
   case 3:
-    digitalWrite(1, LOW);
     digitalWrite(2, LOW);
     digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
+    digitalWrite(4, HIGH);
+    digitalWrite(5, LOW);
     break;
   
   case 4:
-    digitalWrite(1, LOW);
     digitalWrite(2, LOW);
-    digitalWrite(3, LOW);
-    digitalWrite(4, HIGH);
+    digitalWrite(3, HIGH);
+    digitalWrite(4, LOW);
+    digitalWrite(5, HIGH);
     break;
   
   default:
-    digitalWrite(1, LOW);
     digitalWrite(2, LOW);
     digitalWrite(3, LOW);
     digitalWrite(4, LOW);
+    digitalWrite(5, LOW);
     break;
   }
 }
