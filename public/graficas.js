@@ -181,7 +181,7 @@ class graficas{
         this.homeTrace.x[1] = (this.dirX - 512) / 512;
         this.homeTrace.y[1] = (this.dirY - 512) / 512;
         this.homeTrace.z[1] = (this.dirZ - 512) / 512;
-        return [homeTrace];
+        return [this.homeTrace];
     }
 
 }
