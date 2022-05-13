@@ -136,8 +136,8 @@ class DOM{
         const botonDesconectar = document.getElementById('botonDesconectar')
         botonDesconectar.addEventListener('click', ()=>{
             this.socket.emit(this.eventosSockets.requestConnection, {connect: false})
-            this.ocultarTodoExcepto(0, ".Contenido_Estado");
-            // this.introduccion();
+            this.reaparecerFondo();
+            setTimeout( ()=> this.ocultarTodoExcepto(0, ".Contenido_Estado"), 500 );
         })
     }
 
@@ -170,6 +170,22 @@ class DOM{
             fondo.insertBefore(estadoConexion, botonIntroduccion);
             estadoConexion.className = "subsection estado";
         }, 500 );
+    }
+
+    errorAlIntentarConectar = function (message) {
+        const estadoConexion = document.getElementById("estadoConexion");
+        estadoConexion.className = "subsection estado temblor";
+        setTimeout( () => estadoConexion.className = "subsection estado", 500 );
+        const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
+        const fondo = document.getElementById("fondoIntroduccion");
+        // Crear la alerta
+        const mensaje = document.createElement("div");
+        mensaje.className = "subsection errorMessage";
+        mensaje.innerHTML = `Error: ${message}`;
+        // Colocar la alerta
+        fondo.insertBefore(mensaje, botonIntroduccion);
+        setTimeout( () => mensaje.className = "subsection errorMessageBye", 1500);
+        setTimeout( () => mensaje.parentNode.removeChild(mensaje), 2000);
     }
 
     /**

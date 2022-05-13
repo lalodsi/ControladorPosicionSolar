@@ -21,10 +21,10 @@ socket.on('arduinoConnectionState', data => {
     } else {
         if (data.error) {
             dom.ocultarTodoExcepto(0, ".Contenido_Estado");
+            dom.errorAlIntentarConectar(data.message);
         }
         else{
             dom.ocultarTodoExcepto(0, ".Contenido_Estado");
-            dom.reaparecerFondo();
         }
     }
 })

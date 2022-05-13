@@ -294,7 +294,6 @@ input{
     margin-bottom: 20px;
     background-color: var(--fondoTransparente);
     border: 5px solid var(--fondoContenidoEstado);
-
 }
 .contenedorIntroduccion{
     width: 30%;
@@ -302,4 +301,32 @@ input{
     /* position: absolute; */
     /* bottom: 0px; */
     /* left: 0px; */
+}
+
+@-webkit-keyframes temblor{
+    0%{-webkit-transform: translate(0px, 0px);}
+    10%{-webkit-transform: translate(20px, 0px);}
+    20%{-webkit-transform: translate(0px, 0px);}
+    30%{-webkit-transform: translate(20px, 0px);}
+    40%{-webkit-transform: translate(0px, 0px);}
+    50%{-webkit-transform: translate(20px, 0px);}
+    60%{-webkit-transform: translate(0px, 0px);}
+    70%{-webkit-transform: translate(20px, 0px);}
+    80%{-webkit-transform: translate(0px, 0px);}
+    90%{-webkit-transform: translate(20px, 0px);}
+    100%{-webkit-transform: translate(0px, 0px);}
+}
+#estadoConexion{
+    transition: all 500ms ease;
+}
+.temblor{
+    -webkit-animation: temblor 0.5s 1;
+    background-color: rgba(160, 0, 0, 0.652);
+}
+.errorMessage{
+    font-size: 25px;
+}
+.errorMessageBye{
+    transition: all 500ms ease;
+    opacity: 0;
 }
