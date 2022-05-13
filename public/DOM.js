@@ -137,6 +137,7 @@ class DOM{
         botonDesconectar.addEventListener('click', ()=>{
             this.socket.emit(this.eventosSockets.requestConnection, {connect: false})
             this.ocultarTodoExcepto(0, ".Contenido_Estado");
+            // this.introduccion();
         })
     }
 
@@ -146,16 +147,31 @@ class DOM{
      * Función que se ejecuta sólo cuando el servidor haya comunicado una conexión exitosa con el arduino
      */
     desvanecerFondo = function () {
-        const estado = document.getElementsByClassName("estado")[0];
+        const estado = document.getElementById("estadoConexion");
         estado.className = "subsection estado animado";
-        const fondo = document.getElementsByClassName("oscurecido")[0];
+        const fondo = document.getElementById("fondoIntroduccion");
         fondo.className = "desvanecido";
         setTimeout( ()=>{
             const posicionOriginal = document.getElementsByClassName("control")[0];
             const padre = estado.parentNode;
             posicionOriginal.appendChild(estado);
-            fondo.parentNode.removeChild(fondo);
-        }, 1000 );
+            fondo.className = "desvanecido desaparecido";
+            estado.className = "subsection estado"
+        }, 500 );
+    }
+
+    reaparecerFondo = function () {
+        const fondo = document.getElementById("fondoIntroduccion");
+        const estadoConexion = document.getElementById("estadoConexion");
+        estadoConexion.className = "subsection estado animado";
+        fondo.className = "desvanecido";
+        setTimeout( () => {
+            const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
+            fondo.className = "oscurecido";
+            fondo.insertBefore(estadoConexion, botonIntroduccion);
+            estadoConexion.className = "subsection estado";
+            // 
+        }, 500 );
     }
 
     /**
@@ -319,11 +335,11 @@ class DOM{
      * Además se tiene el detalle de mostrar una sección donde vienen los nombres de los creadores del proyecto
      */
     introduccion = function () {
-        const fondo = document.getElementsByClassName("oscurecido")[0];
-        const estado = document.getElementsByClassName("subsection")[1];
+        const fondo = document.getElementById("fondoIntroduccion");
+        const estadoConexion = document.getElementsByClassName("subsection")[1];
         const botonContinuar = document.getElementsByClassName("contenedorIntroduccion")[0];
-        fondo.insertBefore(estado, botonContinuar);
-        const html = document.querySelectorAll(".oscurecido>section");
+        fondo.insertBefore(estadoConexion, botonContinuar);
+        const html = document.querySelectorAll("#fondoIntroduccion>section");
         const secciones = this.devolverArrayHTML(html);
         secciones[0].setAttribute("style", "display: none;");
         const boton = document.getElementsByClassName("botonIntroduccion")[0];

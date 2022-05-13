@@ -256,7 +256,7 @@ input{
     width: calc((100% - 120px)*.4);
     /* transition: all 500ms; */
 }
-.desvanecido > .animado{
+.animado{
     /* transform: translate(74%, 187px); */
     /* transform: translate(74%, 150%); */
     transform: translateY(-200px);
@@ -286,6 +286,9 @@ input{
 }
 .desvanecido{
     opacity: 0;
+}
+.desaparecido{
+    display: none;
 }
 .presentacion{
     margin-bottom: 20px;

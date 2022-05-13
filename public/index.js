@@ -20,6 +20,7 @@ socket.on('arduinoConnectionState', data => {
         dom.desvanecerFondo();
     } else {
         dom.ocultarTodoExcepto(0, ".Contenido_Estado");
+        dom.reaparecerFondo();
     }
 })
 // Tratamiento de datos en modo monitoreo
