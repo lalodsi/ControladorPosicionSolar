@@ -3,10 +3,17 @@
     --verdeMenta: #1fffbc;
     --verdeDiscreto: #4ca78c;
     --fondo: #0e1826;
-    --fondoContenidoEstado: #294D53;
+    --fondoDato: #00000069;
+    --fondoDatoHover: #00000079;
+    --fondoContenidoEstado: #294D5348;
+    --fondoBotonHoverAzul: #4c6375;
     --fondoTransparente: rgba(0, 0, 0, 0.3);
     --rojo: rgb(48, 0, 0);
     --rojoPresionado: rgb(80, 0, 0);
+    --colorTexto: white;
+    --colorDescripcion: #959595;
+    --fondoBoton: #ffffff2a;
+    --fondoBotonHover: #959595;
   }
 
 body{
@@ -35,10 +42,11 @@ input{
 }
 
 .section, .subsection{
-    color: white;
+    color: var(--colorTexto);
     padding: 10px;
     /* background: var(--fondoContenidoEstado); */
-    background: rgba(255, 255, 255, 0.15);
+    /* background: rgba(255, 255, 255, 0.15); */
+    background: var(--fondoTransparente);
     border-radius: 15px;
     text-align: center;
     display:block;
@@ -82,16 +90,16 @@ input{
 }
 
 .conectado{
-    color: rgb(151 255 168);
+    color: var(--verdeClaro);/* color: rgb(151 255 168); */
     font-size: 40px;
 }
 .desconectado{
     margin-top: 0;
     font-size: 25px;
-    color: rgb(255, 255, 255);
+    color: var(--colorTexto);
 }
 .conectando{
-    color:azure;
+    color:var(--colorTexto);
 }
 .conectando{
     font-size: 40px;
@@ -101,37 +109,41 @@ input{
     border: none;
     padding: 10px;
     width: 100%;
-    background-color: #ffffff2a;
+    background-color: var(--fondoBoton);
     border-radius: 25px;
-    color: white;
+    color: var(--colorTexto);
     font-size: 26px;
     margin-bottom: 15px;
     font-family: inherit;
 }
 .boton:hover, .botonStart:hover, .botonIntroduccion:hover{
-    background-color: #959595;
+    transition: all 500ms ease;
+    background-color: var(--fondoBotonHover);
     cursor: pointer;
 }
 .botonArduino{
     display: block;
     width: 100%;
     padding: 12px;
-    color: white;
+    color: var(--colorTexto);
     border-style: none;
     font-size: 16px;
 }
 .botonArduino.conectar{
-    background-color: rgba(255, 255, 255, 0.15);
+    transition: all 500ms ease;
+    background-color: var(--fondoBoton);
 }
 .botonArduino.conectar:hover{
-    background-color: rgba(255, 255, 255, 0.35);
+    /* background-color: rgba(255, 255, 255, 0.35); */
+    background-color: var(--fondoBotonHover);
     cursor: pointer;
 }
 .botonArduino.desconectar{
-    background-color: #3a131361;
+    transition: all 500ms ease;
+    background-color: var(--rojo);
 }
 .botonArduino.desconectar:hover{
-    background-color: #8d0c0c61;
+    background-color: var(--rojoPresionado);
     cursor: pointer;
 }
 .Contenido_Estado > div{
@@ -144,13 +156,13 @@ input{
     text-align: left;
 }
 .menuConectar{
-    color: #a5a5a5;
+    color: var(--colorTexto);
     font-size: 18px;
     padding: 10px;
 }
 .menuConectar > input{
     background-color: var(--fondoTransparente);
-    color: azure;
+    color: var(--colorTexto);
     /* border-style: none; */
     font-size: 18px;
     width: 150px;
@@ -165,7 +177,7 @@ input{
     width: 12px;
 }
 .contenido::-webkit-scrollbar-track{
-    background: rgba(0, 0, 0, 0);
+    background: var(--fondoTransparente);
 }
 .contenido::-webkit-scrollbar-thumb {
     background-color: var(--fondoContenidoEstado);
@@ -186,19 +198,20 @@ input{
     text-align: left;
 }
 .contenido .info{
-    color: #959595;
+    color: var(--colorDescripcion);
     text-align: left;
 }
 .contenido .botonContenido{
-    background-color: #606060;
+    background-color: var(--fondoBoton);
     color: white;
     border-style: none;
     padding: 10px 14px;
     border-radius: 10px;
     margin: 15px 5px;
+    transition: all 500ms ease;
 }
 .contenido .botonContenido:hover{
-    background-color: #4c6375;
+    background-color: var(--fondoBotonHoverAzul);
     /* font-weight: bold; */
     cursor: pointer;
 }
@@ -215,25 +228,27 @@ input{
     margin: 10px 0;
 }
 .dato{
-    background: #00000069;
+    background: var(--fondoDato);
     padding: 5px 10px;
     text-align: center;
 }
+.dato:hover{
+    background: var(--fondoDatoHover);
+}
 .start{
+    transition: all 500ms ease;
+    color: var(--colorTexto);
     background-color: var(--verdeDiscreto);
 }
 .start:hover{
     background-color: var(--verdeMenta);
 }
 .stop{
-    background-color: var(--rojo);
+    color: var(--colorTexto);
+    background-color: var(--fondoBotonHoverAzul);
 }
 .stop:hover{
-    background-color: var(--rojoPresionado);
-}
-/* Graficas */
-.main-svg{
-    /* background-color: #00000000; */
+    background-color: var(--fondoContenidoEstado);
 }
 /* Animación de inicio */
 .oscurecido > .estado, .desvanecido > .estado{
@@ -274,6 +289,9 @@ input{
 }
 .presentacion{
     margin-bottom: 20px;
+    background-color: var(--fondoTransparente);
+    border: 5px solid var(--fondoContenidoEstado);
+
 }
 .contenedorIntroduccion{
     width: 30%;
