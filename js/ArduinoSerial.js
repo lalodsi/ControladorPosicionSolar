@@ -11,6 +11,8 @@ class ArduinoSerial{
         errorConnecting: "Hubo un error al conectar con arduino: ",
         connectionSuccessful: "Conectado exitosamente al arduino",
         ArduinoDisconnection: "Se ha desconectado el Arduino",
+        ArduinoIsNoLongerConnected: "Parece que el arduino ya no se encuentra desconectado",
+        AppWereReseted: "Parece que el servidor se recargó y el arduino ya no está conectado",
         shareData: "Compartiendo datos",
     }
     
@@ -53,11 +55,21 @@ class ArduinoSerial{
             }, function (err) {
                 if (err) {
                     console.log(messages.errorConnecting, err);
-                    socket.emit(servidor.sockets.estadoArduino, {isConnected: false})
+                    socket.emit(servidor.sockets.estadoArduino, 
+                        {
+                            isConnected: false, 
+                            error: true, 
+                            message: err.message
+                        });
                     this.isConnected = false
                 } else {
                     console.log(messages.connectionSuccessful);
-                    socket.emit(servidor.sockets.estadoArduino, {isConnected: true})
+                    socket.emit(servidor.sockets.estadoArduino, 
+                        {
+                            isConnected: true, 
+                            error: false, 
+                            message: ""
+                        });
                     this.isConnected = true
                 }
             });
@@ -116,10 +128,20 @@ class ArduinoSerial{
      */
     disconnect = async function (socket, servidor) {
         await this.wait(500, this.mensajes.disconnecting);
-        await this.port.close();
-        console.log(this.mensajes.ArduinoDisconnection);
+        if (this.port) {
+            await this.port.close();
+            console.log(this.mensajes.ArduinoDisconnection);
+        }
+        else{
+            console.log(this.mensajes.AppWereReseted);
+        }
         this.isConnected = false;
-        socket.emit(servidor.sockets.estadoArduino, {isConnected: false})
+        socket.emit(servidor.sockets.estadoArduino, 
+            {
+                isConnected: false, 
+                error: false,
+                message: ""
+            });
     }
 
     analizaDatosDeEntrada = function (datos, socket, servidor) {

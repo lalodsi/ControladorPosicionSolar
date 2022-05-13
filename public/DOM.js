@@ -153,7 +153,6 @@ class DOM{
         fondo.className = "desvanecido";
         setTimeout( ()=>{
             const posicionOriginal = document.getElementsByClassName("control")[0];
-            const padre = estado.parentNode;
             posicionOriginal.appendChild(estado);
             fondo.className = "desvanecido desaparecido";
             estado.className = "subsection estado"
@@ -170,7 +169,6 @@ class DOM{
             fondo.className = "oscurecido";
             fondo.insertBefore(estadoConexion, botonIntroduccion);
             estadoConexion.className = "subsection estado";
-            // 
         }, 500 );
     }
 
