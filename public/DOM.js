@@ -27,6 +27,9 @@ class DOM{
         this.comenzarConexion = false;
         this.botonComenzarRecepcionDeDatos();
         this.introduccion();
+        this.botonConectarConArduino();
+        this.activarBotonComenzar("desactivado");
+        this.activarBotonActualizar();
     }
 
 
@@ -122,8 +125,10 @@ class DOM{
      * 
      */
     botonConectarConArduino = function () {
-        const botonConectar = document.getElementById('botonConectar')
-        const puerto = document.getElementsByClassName('port')[0].value
+        const botonConectar = document.getElementById('botonConectar');
+        this.actualizarPuertos();
+        const puerto = 200
+        // const puerto = document.getElementsByClassName('port')[0].value
         const data = {
             connect: true,
             port: puerto
@@ -139,6 +144,37 @@ class DOM{
             this.reaparecerFondo();
             setTimeout( ()=> this.ocultarTodoExcepto(0, ".Contenido_Estado"), 500 );
         })
+    }
+
+    actualizarPuertos = async function () {
+        const puertos = document.getElementById("puertos");
+        puertos.innerHTML = "";
+
+        // Obtener la lista de puertos
+        const url = `http://localhost:3000/api/v1/menu/ports`;
+        const response = await fetch(url);
+        const responseList = await response.json();
+
+        // Añadir una primer opción
+        const primerOpcion = document.createElement("option");
+        primerOpcion.setAttribute("value", 0 );
+        primerOpcion.innerHTML = "Elige un puerto";
+        puertos.appendChild(primerOpcion);
+
+        // Añadir las demás opciones
+        responseList.forEach( (puerto, index) => {
+            const opcion = document.createElement("option");
+            opcion.setAttribute("value", puerto.path );
+            opcion.innerHTML = puerto.friendlyName;
+            puertos.appendChild(opcion);
+        });
+    }
+
+    activarBotonActualizar = function () {
+        const boton = document.getElementById("botonActualizar");
+        boton.addEventListener("click", ()=>{
+            this.actualizarPuertos();
+        });
     }
 
     /**
@@ -304,7 +340,7 @@ class DOM{
     }
 
     /**
-     * Activa o desactiva el botón para comenzar el envío de datos según el estado del arduino
+     * Activa o desactiva el botón para comenzar el envío de datos según el parámetro entrante que determina el estado del arduino
      * @param {boolean} data bandera para activar o desactivar el boton comenzar
      */
     activarBotonComenzar = function (state) {

@@ -1,9 +1,6 @@
 const socket = io();
 const dom = new DOM(socket);
 
-dom.botonConectarConArduino();
-dom.activarBotonComenzar("desactivado")
-
 // Gráficas a generar
 const graficaSensores = new graficas("Sensores");
 const representacion3D = new graficas("robot3d");
@@ -33,6 +30,10 @@ socket.on('data', data => {
     dom.asignaDatos(data);
     graficaSensores.draw("sensores", data);
     representacion3D.draw3d("robot3d", data);
+});
+// Informacion de puertos
+socket.on("ports", data => {
+    console.log(data);
 });
 
 

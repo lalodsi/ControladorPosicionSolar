@@ -30,10 +30,14 @@
                     </div>
                     <div class="menuConectar">
                             <p class="info">Establecer una conexión con arduino</p>
-                            <div class="dosColumnas">
+                            <!-- <div class="dosColumnas">
                                 <label for="port">Puerto:</label>
                                 <input class="port" type="text" value="COM3">
-                            </div>
+                            </div> -->
+                            <select name="puerto" id="puertos">
+                                <option value="1">Elige un puerto</option>
+                            </select>
+                            <button id="botonActualizar">🔄</button>
                             <button id="botonConectar" class="botonArduino conectar">Conectar</button>
                         </div>
                 </div>
