@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require('node:path');
 const router = express.Router();
+const { SerialPort } = require("serialport");
 
 router.get('/contenido/:id', function (req, res) {
     const { id } = req.params;
@@ -25,6 +26,11 @@ router.get('/contenido/:id', function (req, res) {
 
 router.get('/test', function (req, res) {
     res.json({state: 'ok'});
+})
+
+router.get('/ports', async function (req, res) {
+    const puertos = await SerialPort.list();
+    res.json(puertos);
 })
 
 module.exports = router

@@ -155,6 +155,11 @@ class ArduinoSerial{
         // Enviar datos al servidor por web sockets
         socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
     }
+
+    enviarPuertosDisponibles = async function (socket, servidor) {
+        const puertos = await SerialPort.list();
+        socket.emit("ports", puertos);
+    }
     
 }
 
