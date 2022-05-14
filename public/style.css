@@ -293,7 +293,7 @@ input{
 .presentacion{
     margin-bottom: 20px;
     background-color: var(--fondoTransparente);
-    border: 5px solid var(--fondoContenidoEstado);
+    border: 5px solid var(--verdeDiscreto);
 }
 .contenedorIntroduccion{
     width: 30%;
@@ -329,4 +329,44 @@ input{
 .errorMessageBye{
     transition: all 500ms ease;
     opacity: 0;
+}
+.contenedorPuertos{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: flex-end;
+}
+.listaPuertos, #botonActualizar{
+    margin: 0%;
+    padding: 0%;
+    height: 30px;
+    color: var(--verdeMenta);
+    background-color: var(--fondoTransparente);
+}
+.listaPuertos{
+    width: 80%;
+    font-size: 18px;
+}
+.listaPuertos option{
+    background-color: var(--fondoTransparente);
+}
+.listaPuertos option:focus{
+    background-color: var(--verdeDiscreto);
+}
+.listaPuertos option[selected]{
+    background-color: var(--fondoBotonHoverAzul);
+}
+#botonActualizar{
+    width: 30px;
+    margin-left: 20px;
+    background: url("./iconActualizar.png");
+    background-size:cover;
+    background-repeat: no-repeat;
+    font-size: 30px;
+    border: none;
+}
+#botonActualizar:hover{
+    cursor: pointer;
+    -webkit-transform: rotate(360deg);
+    transition: 1s linear;
 }

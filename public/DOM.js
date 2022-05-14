@@ -127,13 +127,13 @@ class DOM{
     botonConectarConArduino = function () {
         const botonConectar = document.getElementById('botonConectar');
         this.actualizarPuertos();
-        const puerto = 200
-        // const puerto = document.getElementsByClassName('port')[0].value
-        const data = {
-            connect: true,
-            port: puerto
-        }
         botonConectar.addEventListener('click', ()=>{
+            const puerto = document.getElementById("puertos").value;
+            const data = {
+                connect: true,
+                port: puerto
+            }
+            console.log(data);
             this.socket.emit(this.eventosSockets.requestConnection, data);
             this.ocultarTodoExcepto(1, ".Contenido_Estado");
         })
@@ -157,7 +157,8 @@ class DOM{
 
         // Añadir una primer opción
         const primerOpcion = document.createElement("option");
-        primerOpcion.setAttribute("value", 0 );
+        primerOpcion.setAttribute("disabled", "" );
+        primerOpcion.setAttribute("selected", "" );
         primerOpcion.innerHTML = "Elige un puerto";
         puertos.appendChild(primerOpcion);
 
