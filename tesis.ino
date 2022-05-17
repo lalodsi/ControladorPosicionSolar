@@ -9,9 +9,12 @@ sensor sensor4(A3);
 sensor sensor5(A4);
 
 // Variables para el movimiento del motor a pasos
-  int marcha = 0;
-  int ciclos = 0;
-  int pasos = 0;
+  int marchaRotacion = 0;
+  int marchaElevacion = 0;
+  int ciclosRotacion = 0;
+  int ciclosElevacion = 0;
+  int pasosRotacion = 0;
+  int pasosElevacion = 0;
 
 String entrada;
 
@@ -100,58 +103,70 @@ void SPL_algorithm(){
 }
 
 void moverY(int direccion){
-  marcha++;
-  ciclos = marcha / 4;
-  pasos = (marcha - (ciclos * 4)) + 1;
+  marchaElevacion++;
+  ciclosElevacion = marchaElevacion / 4;
+  pasosElevacion = (marchaElevacion - (ciclosElevacion * 4)) + 1;
 
   if (direccion < 0)
   {
-    pasos = 5 - pasos;
+    pasosElevacion = 5 - pasosElevacion;
   }
   
+  moverMotor(pasosElevacion, 1, 2, 3, 4);
+  
+}
+void moverX(){
+  marchaRotacion++;
+  ciclosRotacion = marchaRotacion / 4;
+  pasosRotacion = (marchaRotacion - (ciclosRotacion * 4)) + 1;
 
+  if (direccion < 0)
+  {
+    pasosRotacion = 5 - pasosRotacion;
+  }
+
+  moverMotor(pasosRotacion, 5, 6, 7, 8);
+}
+
+void moverMotor(int pasos, int input1, int input2, int input3, int input4){
   switch (pasos)
   {
   case 1:
-    digitalWrite(2, HIGH);
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    digitalWrite(5, HIGH);
+    digitalWrite(input1, HIGH);
+    digitalWrite(input2, LOW);
+    digitalWrite(input3, LOW);
+    digitalWrite(input4, HIGH);
     break;
   
   case 2:
-    digitalWrite(2, HIGH);
-    digitalWrite(3, LOW);
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
+    digitalWrite(input1, HIGH);
+    digitalWrite(input2, LOW);
+    digitalWrite(input3, HIGH);
+    digitalWrite(input4, LOW);
     break;
   
   case 3:
-    digitalWrite(2, LOW);
-    digitalWrite(3, HIGH);
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
+    digitalWrite(input1, LOW);
+    digitalWrite(input2, HIGH);
+    digitalWrite(input3, HIGH);
+    digitalWrite(input4, LOW);
     break;
   
   case 4:
-    digitalWrite(2, LOW);
-    digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
-    digitalWrite(5, HIGH);
+    digitalWrite(input1, LOW);
+    digitalWrite(input2, HIGH);
+    digitalWrite(input3, LOW);
+    digitalWrite(input4, HIGH);
     break;
   
   default:
-    digitalWrite(2, LOW);
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    digitalWrite(5, LOW);
+    digitalWrite(input1, LOW);
+    digitalWrite(input2, LOW);
+    digitalWrite(input3, LOW);
+    digitalWrite(input4, LOW);
     break;
   }
 }
-void moverX(){
-  // 
-}
-
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
  * 
