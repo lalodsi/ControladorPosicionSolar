@@ -101,7 +101,7 @@ class ArduinoSerial{
         console.log("Activada la recepción de información desde arduino");
         this.parser.on('data', data => {
             try{
-                console.log(data);
+                // console.log(data);
                 const datos = JSON.parse(data);
                 // console.log(datos.accion);
                 if (datos.accion === "monitoreo") 

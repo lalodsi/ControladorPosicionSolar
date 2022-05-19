@@ -92,6 +92,14 @@ class graficas{
         //     range: [-1, 1]
         // },
     };
+    ciclosDeDatos = 0;
+    conjuntoDeDatos = [
+        [],
+        [],
+        [],
+        [],
+        [],
+    ];
 
     constructor(title){
         this.layout2D.title = title;
@@ -184,4 +192,58 @@ class graficas{
         return [this.homeTrace];
     }
 
+    analisisANOVA = function (data, DOM) {
+        function promedio(conjunto) {
+            const suma = conjunto.reduce( (acc, curr) => acc + curr );
+            return suma / conjunto.length;
+        }
+        const CANTIDAD_DE_MEDICIONES = 10;
+        this.ciclosDeDatos++;
+
+        // Teniendo la cantidad de muestras adecuadas se hace el procedimiento
+        if (this.ciclosDeDatos > CANTIDAD_DE_MEDICIONES) {
+            this.ciclosDeDatos = 1;
+
+            //Datos principales
+            const n = this.conjuntoDeDatos[0].length;
+            const gradosDeLibertad = n - 1;
+            // Promedio de los datos de cada grupo de mediciones
+            const promedios = this.conjuntoDeDatos.map( promedio );
+            // Varianza de cada grupo
+            const varianzas = promedios.map( (promX, index) => {
+                const diferenciaAlCuadrado = this.conjuntoDeDatos[index].reduce( (acc, curr) => acc += Math.pow(curr - promX,2), 0);
+                return (diferenciaAlCuadrado / gradosDeLibertad);
+            } );
+            // Promedio de los promedios de los sensores
+            const promedioTotal = promedio(promedios);
+            // Cálculo de S2PE
+            const diferenciaAlCuadrado = promedios.reduce( (acc, curr) => acc += Math.pow(curr - promedioTotal, 2), 0 );
+            const S2PE = promedio(varianzas);
+            const S2Factor = diferenciaAlCuadrado * n / (gradosDeLibertad);
+
+            //Enviar la informacion al DOM
+            DOM.asignaDatosPromediosSensores(promedios);
+            DOM.asignaDatosVarianzasSensores(varianzas);
+            DOM.asignaDatosPromedioTotal(promedioTotal);
+            DOM.asignaDatosS2PE(S2PE);
+            DOM.asignaDatosS2Factor(S2Factor);
+
+            // Borrar
+            this.conjuntoDeDatos.forEach( data => data = [] );
+            this.conjuntoDeDatos[0] = [];
+            this.conjuntoDeDatos[1] = [];
+            this.conjuntoDeDatos[2] = [];
+            this.conjuntoDeDatos[3] = [];
+            this.conjuntoDeDatos[4] = [];
+        }
+        else{
+            if (this.conjuntoDeDatos[0].length > CANTIDAD_DE_MEDICIONES) {
+                this.conjuntoDeDatos.forEach( datos => datos.shift() );
+            }
+            if (this.conjuntoDeDatos[0].length < CANTIDAD_DE_MEDICIONES){
+                this.conjuntoDeDatos.forEach( (datos, i) => datos.push(data[i]) );
+            }
+        }
+    }
+    
 }

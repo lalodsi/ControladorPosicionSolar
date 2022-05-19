@@ -27,9 +27,10 @@ socket.on('arduinoConnectionState', data => {
 })
 // Tratamiento de datos en modo monitoreo
 socket.on('data', data => {
-    dom.asignaDatos(data);
+    dom.asignaDatosSensores(data);
     graficaSensores.draw("sensores", data);
     representacion3D.draw3d("robot3d", data);
+    graficaSensores.analisisANOVA(data, dom);
 });
 // Informacion de puertos
 socket.on("ports", data => {
