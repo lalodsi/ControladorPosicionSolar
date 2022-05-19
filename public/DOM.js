@@ -368,13 +368,36 @@ class DOM{
      * TODO: Crecer esta funcion para separar todos los datos 
      * @param {Array} dataArray Datos recibidos del arduino
      */
-    asignaDatos = function (dataArray) {
-        const sensores = document.querySelectorAll("#showSensores");
-        if (sensores.length) {
-            dataArray.forEach( (dato, index) => {
-                sensores[index].innerHTML = dato;
-            } )
+    asignaDatos = function (dataArray, id) {
+        const Elementos = document.querySelectorAll(id);
+        if (Elementos.length) {
+            if (Elementos.length > 1) {
+                dataArray.forEach( (dato, index) => {
+                    Elementos[index].innerHTML = dato.toFixed(2);
+                } )
+            }
+            else{
+                Elementos[0].innerHTML = dataArray.toFixed(2);
+            }
         }
+    }
+    asignaDatosSensores = function (dataArray) {
+        this.asignaDatos(dataArray, "#showSensores");
+    }
+    asignaDatosPromediosSensores = function (dataArray) {
+        this.asignaDatos(dataArray, "#showPromedios");
+    }
+    asignaDatosVarianzasSensores = function (dataArray) {
+        this.asignaDatos(dataArray, "#showVarianzas");
+    }
+    asignaDatosPromedioTotal = function (dataArray) {
+        this.asignaDatos(dataArray, "#showPromedioTotal");
+    }
+    asignaDatosS2PE = function (dataArray) {
+        this.asignaDatos(dataArray, "#showS2PE");
+    }
+    asignaDatosS2Factor = function (dataArray) {
+        this.asignaDatos(dataArray, "#showS2factor");
     }
 
     /**
