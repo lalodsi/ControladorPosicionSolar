@@ -220,6 +220,7 @@ class graficas{
             const diferenciaAlCuadrado = promedios.reduce( (acc, curr) => acc += Math.pow(curr - promedioTotal, 2), 0 );
             const S2PE = promedio(varianzas);
             const S2Factor = diferenciaAlCuadrado * n / (gradosDeLibertad);
+            const F = S2Factor / S2PE;
 
             //Enviar la informacion al DOM
             DOM.asignaDatosPromediosSensores(promedios);
@@ -227,6 +228,7 @@ class graficas{
             DOM.asignaDatosPromedioTotal(promedioTotal);
             DOM.asignaDatosS2PE(S2PE);
             DOM.asignaDatosS2Factor(S2Factor);
+            DOM.asignaDatosF(F);
 
             // Borrar
             this.conjuntoDeDatos.forEach( data => data = [] );

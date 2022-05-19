@@ -399,6 +399,9 @@ class DOM{
     asignaDatosS2Factor = function (dataArray) {
         this.asignaDatos(dataArray, "#showS2factor");
     }
+    asignaDatosF = function (dataArray) {
+        this.asignaDatos(dataArray, "#showF");
+    }
 
     /**
      * # Introduccion

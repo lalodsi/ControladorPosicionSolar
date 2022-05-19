@@ -9,6 +9,9 @@ const representacion3D = new graficas("robot3d");
 socket.on('connect', ()=>{
     console.log(socket.id);
 })
+socket.on('disconnect', ()=>{
+    console.log("Desconectado");
+})
 // Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
     dom.activarBotonComenzar( data.isConnected? "start" : "desactivado" )
