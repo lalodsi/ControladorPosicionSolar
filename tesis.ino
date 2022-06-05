@@ -46,7 +46,7 @@ void loop() {
   }
 
   // SPL_algorithm();
-  delay(100);
+  delay(12000);
 }
 
 void enviarSensores(){
@@ -96,38 +96,21 @@ void SPL_algorithm(){
     }
 
     if ( abs(diferenciaX) > umbral ){
-      moverX();
+      moverX(diferenciaX);
     }
   }
   
 }
-
-void moverY(int direccion){
-  marchaElevacion++;
-  ciclosElevacion = marchaElevacion / 4;
-  pasosElevacion = (marchaElevacion - (ciclosElevacion * 4)) + 1;
-
-  if (direccion < 0)
-  {
-    pasosElevacion = 5 - pasosElevacion;
-  }
-  
-  moverMotor(pasosElevacion, 1, 2, 3, 4);
-  
-}
-void moverX(){
-  marchaRotacion++;
-  ciclosRotacion = marchaRotacion / 4;
-  pasosRotacion = (marchaRotacion - (ciclosRotacion * 4)) + 1;
+void Mover(int *marcha, int *ciclos, int *pasos, int direccion){
+  *marcha = *marcha + 1;
+  *ciclos = *marcha / 4;
+  *pasos = (*marcha - (*ciclos * 4)) + 1;
 
   if (direccion < 0)
   {
-    pasosRotacion = 5 - pasosRotacion;
+    *pasos = 5 - *pasos;
   }
-
-  moverMotor(pasosRotacion, 5, 6, 7, 8);
 }
-
 void moverMotor(int pasos, int input1, int input2, int input3, int input4){
   switch (pasos)
   {
@@ -168,6 +151,29 @@ void moverMotor(int pasos, int input1, int input2, int input3, int input4){
   }
 }
 /**
+ * @brief Se moverá el motor para la elevación del sistema
+ * 
+ * @param direccion numero entero que representa la dirección a donde el motor estará moviendose
+ */
+void moverY(int direccion){
+
+  Mover(&marchaElevacion, &ciclosElevacion, &pasosElevacion, &direccion);
+  
+  moverMotor(pasosElevacion, 1, 2, 3, 4);
+  
+}
+/**
+ * @brief Se moverá el motor para la rotación del sistema
+ * 
+ */
+void moverX(int direccion){
+  
+  Mover(&marchaRotacion, &ciclosRotacion, &pasosRotacion, &direccion);
+  
+  moverMotor(pasosRotacion, 5, 6, 7, 8);
+}
+
+/**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
  * 
  */
@@ -202,11 +208,6 @@ void calibrar(){
     }
 
   Serial.flush();
-    // if (entrada.equals("salir"))
-    // {
-    //   break;
-    // }
-    
 
   // Serial.println("Calibracion");
 }
