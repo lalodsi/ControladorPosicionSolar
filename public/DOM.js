@@ -88,7 +88,26 @@ class DOM{
                 this.interactuarInputConRuedaDelMouse();
             }
             if (index === 2) {
-                this.interactuarInputConRuedaDelMouse();
+                this.interactuarInputConRuedaDelMouse( ()=>{
+                    const azimut = document.getElementById("azimut").value;
+                    const elevacion = document.getElementById("elevacion").value;
+                    this.socket.emit(this.eventos.enviarPalabra,
+	                {word: `${azimut},${elevacion}`, message: "Se envio la informacion"}
+		            );
+                } );
+                this.socket.emit(this.eventos.enviarPalabra,
+                    {word: "salir", message: "Se envio la palabra salir"}
+                );
+                setTimeout(() => {
+                    this.socket.emit(this.eventos.enviarPalabra,
+                        {word: "controlar", message: "Se envio la palabra controlar"}
+                    );
+                }, 200);
+            }
+            if (index === 0) {
+                this.socket.emit(this.eventos.enviarPalabra,
+                    {word: "salir", message: "Se envio la palabra salir"}
+                    );
             }
         }.bind(this);
 
@@ -332,11 +351,15 @@ class DOM{
      * Activa un event listener en los input numéricos de modo que sus valores puedan
      * ser modificados con la rueda del mouse
      */
-    interactuarInputConRuedaDelMouse = function () {
+    interactuarInputConRuedaDelMouse = function ( callback ) {
         const entradasDocument = document.querySelectorAll('input[type="number" i]')
         const entradas = this.devolverArrayHTML(entradasDocument);
         entradas.forEach( (entrada) => {
-            entrada.addEventListener('wheel', ()=>{});
+            entrada.addEventListener('wheel', ()=>{
+                if (callback) {
+                    callback();
+                }
+            });
         })
     }
 
