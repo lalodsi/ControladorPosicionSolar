@@ -92,7 +92,7 @@ class graficas{
         //     range: [-1, 1]
         // },
     };
-    ciclosDeDatos = 0;
+    cantidadMediciones = 0;
     conjuntoDeDatos = [
         [],
         [],
@@ -197,12 +197,12 @@ class graficas{
             const suma = conjunto.reduce( (acc, curr) => acc + curr );
             return suma / conjunto.length;
         }
-        const CANTIDAD_DE_MEDICIONES = 10;
-        this.ciclosDeDatos++;
+        const CANTIDAD_MAXIMA_DE_MEDICIONES = 10;
+        this.cantidadMediciones++;
 
         // Teniendo la cantidad de muestras adecuadas se hace el procedimiento
-        if (this.ciclosDeDatos > CANTIDAD_DE_MEDICIONES) {
-            this.ciclosDeDatos = 1;
+        if (this.cantidadMediciones > CANTIDAD_MAXIMA_DE_MEDICIONES) {
+            this.cantidadMediciones = 1;
 
             //Datos principales
             const n = this.conjuntoDeDatos[0].length;
@@ -239,10 +239,10 @@ class graficas{
             this.conjuntoDeDatos[4] = [];
         }
         else{
-            if (this.conjuntoDeDatos[0].length > CANTIDAD_DE_MEDICIONES) {
+            if (this.conjuntoDeDatos[0].length > CANTIDAD_MAXIMA_DE_MEDICIONES) {
                 this.conjuntoDeDatos.forEach( datos => datos.shift() );
             }
-            if (this.conjuntoDeDatos[0].length < CANTIDAD_DE_MEDICIONES){
+            if (this.conjuntoDeDatos[0].length < CANTIDAD_MAXIMA_DE_MEDICIONES){
                 this.conjuntoDeDatos.forEach( (datos, i) => datos.push(data[i]) );
             }
         }
