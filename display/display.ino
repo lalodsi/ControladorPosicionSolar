@@ -1,38 +1,28 @@
-#include <LiquidCrystal.h>
-// #include <util/atomic.h>
+#include <LiquidCrystal_I2C.h>
+// #include "MenuLCD.h"
 
 #define ENCODER_DT 6
 #define ENCODER_CLK 7
 #define BOTON 8
 
+// Variables para el display
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+LiquidCrystal_I2C lcd(0x27,20,4);  // set the LCD address to 0x27 for a 16 chars and 2 line display
+// LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 // Variables para el encoder mecánico
 bool edoBoton = false;
+int contadorBoton = 0;
 int nivel = 0;
 unsigned int contadorEncoder = 0;
-
-
 
 int numero = 0;
 
 void setup(){
+	lcd.init();                      // initialize the lcd 
+  	lcd.backlight();
 	pinMode(ENCODER_DT, INPUT);
 	pinMode(ENCODER_CLK, INPUT);
-	LastState = digitalRead(ENCODER_CLK);
-
-	lcd.begin(20,4);
-	// PantallaHome(0,3);
-	//  PantallaMenu(0,1);
-	Pintar(
-		"UPIITA",
-		"UPIITA",
-		"Numero: ______",
-		"              ",
-		0,0,false
-	);
-
-	
+	pinMode(BOTON, INPUT);
 
 	attachInterrupt(digitalPinToInterrupt(ENCODER_DT),leerEncoder,RISING);
 }
@@ -40,34 +30,69 @@ void setup(){
 void loop(){
 	delay(4);
 
-	// lcd.setCursor(9, 2);
-	// lcd.print("____");
-	// lcd.setCursor(9, 2);
-	// lcd.print(numero);
-
+	// Delay del boton
 	if(debounce(BOTON)){
-		edoBoton = true
+		edoBoton = true;
 		contadorEncoder = 1;
+		contadorBoton ++;
   	}
+	else edoBoton = false;
+
+	// lcd.setCursor(9,1);
+	// lcd.print(contadorEncoder);
+	// lcd.setCursor(9,2);
+	// lcd.print(contadorBoton);
 
 	switch (nivel)
 	{
 	case 0:
-		PantallaHome(0,3,false);
+		Home();
 		break;
 	case 1:
-		PantallaMenu(0,1,false);
+		MenuPrincipal();
 		break;
 	case 2:
-		PantallaLecturas(0,1,false);
-		PantallaCalibrar(0,1,false);
+		PantallaLecturas(0,1);
+		PantallaCalibrar(0,1);
 		break;
 	
 	default:
-		PantallaHome(0,3,false);
+		PantallaHome(0,3);
 		break;
 	}
 }
+
+
+	// Pintar(
+	// );
+
+//Función para la lectura del encoder
+void leerEncoder(){
+	int b = digitalRead(ENCODER_CLK);
+	if(b > 0){
+		contadorEncoder++;
+	}
+	else{
+		contadorEncoder--;
+	}
+}
+
+
+
+//Función anti-rebote
+bool debounce(byte input){
+	bool state = false;
+	if(! digitalRead(input)){
+		delay(200);
+		while(! digitalRead(input));
+		delay(200);
+		state = true;
+	}      
+	return state;   
+}
+
+
+// Funciones para el display
 
 void Pintar(String line1, String line2, String line3, String line4,int col,int row, bool cursor){
 	lcd.setCursor(0,0);
@@ -95,6 +120,37 @@ void PintarYBarrer(){
 	//  	o matriz de caracteres desde el valor i hasta i + 4, los valores de i se modificarán
 	//		con el movimiento de un encoder mecánico
 }
+void Home() {
+	PantallaHome(0,3);
+	if (edoBoton)
+	{
+		nivel++;
+		edoBoton = false;
+	}
+}
+
+void MenuPrincipal(){
+	PantallaMenu(0,1);
+
+	if (contadorEncoder > 3) contadorEncoder = 1;
+	if (contadorEncoder < 1) contadorEncoder = 3;
+
+    if (edoBoton)
+    {
+		switch (contadorEncoder)
+		{
+		case (1):
+			Calibrar();
+			break;
+		
+		case (2):
+			Lecturas();
+			break;
+		}
+    }
+}
+
+
 void PantallaHome(int col, int row){
 	Pintar(
 		"-----Bienvenido-----",
@@ -140,64 +196,13 @@ void PantallaCalibrar(int col, int row){
 		"                   ",
 		0,0,false
 	};
-
-	// Pintar(
-	// );
-}
-//Función para la lectura del encoder
-void leerEncoder(){
-	int b = digitalRead(ENCODER_CLK);
-	if(b > 0){
-		contadorEncoder++;
-	}
-	else{
-		contadorEncoder--;
-	}
 }
 
-function Home() {
-	if (edoBoton)
-	{
-		nivel++;
-	}
+void Lecturas(){
+	PantallaLecturas(0,0);
 }
 
-function MenuPrincipal(){
-	PantallaMenu()
-	if (contadorEncoder > 3) contadorEncoder = 1;
-	if (contadorEncoder < 1) contadorEncoder = 3;
-
-    if (edoBoton)
-    {
-		switch (contadorEncoder)
-		{
-		case (1):
-			Calibrar();
-			break;
-		
-		case (2):
-			Lecturas();
-			break;
-		}
-    }
+void Calibrar(){
+	PantallaCalibrar(0,0);
 }
 
-function Lecturas(){
-	PantallaLecturas();
-}
-
-function Calibrar(){
-	PantallaCalibrar();
-}
-
-//Función anti-rebote
-bool debounce(byte input){
-	bool state = false;
-	if(! digitalRead(input)){
-		delay(200);
-		while(! digitalRead(input));
-		delay(200);
-		state = true;
-	}      
-	return state;   
-}
