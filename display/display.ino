@@ -1,17 +1,23 @@
 #include <LiquidCrystal.h>
+// #include <util/atomic.h>
+
+#define ENCODER_DT 6
+#define ENCODER_CLK 7
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 // Variables para el encoder mecánico
-const int encoder_dt = 6, encoder_clk = 7;
 int LastState, State;
+//Variable global de posición compartida con la interrupción
+volatile int theta = 0;
+
 
 int numero = 0;
 
 void setup(){
-	pinMode(encoder_dt, INPUT);
-	pinMode(encoder_clk, INPUT);
-	LastState = digitalRead(encoder_clk);
+	pinMode(ENCODER_DT, INPUT);
+	pinMode(ENCODER_CLK, INPUT);
+	LastState = digitalRead(ENCODER_CLK);
 
 	lcd.begin(20,4);
 	// PantallaPrincipal(0,3);
@@ -23,31 +29,17 @@ void setup(){
 		"              ",
 		0,0,false
 	);
+
+	attachInterrupt(digitalPinToInterrupt(ENCODER_DT),leerEncoder,RISING);
 }
 
 void loop(){
-	State = digitalRead(encoder_clk);
-	if (State != LastState)
-	{
-		if (digitalRead(encoder_dt) != State)
-		{
-			numero++;
-		}
-		else
-		{
-			numero--;
-		}
-	}
-	LastState = State;
 	delay(4);
 
-	
-	
 	lcd.setCursor(9, 2);
 	lcd.print("____");
 	lcd.setCursor(9, 2);
 	lcd.print(numero);
-
 }
 
 void Pintar(String line1, String line2, String line3, String line4,int col,int row, bool cursor){
@@ -107,4 +99,14 @@ void PantallaLecturas(int col, int row){
 
 	// Pintar(
 	// );
+}
+//Función para la lectura del encoder
+void leerEncoder(){
+	int b = digitalRead(ENCODER_CLK);
+	if(b > 0){
+		numero++;
+	}
+	else{
+		numero--;
+	}
 }
