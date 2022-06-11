@@ -3,13 +3,15 @@
 
 #define ENCODER_DT 6
 #define ENCODER_CLK 7
+#define BOTON 8
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 // Variables para el encoder mecánico
-int LastState, State;
-//Variable global de posición compartida con la interrupción
-volatile int theta = 0;
+bool edoBoton = false;
+int nivel = 0;
+unsigned int contadorEncoder = 0;
+
 
 
 int numero = 0;
@@ -30,16 +32,41 @@ void setup(){
 		0,0,false
 	);
 
+	
+
 	attachInterrupt(digitalPinToInterrupt(ENCODER_DT),leerEncoder,RISING);
 }
 
 void loop(){
 	delay(4);
 
-	lcd.setCursor(9, 2);
-	lcd.print("____");
-	lcd.setCursor(9, 2);
-	lcd.print(numero);
+	// lcd.setCursor(9, 2);
+	// lcd.print("____");
+	// lcd.setCursor(9, 2);
+	// lcd.print(numero);
+
+	if(debounce(BOTON)){
+		edoBoton = true
+		contadorEncoder = 1;
+  	}
+
+	switch (nivel)
+	{
+	case 0:
+		PantallaHome(0,3,false);
+		break;
+	case 1:
+		PantallaMenu(0,1,false);
+		break;
+	case 2:
+		PantallaLecturas(0,1,false);
+		PantallaCalibrar(0,1,false);
+		break;
+	
+	default:
+		PantallaHome(0,3,false);
+		break;
+	}
 }
 
 void Pintar(String line1, String line2, String line3, String line4,int col,int row, bool cursor){
@@ -97,18 +124,21 @@ void PantallaLecturas(int col, int row){
 		"<- Regresar",
 	};
 
-	// Pintar(
-	// );
-}
-void PantallaCalibrar(int col, int row){
-	char menu[7][20] = {
+	Pintar(
 		"Lecturas",
 		"Sensor 1: ",
 		"Sensor 2: ",
 		"Sensor 3: ",
-		"Sensor 4: ",
-		"Sensor 5: ",
-		"<- Regresar",
+		0,0,false
+	);
+}
+void PantallaCalibrar(int col, int row){
+	char menu[7][20] = {
+		"Calibrar",
+		" Ajustar Fecha",
+		" Regresar",
+		"                   ",
+		0,0,false
 	};
 
 	// Pintar(
@@ -118,27 +148,37 @@ void PantallaCalibrar(int col, int row){
 void leerEncoder(){
 	int b = digitalRead(ENCODER_CLK);
 	if(b > 0){
-		numero++;
+		contadorEncoder++;
 	}
 	else{
-		numero--;
+		contadorEncoder--;
 	}
 }
 
 function Home() {
-    PantallaHome();
-
-    if (false)
-		MenuPrincipal();
+	if (edoBoton)
+	{
+		nivel++;
+	}
 }
 
 function MenuPrincipal(){
-    PantallaMenuPrincipal();
+	PantallaMenu()
+	if (contadorEncoder > 3) contadorEncoder = 1;
+	if (contadorEncoder < 1) contadorEncoder = 3;
 
-    if (false)
+    if (edoBoton)
     {
-        Calibrar();
-        Lecturas()
+		switch (contadorEncoder)
+		{
+		case (1):
+			Calibrar();
+			break;
+		
+		case (2):
+			Lecturas();
+			break;
+		}
     }
 }
 
@@ -148,4 +188,16 @@ function Lecturas(){
 
 function Calibrar(){
 	PantallaCalibrar();
+}
+
+//Función anti-rebote
+bool debounce(byte input){
+	bool state = false;
+	if(! digitalRead(input)){
+		delay(200);
+		while(! digitalRead(input));
+		delay(200);
+		state = true;
+	}      
+	return state;   
 }
