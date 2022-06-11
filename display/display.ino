@@ -57,6 +57,11 @@ void Pintar(String line1, String line2, String line3, String line4,int col,int r
 	 }
 	
 }
+void PintarYBarrer(){
+	// TODO: Crear una funcion que recorrar 4 strings consecutivos de un array de string
+	//  	o matriz de caracteres desde el valor i hasta i + 4, los valores de i se modificarán
+	//		con el movimiento de un encoder mecánico
+}
 void PantallaPrincipal(int col, int row){
 	Pintar(
 		"-----Bienvenido-----",
@@ -75,4 +80,17 @@ void PantallaMenu(int col, int row){
 		col, row
 	);
 }
+void PantallaLecturas(int col, int row){
+	char menu[7][20] = {
+		"Lecturas",
+		"Sensor 1: ",
+		"Sensor 2: ",
+		"Sensor 3: ",
+		"Sensor 4: ",
+		"Sensor 5: ",
+		"<- Regresar",
+	}
 
+	Pintar(
+	);
+}
