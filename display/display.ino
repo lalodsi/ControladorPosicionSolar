@@ -20,7 +20,7 @@ void setup(){
 	LastState = digitalRead(ENCODER_CLK);
 
 	lcd.begin(20,4);
-	// PantallaPrincipal(0,3);
+	// PantallaHome(0,3);
 	//  PantallaMenu(0,1);
 	Pintar(
 		"UPIITA",
@@ -68,7 +68,7 @@ void PintarYBarrer(){
 	//  	o matriz de caracteres desde el valor i hasta i + 4, los valores de i se modificarán
 	//		con el movimiento de un encoder mecánico
 }
-void PantallaPrincipal(int col, int row){
+void PantallaHome(int col, int row){
 	Pintar(
 		"-----Bienvenido-----",
 		"Fecha: 0/00/0",
@@ -100,6 +100,20 @@ void PantallaLecturas(int col, int row){
 	// Pintar(
 	// );
 }
+void PantallaCalibrar(int col, int row){
+	char menu[7][20] = {
+		"Lecturas",
+		"Sensor 1: ",
+		"Sensor 2: ",
+		"Sensor 3: ",
+		"Sensor 4: ",
+		"Sensor 5: ",
+		"<- Regresar",
+	};
+
+	// Pintar(
+	// );
+}
 //Función para la lectura del encoder
 void leerEncoder(){
 	int b = digitalRead(ENCODER_CLK);
@@ -109,4 +123,29 @@ void leerEncoder(){
 	else{
 		numero--;
 	}
+}
+
+function Home() {
+    PantallaHome();
+
+    if (false)
+		MenuPrincipal();
+}
+
+function MenuPrincipal(){
+    PantallaMenuPrincipal();
+
+    if (false)
+    {
+        Calibrar();
+        Lecturas()
+    }
+}
+
+function Lecturas(){
+	PantallaLecturas();
+}
+
+function Calibrar(){
+	PantallaCalibrar();
 }
