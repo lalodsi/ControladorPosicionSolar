@@ -2,25 +2,34 @@
 
 const int rs = 12, en = 11, d4 = 5, d5 = 4, d6 = 3, d7 = 2;
 LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+// Variables para el encoder mecánico
 const int encoder_dt = 6, encoder_clk = 7;
+int LastState, State;
 
 int numero = 0;
 
 void setup(){
 	pinMode(encoder_dt, INPUT);
 	pinMode(encoder_clk, INPUT);
+	LastState = digitalRead(encoder_clk);
 
 	lcd.begin(20,4);
 	// PantallaPrincipal(0,3);
-	 PantallaMenu(0,1);
-	
+	//  PantallaMenu(0,1);
+	Pintar(
+		"UPIITA",
+		"UPIITA",
+		"Numero: ______",
+		"              ",
+		0,0,false
+	);
 }
 
 void loop(){
-	if ( digitalRead(encoder_dt) == LOW )
+	State = digitalRead(encoder_clk);
+	if (State != LastState)
 	{
-		delay(5);
-		if ( digitalRead(encoder_clk) == HIGH )
+		if (digitalRead(encoder_dt) != State)
 		{
 			numero++;
 		}
@@ -29,14 +38,19 @@ void loop(){
 			numero--;
 		}
 	}
-	delay(100);
+	LastState = State;
+	delay(4);
+
 	
+	
+	lcd.setCursor(9, 2);
+	lcd.print("____");
 	lcd.setCursor(9, 2);
 	lcd.print(numero);
 
 }
 
-void Pintar(String line1, String line2, String line3, String line4,int col,int row){
+void Pintar(String line1, String line2, String line3, String line4,int col,int row, bool cursor){
 	lcd.setCursor(0,0);
 	lcd.print(line1);
 	lcd.setCursor(0,1);
@@ -46,7 +60,7 @@ void Pintar(String line1, String line2, String line3, String line4,int col,int r
 	lcd.setCursor(0,3);
 	lcd.print(line4);
 
-	while (true)
+	while (cursor)
 	 {
 	 	lcd.setCursor(col,row);
 	 	lcd.print(">");
@@ -68,7 +82,7 @@ void PantallaPrincipal(int col, int row){
 		"Fecha: 0/00/0",
 		"Hora: 00:00",
 		"  Menu",
-		col, row
+		col, row, true
 	);
 }
 void PantallaMenu(int col, int row){
@@ -77,7 +91,7 @@ void PantallaMenu(int col, int row){
 		" Calibrar",
 		" Lecturas",
 		" Regresar",
-		col, row
+		col, row, true
 	);
 }
 void PantallaLecturas(int col, int row){
@@ -89,8 +103,8 @@ void PantallaLecturas(int col, int row){
 		"Sensor 4: ",
 		"Sensor 5: ",
 		"<- Regresar",
-	}
+	};
 
-	Pintar(
-	);
+	// Pintar(
+	// );
 }
