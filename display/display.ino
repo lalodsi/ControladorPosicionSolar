@@ -15,6 +15,9 @@ int contadorBoton = 0;
 int nivel = 0;
 unsigned int contadorEncoder = 0;
 
+// Bandera para pintar una sola vez 
+bool DISPLAY_PAINTED = false;
+
 int numero = 0;
 
 void setup(){
@@ -32,16 +35,12 @@ void loop(){
 
 	// Delay del boton
 	if(debounce(BOTON)){
+		DISPLAY_PAINTED = false;
 		edoBoton = true;
 		contadorEncoder = 1;
 		contadorBoton ++;
   	}
 	else edoBoton = false;
-
-	// lcd.setCursor(9,1);
-	// lcd.print(contadorEncoder);
-	// lcd.setCursor(9,2);
-	// lcd.print(contadorBoton);
 
 	switch (nivel)
 	{
@@ -57,16 +56,12 @@ void loop(){
 		break;
 	
 	default:
-		PantallaHome(0,3);
+		Home();
 		break;
 	}
 }
 
-
-	// Pintar(
-	// );
-
-//Función para la lectura del encoder
+//Función para la lectura del encoder, funciona sólo en interrupciones
 void leerEncoder(){
 	int b = digitalRead(ENCODER_CLK);
 	if(b > 0){
@@ -75,9 +70,9 @@ void leerEncoder(){
 	else{
 		contadorEncoder--;
 	}
+	// Actualizar el display
+	DISPLAY_PAINTED = false;
 }
-
-
 
 //Función anti-rebote
 bool debounce(byte input){
@@ -95,25 +90,31 @@ bool debounce(byte input){
 // Funciones para el display
 
 void Pintar(String line1, String line2, String line3, String line4,int col,int row, bool cursor){
-	lcd.setCursor(0,0);
-	lcd.print(line1);
-	lcd.setCursor(0,1);
-	lcd.print(line2);
-	lcd.setCursor(0,2);
-	lcd.print(line3);
-	lcd.setCursor(0,3);
-	lcd.print(line4);
+	if (!DISPLAY_PAINTED)
+	{
+		lcd.clear();
 
-	while (cursor)
-	 {
-	 	lcd.setCursor(col,row);
-	 	lcd.print(">");
-	 	delay(500);
-	 	lcd.setCursor(col,row);
-	 	lcd.print(" ");
-	 	delay(500);
-	 }
+		lcd.setCursor(0,0);
+		lcd.print(line1);
+		lcd.setCursor(0,1);
+		lcd.print(line2);
+		lcd.setCursor(0,2);
+		lcd.print(line3);
+		lcd.setCursor(0,3);
+		lcd.print(line4);
+
+		lcd.setCursor(col,row);
+		lcd.print(">");
+		// while (cursor)
+		//  {
+		//  	delay(500);
+		//  	lcd.setCursor(col,row);
+		//  	lcd.print(" ");
+		//  	delay(500);
+		//  }
+	}
 	
+	DISPLAY_PAINTED = true;
 }
 void PintarYBarrer(){
 	// TODO: Crear una funcion que recorrar 4 strings consecutivos de un array de string
@@ -122,6 +123,7 @@ void PintarYBarrer(){
 }
 void Home() {
 	PantallaHome(0,3);
+	// Cambiar de pantalla aumentando nivel
 	if (edoBoton)
 	{
 		nivel++;
@@ -130,10 +132,11 @@ void Home() {
 }
 
 void MenuPrincipal(){
-	PantallaMenu(0,1);
+	// if (contadorEncoder > 3) contadorEncoder = 1;
+	// if (contadorEncoder < 1) contadorEncoder = 3;
+	limitar(&contadorEncoder, 1, 3);
 
-	if (contadorEncoder > 3) contadorEncoder = 1;
-	if (contadorEncoder < 1) contadorEncoder = 3;
+	PantallaMenu(0, contadorEncoder);
 
     if (edoBoton)
     {
@@ -146,10 +149,18 @@ void MenuPrincipal(){
 		case (2):
 			Lecturas();
 			break;
+
+		case (3):
+			nivel = 0;
+			break;
 		}
     }
 }
 
+void limitar(unsigned int *variable,int min,int max){
+	if (*variable > max) *variable = min;
+	if (*variable < min) *variable = max;
+}
 
 void PantallaHome(int col, int row){
 	Pintar(
@@ -157,7 +168,7 @@ void PantallaHome(int col, int row){
 		"Fecha: 0/00/0",
 		"Hora: 00:00",
 		"  Menu",
-		col, row, true
+		col, row, false
 	);
 }
 void PantallaMenu(int col, int row){
