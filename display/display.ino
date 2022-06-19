@@ -9,10 +9,11 @@
 // Variables para el encoder mecánico
 bool edoBoton = false;
 
-int contadorBoton = 0;
 
+// Nivel del LCD que estará mostrando
 int nivel = 0;
 
+// Contador para saber la posicion del encoder según su número
 unsigned int contadorEncoder = 0;
 
 // int numero = 0;
@@ -24,6 +25,8 @@ void setup(){
 	pinMode(ENCODER_CLK, INPUT);
 	pinMode(BOTON, INPUT);
 
+	Serial.begin(9600);
+
 	attachInterrupt(digitalPinToInterrupt(ENCODER_DT),leerEncoder,RISING);
 }
 
@@ -34,27 +37,24 @@ void loop(){
 	if(debounce(BOTON)){
 		DISPLAY_PAINTED = false;
 		edoBoton = true;
-		contadorEncoder = 1;
-		contadorBoton ++;
+		// contadorEncoder = 1;
   	}
 	else edoBoton = false;
 
 	switch (nivel)
 	{
-	case 0:
-		menuHome(&edoBoton, &nivel);
-		break;
-	case 1:
-		MenuPrincipal(edoBoton, contadorEncoder, &nivel);
-		break;
-	case 2:
-		PantallaLecturas(0,1);
-		PantallaCalibrar(0,1);
-		break;
-	
-	// default:
-	// 	menuHome(&edoBoton, &nivel);
-	// 	break;
+		case 0:
+			interfazMenuHome(&edoBoton, &nivel);
+			break;
+		case 1:
+			interfazMenuPrincipal(&edoBoton, &nivel, &contadorEncoder);
+			break;
+		case 2:
+			interfazCalibrar(&edoBoton, &nivel);
+			break;
+		case 3:
+			interfazLecturas(&edoBoton, &nivel);
+			break;
 	}
 }
 
