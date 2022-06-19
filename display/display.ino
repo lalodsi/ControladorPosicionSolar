@@ -10,8 +10,9 @@
 bool edoBoton = false;
 
 
-// Nivel del LCD que estará mostrando
+// Nivel del LCD que estará mostrando, prevNivel ayuda a registrar un cambio de nivel
 int nivel = 0;
+int prevNivel = 0;
 
 // Contador para saber la posicion del encoder según su número
 unsigned int contadorEncoder = 0;
@@ -40,6 +41,13 @@ void loop(){
 		// contadorEncoder = 1;
   	}
 	else edoBoton = false;
+
+	if (prevNivel != nivel)
+	{
+		DISPLAY_PAINTED = false;
+		prevNivel = nivel;
+	}
+	
 
 	switch (nivel)
 	{
