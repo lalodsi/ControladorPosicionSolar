@@ -7,6 +7,7 @@ class ArduinoSerial{
     mensajes = {
         arduinoRequest: "Se pidió una conexión con el arduino en el puerto ",
         connecting: "Conectando...",
+        checkingFailed: "Parece que el dispositivo conectado no trae el software necesario",
         disconnecting: "Desconectando...",
         errorConnecting: "Hubo un error al conectar con arduino: ",
         connectionSuccessful: "Conectado exitosamente al arduino",
@@ -31,7 +32,7 @@ class ArduinoSerial{
     init = async function (port, socket, server) {
         await this.wait(500, this.mensajes.connecting);
         this.server = server;
-        this.port = await this.establishConnection(port, socket);
+        this.port = this.establishConnection(port, socket);
         this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
         this.receiveData(socket);
@@ -47,13 +48,25 @@ class ArduinoSerial{
     establishConnection = function (port, socket) {
         const messages = this.mensajes
         const servidor = this.server;
-        return new Promise( function (resolve, reject) {
+        // Verificar que el arduino traiga el software
+        this.timeForVerifying = setTimeout(()=>{
+            socket.emit(this.server.sockets.versionSoftwareArduino, 
+                {
+                    hasTheProgram: false,
+                    message: "El dispositivo no tiene el software adecuado"
+                });    
+            console.log(this.mensajes.checkingFailed);
+            this.disconnect(socket, this.server);
+        }, 3000);
+
+        // return new Promise( function (resolve, reject) {
             console.log(messages.arduinoRequest + port);
             const serial = new SerialPort({
                 path: port,
                 baudRate: 115200
             }, function (err) {
                 if (err) {
+                    clearTimeout(this.timeForVerifying);
                     console.log(messages.errorConnecting, err);
                     socket.emit(servidor.sockets.estadoArduino, 
                         {
@@ -61,7 +74,7 @@ class ArduinoSerial{
                             error: true, 
                             message: err.message
                         });
-                    this.isConnected = false
+                        this.isConnected = false
                 } else {
                     console.log(messages.connectionSuccessful);
                     socket.emit(servidor.sockets.estadoArduino, 
@@ -73,8 +86,9 @@ class ArduinoSerial{
                     this.isConnected = true
                 }
             });
-            resolve(serial)
-        })
+            // resolve(serial)
+        // })
+        return serial;
     }
 
     /**
@@ -111,10 +125,20 @@ class ArduinoSerial{
                 if (datos.accion === "mensaje") {
                     console.log(datos.message);
                 }
+                if (datos.accion === "test") {
+                    clearTimeout(this.timeForVerifying);
+                    console.log(datos.message);
+                    socket.emit(this.server.sockets.versionSoftwareArduino, 
+                        {
+                            hasTheProgram: true,
+                            message: "El dispositivo tiene el software adecuado"
+                        });
+                }
             }
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);
                 this.disconnect(socket, this.server);
+                clearTimeout(this.timeForVerifying);
             }
         });
     }

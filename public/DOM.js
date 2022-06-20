@@ -152,7 +152,6 @@ class DOM{
                 connect: true,
                 port: puerto
             }
-            console.log(data);
             this.socket.emit(this.eventosSockets.requestConnection, data);
             this.ocultarTodoExcepto(1, ".Contenido_Estado");
         })
@@ -203,14 +202,22 @@ class DOM{
      * Función que se ejecuta sólo cuando el servidor haya comunicado una conexión exitosa con el arduino
      */
     desvanecerFondo = function () {
-        const estado = document.getElementById("estadoConexion");
-        estado.className = "subsection estado animado";
         const fondo = document.getElementById("fondoIntroduccion");
         fondo.className = "desvanecido";
         setTimeout( ()=>{
+            fondo.className = "desvanecido desaparecido";
+        }, 500 );
+        // Eliminar mensaje de verificación
+        const estadoVerificacion = document.getElementById("estadoVerificacion");
+        fondo.removeChild(estadoVerificacion)
+    }
+    
+    desvanecerMenuConexion = function name(params) {
+        const estado = document.getElementById("estadoConexion");
+        estado.className = "subsection estado animado";
+        setTimeout( ()=>{
             const posicionOriginal = document.getElementsByClassName("control")[0];
             posicionOriginal.appendChild(estado);
-            fondo.className = "desvanecido desaparecido";
             estado.className = "subsection estado"
         }, 500 );
     }
@@ -226,6 +233,38 @@ class DOM{
             fondo.insertBefore(estadoConexion, botonIntroduccion);
             estadoConexion.className = "subsection estado";
         }, 500 );
+    }
+
+    reaparecerMenuConexion = function () {
+        const fondo = document.getElementById("fondoIntroduccion");
+        const estadoConexion = document.getElementById("estadoConexion");
+        estadoConexion.className = "subsection estado animado";
+        // fondo.className = "desvanecido";
+        setTimeout( () => {
+            const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
+            // fondo.className = "oscurecido";
+            fondo.insertBefore(estadoConexion, botonIntroduccion);
+            estadoConexion.className = "subsection estado";
+        }, 500 );
+    }
+    
+    aparecerMenuVerificacion = function () {
+        const estadoVerificacion = document.createElement("div");
+        estadoVerificacion.id = "estadoVerificacion";
+        estadoVerificacion.className = "subsection estado animado";
+        estadoVerificacion.innerHTML = "Verificando versión de software";
+        const fondo = document.getElementById("fondoIntroduccion");
+        const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
+        fondo.insertBefore(estadoVerificacion, botonIntroduccion);
+        setTimeout( () => estadoVerificacion.className = "subsection estado", 500 );
+    }
+
+    eliminarMenuVerificacion = function () {
+        const estadoVerificacion = document.getElementById("estadoVerificacion")
+        const fondo = document.getElementById("fondoIntroduccion");
+        if (estadoVerificacion) {
+            fondo.removeChild(estadoVerificacion);
+        }
     }
 
     errorAlIntentarConectar = function (message) {

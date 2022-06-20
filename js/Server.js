@@ -5,6 +5,7 @@ const routerApi = require("./routes");
 class Server{
     sockets = {
         estadoArduino: 'arduinoConnectionState',
+        versionSoftwareArduino: 'arduinoSoftwareTest',
         iniciarConexion: 'connect-to-arduino',
         monitorear: "startSendingData",
         intercambiarDatos: "data",

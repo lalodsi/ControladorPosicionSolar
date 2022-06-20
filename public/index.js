@@ -12,12 +12,28 @@ socket.on('connect', ()=>{
 socket.on('disconnect', ()=>{
     console.log("Desconectado");
 })
+socket.on('arduinoSoftwareTest', data => {
+    if (data.hasTheProgram) {
+        console.log("Verificación de software aceptada");
+        dom.eliminarMenuVerificacion();
+        dom.desvanecerFondo();
+    }
+    else{
+        console.log("Software incorrecto");
+        dom.ocultarTodoExcepto(0, ".Contenido_Estado");
+        // dom.reaparecerFondo();
+        dom.eliminarMenuVerificacion();
+        dom.reaparecerMenuConexion();
+        setTimeout(()=>dom.errorAlIntentarConectar(data.message), 500);
+    }
+})
 // Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
     dom.activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         dom.ocultarTodoExcepto(2, ".Contenido_Estado");
-        dom.desvanecerFondo();
+        dom.desvanecerMenuConexion();
+        dom.aparecerMenuVerificacion();
     } else {
         if (data.error) {
             dom.ocultarTodoExcepto(0, ".Contenido_Estado");
