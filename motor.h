@@ -1,3 +1,11 @@
+// Variables para el movimiento del motor a pasos
+  int marchaRotacion = 0;
+  int marchaElevacion = 0;
+  int ciclosRotacion = 0;
+  int ciclosElevacion = 0;
+  int pasosRotacion = 0;
+  int pasosElevacion = 0;
+
 void Mover(int *marcha, int *ciclos, int *pasos, int direccion){
   *marcha = *marcha + 1;
   *ciclos = *marcha / 4;
@@ -56,7 +64,7 @@ void moverY(int direccion){
 
   Mover(&marchaElevacion, &ciclosElevacion, &pasosElevacion, direccion);
   
-  moverMotor(pasosElevacion, 1, 2, 3, 4);
+  // moverMotor(pasosElevacion, 3, 4, 3, 4);
   
 }
 /**
@@ -67,5 +75,5 @@ void moverX(int direccion){
   
   Mover(&marchaRotacion, &ciclosRotacion, &pasosRotacion, direccion);
   
-  moverMotor(pasosRotacion, 5, 6, 7, 8);
+  // moverMotor(pasosRotacion, 5, 6, 7, 8);
 }

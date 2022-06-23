@@ -9,24 +9,21 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
-// Variables para el movimiento del motor a pasos
-  int marchaRotacion = 0;
-  int marchaElevacion = 0;
-  int ciclosRotacion = 0;
-  int ciclosElevacion = 0;
-  int pasosRotacion = 0;
-  int pasosElevacion = 0;
+
 
 String entrada;
 
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(115200);
+  
+  // testProject();
 }
 
 void loop() {
   // SPL_algorithm();
   // moverY(1);
+
 
   if (Serial.available())
   {
@@ -43,11 +40,14 @@ void loop() {
     if(entrada.equals("monitorear")){
       enviarSensores();
     } 
+    if(entrada.equals("probar")){
+      testProject();
+    } 
     Serial.flush();
   }
 
   // SPL_algorithm();
-  delay(12000);
+  delay(100);
 }
 
 void enviarSensores(){
@@ -166,4 +166,8 @@ void controlar(){
     // Serial.println("La entrada es " + x + "," + y);
   }
   
+}
+
+void testProject(){
+  Serial.println("{\"accion\":\"test\",\"message\":\"successful\"}");
 }
