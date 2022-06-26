@@ -1,2 +1,2 @@
 *.exe
-/anova/main.c
+anova/main.c
