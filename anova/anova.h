@@ -40,13 +40,23 @@ double* Promedios(double **data, int i, int j){
     return promedios;
 }
 
-// Probar y documentar
-double Varianza(double *datos, int size, double X_prom){
+/**
+ * @brief Calcula la varianza de un arreglo de datos dado.
+ * Recibe como parámetro el apuntador al arreglo de datos, el tamaño del arreglo y el promedio de este
+ * mismo arreglo
+ * 
+ * @param datos 
+ * @param size 
+ * @param X_prom 
+ * @return double 
+ */
+double Varianza(double *datos, int size){
     const int GRADOS_DE_LIBERTAD = size - 1;
+    double promedio = Promedio(datos, size);
     double sumaAlCuadrado = 0;
     // Calcular las sumas al cuadrado
     for (int i = 0; i < size; i++)
-        sumaAlCuadrado += pow(datos[i] - X_prom, 2);
+        sumaAlCuadrado += pow(datos[i] - promedio, 2);
     
     double varianza = sumaAlCuadrado / GRADOS_DE_LIBERTAD;
     return varianza;
@@ -54,12 +64,12 @@ double Varianza(double *datos, int size, double X_prom){
 
 double* Varianzas(double **datos, int size){
     double *conjuntoVarianzas;
-    double *promedios = PromedioConjuntos(datos, size, size);
+    double *promedios = Promedios(datos, size, size);
     // Reservando memoria
     conjuntoVarianzas = malloc( size * sizeof(double) );
 
     for (int i = 0; i < size; i++)
-        conjuntoVarianzas[i] = Varianza(datos[i], size, promedios[i]);
+        conjuntoVarianzas[i] = Varianza(datos[i], size);
     return conjuntoVarianzas;
     
 }
