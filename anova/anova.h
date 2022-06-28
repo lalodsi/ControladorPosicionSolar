@@ -9,7 +9,7 @@
  * @param size tamaño del arreglo
  * @return double: promedio de los elementos contenidos en el arreglo
  */
-double Promedio(int *data, int size){
+double Promedio(double *data, int size){
     double suma = 0;
     for (int i = 0; i < size; i++)
         suma += data[i];
@@ -32,20 +32,35 @@ double Promedio(int *data, int size){
  * La función dará el resultado siguiente:
  * int *resultado = { 2 2 2 2 2 }
  */
-int* PromedioConjuntos(int **data, int i, int j){
-    int *promedios;
+double* Promedios(double **data, int i, int j){
+    double *promedios;
     promedios = malloc( i * sizeof(int) );
     for (int index = 0; index < i; index++)
         promedios[index] = Promedio(data[index], j);
     return promedios;
 }
 
-// Documentar
-void Varianza(int *datos, int size, double X_prom){
+// Probar y documentar
+double Varianza(double *datos, int size, double X_prom){
+    const int GRADOS_DE_LIBERTAD = size - 1;
     double sumaAlCuadrado = 0;
+    // Calcular las sumas al cuadrado
     for (int i = 0; i < size; i++)
-        sumaAlCuadrado = pow(datos[i] - X_prom, 2);
-    double 
+        sumaAlCuadrado += pow(datos[i] - X_prom, 2);
+    
+    double varianza = sumaAlCuadrado / GRADOS_DE_LIBERTAD;
+    return varianza;
+}
+
+double* Varianzas(double **datos, int size){
+    double *conjuntoVarianzas;
+    double *promedios = PromedioConjuntos(datos, size, size);
+    // Reservando memoria
+    conjuntoVarianzas = malloc( size * sizeof(double) );
+
+    for (int i = 0; i < size; i++)
+        conjuntoVarianzas[i] = Varianza(datos[i], size, promedios[i]);
+    return conjuntoVarianzas;
     
 }
 
