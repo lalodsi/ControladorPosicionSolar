@@ -87,7 +87,16 @@ double* Varianzas(double **datos, int size){
     return conjuntoVarianzas;
 }
 
+/**
+ * @brief Calcula el valor de S2PE de un arreglo bidimensional de datos. 
+ * > Es importante saber que se tomarán las filas de datos y no las columnas, si se desea conocer las columnas, enviar la matriz traspuesta a esta función para que trabaje correctamente
+ * 
+ * @param datos matriz de datos a la que se le desea obtener el valor de  S2PE
+ * @param size tamaño de la matriz N x N
+ * @return double resultado
+ */
 double S2PE(double **datos, int size){
     double *varianzas = Varianzas(datos, size);
+    return Promedio(varianzas, size);
 }
 
