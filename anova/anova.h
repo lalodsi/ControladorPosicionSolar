@@ -100,6 +100,13 @@ double S2PE(double **datos, int size){
     return Promedio(varianzas, size);
 }
 
+/**
+ * @brief Calcula el valor del S2Factor de un arreglo bidimensional de datos
+ * 
+ * @param datos arreglo bidimensional dinámico
+ * @param size tamaño del arreglo N x N
+ * @return double resultado
+ */
 double S2Factor(double **datos, int size){
     // Calcular promedios
     double *promedios = Promedios(datos, size, size);
@@ -110,4 +117,10 @@ double S2Factor(double **datos, int size){
         diff_to_square += pow(promedios[i] - promedioTotal, 2);
     double gdl = (double)size - 1;
     return diff_to_square * size / gdl;
+}
+
+double F_Value(double **datos, int size){
+    double s2pe_value = S2PE(datos, size);
+    double s2factor_value = S2Factor(datos, size);
+    return s2factor_value / s2pe_value;
 }
