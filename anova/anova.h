@@ -100,3 +100,14 @@ double S2PE(double **datos, int size){
     return Promedio(varianzas, size);
 }
 
+double S2Factor(double **datos, int size){
+    // Calcular promedios
+    double *promedios = Promedios(datos, size, size);
+    double promedioTotal = Promedio(promedios, size);
+    // Diferencia al cuadrado
+    double diff_to_square = 0;
+    for (int i = 0; i < size; i++)
+        diff_to_square += pow(promedios[i] - promedioTotal, 2);
+    double gdl = (double)size - 1;
+    return diff_to_square * size / gdl;
+}
