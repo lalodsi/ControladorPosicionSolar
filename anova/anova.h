@@ -17,7 +17,7 @@ double Promedio(double *data, int size){
 }
 
 /**
- * @brief Calcula un arreglo que contiene los promedios de cada columna de una matriz dada
+ * @brief Calcula un arreglo que contiene los promedios de cada fila de una matriz dada
  * 
  * @param data matriz de valores a calcular
  * @param i Columnas
@@ -33,21 +33,20 @@ double Promedio(double *data, int size){
  * int *resultado = { 2 2 2 2 2 }
  */
 double* Promedios(double **data, int i, int j){
-    double *promedios;
-    promedios = malloc( i * sizeof(int) );
+    double *resultado;
+    resultado = malloc( i * sizeof(int) );
     for (int index = 0; index < i; index++)
-        promedios[index] = Promedio(data[index], j);
-    return promedios;
+        resultado[index] = Promedio(data[index], j);
+    return resultado;
 }
 
 /**
  * @brief Calcula la varianza de un arreglo de datos dado.
- * Recibe como parámetro el apuntador al arreglo de datos, el tamaño del arreglo y el promedio de este
- * mismo arreglo
+ * Recibe como parámetro el apuntador al arreglo de datos, el tamaño del arreglo y el promedio 
+ * de este mismo arreglo
  * 
- * @param datos 
- * @param size 
- * @param X_prom 
+ * @param datos array del cual se obtendrá el valor de la varianza
+ * @param size Tamaño del array
  * @return double 
  */
 double Varianza(double *datos, int size){
@@ -62,26 +61,33 @@ double Varianza(double *datos, int size){
     return varianza;
 }
 
+/**
+ * @brief Obtiene el conjunto de varianzas para las filas de un arreglo bidimensional
+ * 
+ * @param datos matriz bidimencional que se estará evaluando
+ * @param size Tamaño de la matriz N x N (Debe ser cuadrada para que la función sea correcta)
+ * @return double* 
+ * Ejemplo, se tiene la siguiente matriz de 5 X 5:
+ * int **datos = {  7	12	14	19	 7
+ *                  7	17	18	25	10
+ *                 15	12	18	22	11
+ *                 11	18	19	19	15
+ *                  9	18	19	23	11 }
+ * Al aplicar la función en la matriz traspuesta de **datos, la función dará el 
+ * resultado siguiente:
+ * int *resultado = { 11.2	9.8	4.3	6.8	8.2 }
+ * Lo cual es el equivalente a obtener la varianza de cada matriz
+ */
 double* Varianzas(double **datos, int size){
     double *conjuntoVarianzas;
-    double *promedios = Promedios(datos, size, size);
     // Reservando memoria
     conjuntoVarianzas = malloc( size * sizeof(double) );
-
     for (int i = 0; i < size; i++)
         conjuntoVarianzas[i] = Varianza(datos[i], size);
     return conjuntoVarianzas;
-    
 }
 
-void aritmetica(){
-    int arreglo[] = { 1, 2, 3, 4, 5 };
-
-    size_t n = (&arreglo)[1] - arreglo;
-
-    printf("%d\n", (&arreglo)[1]);
-    printf("%d\n", (&arreglo));
-    printf("%d\n", (arreglo));
-    printf("%d\n", (&arreglo)[1] - arreglo);
-    printf("%d", n);
+double S2PE(double **datos, int size){
+    double *varianzas = Varianzas(datos, size);
 }
+

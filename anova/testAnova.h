@@ -29,7 +29,7 @@ void printArray(double *data,int size){
 }
 
 /**
- * @brief Obtiene la matriz transpuesta de una matriz de N x N dada
+ * @brief Convierte una matriz de N x N dada a su respectiva transpuesta
  * 
  * @param data matriz original
  * @param N dimenciones de la matriz N x N
