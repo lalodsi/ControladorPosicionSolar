@@ -119,6 +119,13 @@ double S2Factor(double **datos, int size){
     return diff_to_square * size / gdl;
 }
 
+/**
+ * @brief Calcula el valor F de un arreglo de datos bidimensional
+ * 
+ * @param datos arreglo bidimensional
+ * @param size tamaño del arreglo
+ * @return double resultado de la operación
+ */
 double F_Value(double **datos, int size){
     double s2pe_value = S2PE(datos, size);
     double s2factor_value = S2Factor(datos, size);
