@@ -1,3 +1,10 @@
+/**
+Tesis.ino
+Este archivo será el punto de entrada del proyecto, controlará todo el funcionamiento total
+del proyecto.
+
+*/
+
 #include "sensor.hpp"
 #include "math.h"
 #include "motor.h"
