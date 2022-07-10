@@ -52,7 +52,7 @@ class ArduinoSerial{
         this.timeForVerifying = setTimeout(()=>{
             socket.emit(this.server.sockets.versionSoftwareArduino, 
                 {
-                    hasTheProgram: false,
+                    hasTheProgram: true,
                     message: "El dispositivo no tiene el software adecuado"
                 });    
             console.log(this.mensajes.checkingFailed);

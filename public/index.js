@@ -29,6 +29,7 @@ socket.on('arduinoSoftwareTest', data => {
 })
 // Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
+    dom.enviarPalabraVerificacion();
     dom.activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         dom.ocultarTodoExcepto(2, ".Contenido_Estado");

@@ -10,7 +10,8 @@ class DOM{
     }
     eventosSockets = {
         requestConnection: "connect-to-arduino",
-        comenzarRecepcionDeDatos: "startSendingData"
+        comenzarRecepcionDeDatos: "startSendingData",
+        testearSoftware: "arduinoSoftwareTest"
 
     }
     
@@ -246,6 +247,12 @@ class DOM{
             fondo.insertBefore(estadoConexion, botonIntroduccion);
             estadoConexion.className = "subsection estado";
         }, 500 );
+    }
+
+    enviarPalabraVerificacion = function () {
+        this.socket.emit(this.eventosSockets.testearSoftware,
+            {testing: true}
+            );
     }
     
     aparecerMenuVerificacion = function () {

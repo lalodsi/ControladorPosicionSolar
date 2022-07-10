@@ -22,6 +22,12 @@ function sockets(socket) {
             arduino.disconnect(socket, servidor);
         }
     })
+    socket.on(servidor.sockets.versionSoftwareArduino, data => {
+        console.log("Comprobando el software cargado en el arduino");
+        if (data.testing) {
+            arduino.sendData("probar");
+        }
+    })
     socket.on(servidor.sockets.monitorear, data => {
         if (data.comenzar) {
             // arduino.receiveData(socket, data.comenzar);
