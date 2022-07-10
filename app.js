@@ -1,6 +1,7 @@
 const ArduinoSerial = require('./js/ArduinoSerial.js');
 const Server = require('./js/Server.js');
-console.clear()
+
+console.clear();
 
 // Requerir child_process
 var exec = require('child_process').exec;

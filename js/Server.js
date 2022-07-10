@@ -1,6 +1,8 @@
 const socketIo = require("socket.io")
 const express = require('express');
 const routerApi = require("./routes");
+const { BrowserWindow, app } = require('electron');
+const windowApp = require('electron').app;
 
 class Server{
     sockets = {
@@ -26,15 +28,40 @@ class Server{
     }
 
     /**
-     * Despliega el servidor y envía la carpeta public al cliente que se conecte
+     * Despliega el servidor, envía la carpeta public al cliente que se conecte
+     * y crea la ventana desde donde se mostrará el enlace
      */
     start = function() {
+
+        const createWindow = (port) => {
+            const win = new BrowserWindow({
+                width: 1200,
+                height: 700
+            })
+            
+            win.loadURL(`http://localhost:${port}`);
+        };
+
         this.app.set('port', process.env.PORT || 3000)
-        this.server.listen(this.app.get('port'), ()=>{
-            console.log('Servidor conectado en el puerto: ' + this.app.get('port'));
+        const port = this.app.get('port');
+        this.server.listen(port, ()=>{
+            console.log('Servidor conectado en el puerto: ' + port);
         })
         // Enviar la carpeta public al servidor
-        this.app.use(express.static('public'))
+        this.app.use(express.static('public'));
+        // Crear la ventana
+        windowApp.whenReady().then(() => {
+            createWindow(port);
+
+            app.on('activate', () => {
+                if (BrowserWindow.getAllWindows().length === 0) createWindow()
+              }) 
+        });
+        // Close windows i
+        windowApp.on('window-all-closed', () => {
+            if (process.platform !== 'darwin') windowApp.quit();
+        })
+
         routerApi(this.app);
     }
 

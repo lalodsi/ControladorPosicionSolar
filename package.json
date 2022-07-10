@@ -2,18 +2,21 @@
   "name": "Tesis",
   "version": "1.0.0",
   "type": "commonjs",
-  "description": "",
+  "description": "Mi tesis",
   "main": "./app.js",
   "scripts": {
     "dev": "npx nodemon ./app.js",
     "update": "git pull origin master; npm run dev",
-    "start": "node ./app.js",
-    "prueba": "node ./js/pruebaServer"
+    "start": "electron-forge start",
+    "prueba": "node ./js/pruebaServer",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "keywords": [],
   "author": "Luis Eduardo Rodriguez Ramirez",
   "license": "ISC",
   "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
     "express": "^4.17.2",
     "gitignore": "^0.7.0",
     "is-odd": "^3.0.1",
@@ -22,7 +25,39 @@
     "socket.io": "^4.4.1"
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.64",
+    "@electron-forge/maker-deb": "^6.0.0-beta.64",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.64",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
+    "@electron-forge/maker-zip": "^6.0.0-beta.64",
     "electron": "^19.0.8",
     "nodemon": "^2.0.15"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "Tesis"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
   }
 }
