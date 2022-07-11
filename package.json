@@ -2,10 +2,10 @@
   "name": "Tesis",
   "version": "1.0.0",
   "type": "commonjs",
-  "description": "Mi tesis",
+  "description": "Interfaz física para el seguidor solar construido",
   "main": "./app.js",
   "scripts": {
-    "dev": "npx nodemon ./app.js",
+    "dev": "npx electromon ./app.js",
     "update": "git pull origin master; npm run dev",
     "start": "electron-forge start",
     "prueba": "node ./js/pruebaServer",
@@ -16,6 +16,7 @@
   "author": "Luis Eduardo Rodriguez Ramirez",
   "license": "ISC",
   "dependencies": {
+    "electromon": "^1.0.10",
     "electron-squirrel-startup": "^1.0.0",
     "express": "^4.17.2",
     "gitignore": "^0.7.0",

@@ -1,7 +1,7 @@
 const socketIo = require("socket.io")
 const express = require('express');
 const routerApi = require("./routes");
-const { BrowserWindow, app } = require('electron');
+const { BrowserWindow, app, ipcMain } = require('electron');
 const windowApp = require('electron').app;
 
 class Server{
@@ -33,14 +33,7 @@ class Server{
      */
     start = function() {
 
-        const createWindow = (port) => {
-            const win = new BrowserWindow({
-                width: 1200,
-                height: 700
-            })
-            
-            win.loadURL(`http://localhost:${port}`);
-        };
+        
 
         this.app.set('port', process.env.PORT || 3000)
         const port = this.app.get('port');
@@ -49,18 +42,7 @@ class Server{
         })
         // Enviar la carpeta public al servidor
         this.app.use(express.static('public'));
-        // Crear la ventana
-        windowApp.whenReady().then(() => {
-            createWindow(port);
-
-            app.on('activate', () => {
-                if (BrowserWindow.getAllWindows().length === 0) createWindow()
-              }) 
-        });
-        // Close windows i
-        windowApp.on('window-all-closed', () => {
-            if (process.platform !== 'darwin') windowApp.quit();
-        })
+        
 
         routerApi(this.app);
     }
@@ -78,4 +60,44 @@ class Server{
 
 }
 
-module.exports = Server
+function startWindow() {
+    const createWindow = (port) => {
+        const win = new BrowserWindow({
+            width: 1200,
+            height: 700,
+            frame: false,
+            titleBarStyle: 'hidden',
+            webPreferences: {
+                preload: './preload.js',
+                nodeIntegration: true,
+                contextIsolation: true,
+                devTools: true,
+            }
+        })
+
+        // console.log(path.join(__dirname, 'preload.js'));
+        console.log(__dirname);
+
+        ipcMain.on('closeApp', ()=> {
+            win.close();
+        })
+        
+        win.loadURL(`http://localhost:${port}`);
+    };
+
+    // Crear la ventana
+    windowApp.whenReady().then(() => {
+        createWindow('3000');
+
+        app.on('activate', () => {
+            if (BrowserWindow.getAllWindows().length === 0) createWindow('3000')
+          }) 
+    });
+    // Close windows i
+    windowApp.on('window-all-closed', () => {
+        if (process.platform !== 'darwin') windowApp.quit();
+    })
+    return createWindow;
+}
+
+module.exports = {Server, startWindow};

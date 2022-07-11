@@ -10,80 +10,96 @@
     <title>Tesis</title>
 </head>
 <body>
-    <div class="control">
-        <section class="subsection menu">
-            <h2>Menú</h2>
-            <hr>
-            <div class="contenidoMenu">
-                <button class="boton">Información de Monitoreo</button>
-                <button class="boton">Gráficas</button>
-                <button class="boton">Control Manual</button>
-                <button class="boton">Panel de Control</button>
-                <button class="botonStart" id="startMonitoreo">Comenzar Monitoreo</button>
+    <div class="topBar">
+        <div class="titleBar">
+            <!-- <button class="toggleButton"></button> -->
+            <img src="" alt="">
+            <div class="title">
+                Tesis
             </div>
-        </section>
-        <section class="subsection estado" id="estadoConexion">
-            <div>
-                <div>Estado</div>
-                <div class="Contenido_Estado">
-                    <div id="state" class="desconectado">Desconectado
-                    </div>
-                    <div class="menuConectar">
-                            <p class="info">Establecer una conexión con arduino</p>
-                            <!-- <div class="dosColumnas">
-                                <label for="port">Puerto:</label>
-                                <input class="port" type="text" value="COM3">
-                            </div> -->
-                            <div class="contenedorPuertos">
-                                <select name="puerto" id="puertos" class="listaPuertos" aria-placeholder="">
-                                    <option value="1">Elige un puerto</option>
-                                </select>
-                                <button class="botonActualizar" id="botonActualizar"></button>
-                            </div>
-                            <button id="botonConectar" class="botonArduino conectar">Conectar</button>
-                        </div>
-                </div>
-                <div class="Contenido_Estado">
-                    <div id="state" class="conectando">Conectando...</div>
-                </div>
-                <div class="Contenido_Estado">
-                    <div id="state" class="conectado">Conectado</div>
-                    <button id="botonDesconectar" class="botonArduino desconectar">Desconectar</button>
-                </div>
-            </div>
-        </section>
+        </div>
+        <div class="titleBarBtns">
+            <button id="minimizeBtn" class="topBtn minimizeBtn"></button>
+            <button id="closeBtn" class="topBtn closeBtn"></button>
+        </div>
     </div>
-    <!-- Contenedor principal -->
-    <section class="section principal">
- 
-    </section>
-    <div class="oscurecido" id="fondoIntroduccion">
-        <section class="section presentacion">
-            <div class="contenido">
-                <p class="header">
-                    Sistema controlador de posición de dos grado de libertad para la orientación de paneles fotovoltaicos
-                </p>
-                <p class="subheader">Trabajo terminal para obtener el titulo de <strong>Ingeniero en Mecatrónica</strong></p>
-                <p class="subheader">Creadores</p>
-                <ul class="info">
-                    <li>Luis Eduardo Rodríguez Ramírez</li>
-                    <li>Néstor Alberto Ruiz Méndez</li>
-                    <li>Cesar Alexis Romero Domínguez</li>
-                </ul>
-                <p class="subheader">Asesores</p>
-                <ul class="info">
-                    <li>M. en C. Alvaro Gordillo Sol</li>
-                    <li>Ing. Erick Lopez Alarcón</li>
-                </ul>
-            </div>
+    <div class="appContent">
+        <div class="control">
+            <section class="subsection menu">
+                <h2>Menú</h2>
+                <hr>
+                <div class="contenidoMenu">
+                    <button class="boton">Información de Monitoreo</button>
+                    <button class="boton">Gráficas</button>
+                    <button class="boton">Control Manual</button>
+                    <button class="boton">Panel de Control</button>
+                    <button class="botonStart" id="startMonitoreo">Comenzar Monitoreo</button>
+                </div>
+            </section>
+            <section class="subsection estado" id="estadoConexion">
+                <div>
+                    <div>Estado</div>
+                    <div class="Contenido_Estado">
+                        <div id="state" class="desconectado">Desconectado
+                        </div>
+                        <div class="menuConectar">
+                                <p class="info">Establecer una conexión con arduino</p>
+                                <!-- <div class="dosColumnas">
+                                    <label for="port">Puerto:</label>
+                                    <input class="port" type="text" value="COM3">
+                                </div> -->
+                                <div class="contenedorPuertos">
+                                    <select name="puerto" id="puertos" class="listaPuertos" aria-placeholder="">
+                                        <option value="1">Elige un puerto</option>
+                                    </select>
+                                    <button class="botonActualizar" id="botonActualizar"></button>
+                                </div>
+                                <button id="botonConectar" class="botonArduino conectar">Conectar</button>
+                            </div>
+                    </div>
+                    <div class="Contenido_Estado">
+                        <div id="state" class="conectando">Conectando...</div>
+                    </div>
+                    <div class="Contenido_Estado">
+                        <div id="state" class="conectado">Conectado</div>
+                        <button id="botonDesconectar" class="botonArduino desconectar">Desconectar</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- Contenedor principal -->
+        <section class="section principal">
+     
         </section>
-        <div class="contenedorIntroduccion">
-            <button class="botonIntroduccion">Creadores</button>
+        <div class="oscurecido" id="fondoIntroduccion">
+            <section class="section presentacion">
+                <div class="contenido">
+                    <p class="header">
+                        Sistema controlador de posición de dos grado de libertad para la orientación de paneles fotovoltaicos
+                    </p>
+                    <p class="subheader">Trabajo terminal para obtener el titulo de <strong>Ingeniero en Mecatrónica</strong></p>
+                    <p class="subheader">Creadores</p>
+                    <ul class="info">
+                        <li>Luis Eduardo Rodríguez Ramírez</li>
+                        <li>Néstor Alberto Ruiz Méndez</li>
+                        <li>Cesar Alexis Romero Domínguez</li>
+                    </ul>
+                    <p class="subheader">Asesores</p>
+                    <ul class="info">
+                        <li>M. en C. Alvaro Gordillo Sol</li>
+                        <li>Ing. Erick Lopez Alarcón</li>
+                    </ul>
+                </div>
+            </section>
+            <div class="contenedorIntroduccion">
+                <button class="botonIntroduccion">Creadores</button>
+            </div>
         </div>
     </div>
     <script src="./DOM.js"></script>    <!-- <script src="../js/ArduinoSerial.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="graficas.js"></script>
+    <script src="preload.js"></script>
     <script src="index.js"></script>
 </body>
 </html>

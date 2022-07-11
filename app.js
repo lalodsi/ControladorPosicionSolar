@@ -1,5 +1,6 @@
 const ArduinoSerial = require('./js/ArduinoSerial.js');
-const Server = require('./js/Server.js');
+const {Server, startWindow} = require('./js/Server.js');
+const electron = require('electron');
 
 console.clear();
 
@@ -10,6 +11,7 @@ const servidor = new Server();
 
 servidor.start()
 servidor.socket(sockets)
+startWindow();
 
 function sockets(socket) {
     /**
@@ -63,6 +65,12 @@ function sockets(socket) {
         // arduino.sendData(`${data.latitud},${data.longitud}`);
         setTimeout(() => arduino.sendData(`${data.latitud},${data.longitud}`), 1000);
     } );
+    socket.on('closeApp', data => {
+        // 
+    } )
+    socket.on('minimizeApp', data => {
+        // 
+    } )
 
 }
 

@@ -7,6 +7,8 @@ class DOM{
         calibrarOrientacion: "setOrientation",
         controlarMotores: "setMotores",
         controlarAlgoritmo: "setAlgoritmo",
+        closeApp: "closeApp",
+        minimizeApp: "minimizeApp",
     }
     eventosSockets = {
         requestConnection: "connect-to-arduino",
@@ -31,6 +33,7 @@ class DOM{
         this.botonConectarConArduino();
         this.activarBotonComenzar("desactivado");
         this.activarBotonActualizar();
+        this.topBarFunctions();
     }
 
 
@@ -502,5 +505,17 @@ class DOM{
             }
             
         });
+    }
+
+    topBarFunctions = function () {
+        const closeBtn = document.getElementById('closeBtn');
+        const minimizeBtn = document.getElementById('minimizeBtn');
+
+        closeBtn.addEventListener('click', ()=>{
+            this.socket.emit(this.eventos.closeApp, true)
+        })
+        minimizeBtn.addEventListener('click', ()=>{
+            this.socket.emit(this.eventos.minimizeApp, true);
+        })
     }
 }
