@@ -512,10 +512,10 @@ class DOM{
         const minimizeBtn = document.getElementById('minimizeBtn');
 
         closeBtn.addEventListener('click', ()=>{
-            this.socket.emit(this.eventos.closeApp, true)
+            electronAPI.closeApp()
         })
         minimizeBtn.addEventListener('click', ()=>{
-            this.socket.emit(this.eventos.minimizeApp, true);
+            electronAPI.minimizeApp()
         })
     }
 }

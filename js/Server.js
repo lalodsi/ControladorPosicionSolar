@@ -2,6 +2,7 @@ const socketIo = require("socket.io")
 const express = require('express');
 const routerApi = require("./routes");
 const { BrowserWindow, app, ipcMain } = require('electron');
+const path = require("path");
 const windowApp = require('electron').app;
 
 class Server{
@@ -67,19 +68,19 @@ function startWindow() {
             height: 700,
             frame: false,
             titleBarStyle: 'hidden',
+            resizable: false,
             webPreferences: {
-                preload: './preload.js',
-                nodeIntegration: true,
+                preload: path.join(__dirname, '../public/preload.js'),
+                nodeIntegration: true, 
                 contextIsolation: true,
                 devTools: true,
             }
         })
-
-        // console.log(path.join(__dirname, 'preload.js'));
-        console.log(__dirname);
-
         ipcMain.on('closeApp', ()=> {
             win.close();
+        })
+        ipcMain.on('minimizeApp', ()=> {
+            win.minimize();
         })
         
         win.loadURL(`http://localhost:${port}`);
