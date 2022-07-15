@@ -359,11 +359,11 @@ input{
     transition: all 500ms ease;
 }
 .oscurecido{
-    background-color: rgba(0,0,0,0.9);
+    background-color: rgba(0,0,0,1);
     border: 3px solid var(--verdeOscuro);
 }
 .oscurecido:hover{
-    background-color: rgba(0,0,0,0.85);
+    background-color: rgba(0,0,0,0.65);
 
 }
 .desvanecido{
@@ -429,11 +429,21 @@ input{
     width: 80%;
     font-size: 18px;
 }
+option{
+    color: black;
+}
+option:hover{
+    background-color: var(--fondo);
+    color: var(--verdeMenta);
+}
 .listaPuertos option{
-    background-color: var(--fondoTransparente);
+    background-color: var(--verdeClaro);
 }
 .listaPuertos option:focus{
-    background-color: var(--verdeDiscreto);
+    background-color: var(--verdeOscuro);
+}
+.listaPuertos option[disabled]{
+    background-color: var(--fondoBotonHoverAzul);
 }
 .listaPuertos option[selected]{
     background-color: var(--fondoBotonHoverAzul);

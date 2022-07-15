@@ -50,13 +50,15 @@ class ArduinoSerial{
         const servidor = this.server;
         // Verificar que el arduino traiga el software
         this.timeForVerifying = setTimeout(()=>{
-            socket.emit(this.server.sockets.versionSoftwareArduino, 
-                {
-                    hasTheProgram: true,
-                    message: "El dispositivo no tiene el software adecuado"
-                });    
-            console.log(this.mensajes.checkingFailed);
-            this.disconnect(socket, this.server);
+            if (this.isConnected) {
+                socket.emit(this.server.sockets.versionSoftwareArduino, 
+                    {
+                        hasTheProgram: true,
+                        message: "El dispositivo no tiene el software adecuado"
+                    });    
+                console.log(this.mensajes.checkingFailed);
+                this.disconnect(socket, this.server);
+            }
         }, 3000);
 
         // return new Promise( function (resolve, reject) {
