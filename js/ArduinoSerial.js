@@ -19,8 +19,7 @@ class ArduinoSerial{
     
     constructor() {
         this.isConnected = false;
-        // this.readLine = SerialPort.parser.readLine();
-        // this.parser = new readLine();
+        this.isApproved = false;
     }
 
     /**
@@ -49,11 +48,11 @@ class ArduinoSerial{
         const messages = this.mensajes
         const servidor = this.server;
         // Verificar que el arduino traiga el software
-        this.timeForVerifying = setTimeout(()=>{
-            if (this.isConnected) {
+        setTimeout(()=>{
+            if (!this.isApproved) {
                 socket.emit(this.server.sockets.versionSoftwareArduino, 
                     {
-                        hasTheProgram: true,
+                        hasTheProgram: false,
                         message: "El dispositivo no tiene el software adecuado"
                     });    
                 console.log(this.mensajes.checkingFailed);
@@ -68,7 +67,6 @@ class ArduinoSerial{
                 baudRate: 115200
             }, function (err) {
                 if (err) {
-                    clearTimeout(this.timeForVerifying);
                     console.log(messages.errorConnecting, err);
                     socket.emit(servidor.sockets.estadoArduino, 
                         {
@@ -77,6 +75,7 @@ class ArduinoSerial{
                             message: err.message
                         });
                         this.isConnected = false
+                        this.isApproved = false;
                 } else {
                     console.log(messages.connectionSuccessful);
                     socket.emit(servidor.sockets.estadoArduino, 
@@ -85,7 +84,8 @@ class ArduinoSerial{
                             error: false, 
                             message: ""
                         });
-                    this.isConnected = true
+                    this.isConnected = true;
+                    this.isApproved = false;
                 }
             });
             // resolve(serial)
@@ -128,6 +128,7 @@ class ArduinoSerial{
                     console.log(datos.message);
                 }
                 if (datos.accion === "test") {
+                    this.isApproved = true;
                     clearTimeout(this.timeForVerifying);
                     console.log(datos.message);
                     socket.emit(this.server.sockets.versionSoftwareArduino, 
@@ -162,6 +163,7 @@ class ArduinoSerial{
             console.log(this.mensajes.AppWereReseted);
         }
         this.isConnected = false;
+        this.isApproved = false;
         socket.emit(servidor.sockets.estadoArduino, 
             {
                 isConnected: false, 
