@@ -1,5 +1,19 @@
 const socket = io();
-const dom = new DOM(socket);
+
+
+// Inicializando
+topBarFunctions();
+introduccion();
+ocultarTodoExcepto(0, ".principal"); //Cambiar
+ocultarTodoExcepto(0, ".Contenido_Estado");
+btnShowContent();
+interactuarInputConRuedaDelMouse();
+
+botonComenzarRecepcionDeDatos();
+botonConectarConArduino();
+activarBotonComenzar("desactivado");
+activarBotonActualizar();
+copiarAlPortapapeles();
 
 // Gráficas a generar
 const graficaSensores = new graficas("Sensores");
@@ -15,41 +29,41 @@ socket.on('disconnect', ()=>{
 socket.on('arduinoSoftwareTest', data => {
     if (data.hasTheProgram) {
         console.log("Verificación de software aceptada");
-        dom.eliminarMenuVerificacion();
-        dom.desvanecerFondo();
+        eliminarMenuVerificacion();
+        desvanecerFondo();
     }
     else{
         console.log("Software incorrecto");
-        dom.ocultarTodoExcepto(0, ".Contenido_Estado");
-        dom.eliminarMenuVerificacion();
-        dom.reaparecerMenuConexion();
-        setTimeout(()=>dom.errorAlIntentarConectar(data.message), 500);
+        ocultarTodoExcepto(0, ".Contenido_Estado");
+        eliminarMenuVerificacion();
+        reaparecerMenuConexion();
+        setTimeout(()=>errorAlIntentarConectar(data.message), 500);
     }
 })
 // Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
-    dom.enviarPalabraVerificacion();
-    dom.activarBotonComenzar( data.isConnected? "start" : "desactivado" )
+    enviarPalabraVerificacion();
+    activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
-        dom.ocultarTodoExcepto(2, ".Contenido_Estado");
-        dom.desvanecerMenuConexion();
-        dom.aparecerMenuVerificacion();
+        ocultarTodoExcepto(2, ".Contenido_Estado");
+        desvanecerMenuConexion();
+        aparecerMenuVerificacion();
     } else {
         if (data.error) {
-            dom.ocultarTodoExcepto(0, ".Contenido_Estado");
-            dom.errorAlIntentarConectar(data.message);
+            ocultarTodoExcepto(0, ".Contenido_Estado");
+            errorAlIntentarConectar(data.message);
         }
         else{
-            dom.ocultarTodoExcepto(0, ".Contenido_Estado");
+            ocultarTodoExcepto(0, ".Contenido_Estado");
         }
     }
 })
 // Tratamiento de datos en modo monitoreo
 socket.on('data', data => {
-    dom.asignaDatosSensores(data);
+    asignaDatosSensores(data);
     graficaSensores.draw("sensores", data);
     representacion3D.draw3d("robot3d", data);
-    graficaSensores.analisisANOVA(data, dom);
+    graficaSensores.analisisANOVA(data);
 });
 // Informacion de puertos
 socket.on("ports", data => {

@@ -192,7 +192,7 @@ class graficas{
         return [this.homeTrace];
     }
 
-    analisisANOVA = function (data, DOM) {
+    analisisANOVA = function (data) {
         function promedio(conjunto) {
             const suma = conjunto.reduce( (acc, curr) => acc + curr );
             return suma / conjunto.length;
@@ -223,12 +223,12 @@ class graficas{
             const F = S2Factor / S2PE;
 
             //Enviar la informacion al DOM
-            DOM.asignaDatosPromediosSensores(promedios);
-            DOM.asignaDatosVarianzasSensores(varianzas);
-            DOM.asignaDatosPromedioTotal(promedioTotal);
-            DOM.asignaDatosS2PE(S2PE);
-            DOM.asignaDatosS2Factor(S2Factor);
-            DOM.asignaDatosF(F);
+            asignaDatosPromediosSensores(promedios);
+            asignaDatosVarianzasSensores(varianzas);
+            asignaDatosPromedioTotal(promedioTotal);
+            asignaDatosS2PE(S2PE);
+            asignaDatosS2Factor(S2Factor);
+            asignaDatosF(F);
 
             // Borrar
             this.conjuntoDeDatos.forEach( data => data = [] );

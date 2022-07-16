@@ -99,10 +99,10 @@ body{
     background-color: var(--verdeClaro);
 }
 .titleBarBtns > .minimizeBtn {
-    background-image: url('./TitleBar/minimize.png');
+    background-image: url('./images/minimize.png');
 }
 .titleBarBtns > .closeBtn {
-    background-image: url('./TitleBar/close.png');
+    background-image: url('./images/close.png');
 }
 
 hr{
@@ -459,7 +459,7 @@ option:hover{
 #botonActualizar{
     width: 30px;
     margin-left: 20px;
-    background: url("./iconActualizar.png");
+    background: url("./images/iconActualizar.png");
     background-size:cover;
     background-repeat: no-repeat;
     font-size: 30px;
