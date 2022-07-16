@@ -112,6 +112,7 @@ class DOM{
                 this.socket.emit(this.eventos.enviarPalabra,
                     {word: "salir", message: "Se envio la palabra salir"}
                     );
+                this.copiarAlPortapapeles();
             }
         }.bind(this);
 
@@ -120,6 +121,17 @@ class DOM{
                 request(index);
             } )
         } )
+    }
+
+    copiarAlPortapapeles = function () {
+        const datosHTML = documet.querySelectorAll(".dato");
+        const arrayHTML = this.devolverArrayHTML(datosHTML);
+        arrayHTML.map( dato => 
+            dato.addEventListener(
+                'click', 
+                navigator.clipboard.writeText(this.value)
+            )
+        );
     }
 
     /**
@@ -211,44 +223,41 @@ class DOM{
         setTimeout( ()=>{
             fondo.className = "desvanecido desaparecido";
         }, 500 );
-        // Eliminar mensaje de verificación
-        const estadoVerificacion = document.getElementById("estadoVerificacion");
-        fondo.removeChild(estadoVerificacion)
     }
     
     desvanecerMenuConexion = function name(params) {
         const estado = document.getElementById("estadoConexion");
-        estado.className = "subsection estado animado";
+        estado.className = "subsection estado animado transparente";
         setTimeout( ()=>{
             const posicionOriginal = document.getElementsByClassName("control")[0];
             posicionOriginal.appendChild(estado);
-            estado.className = "subsection estado"
+            estado.className = "subsection estado visible"
         }, 500 );
     }
 
     reaparecerFondo = function () {
         const fondo = document.getElementById("fondoIntroduccion");
         const estadoConexion = document.getElementById("estadoConexion");
-        estadoConexion.className = "subsection estado animado";
+        estadoConexion.className = "subsection estado animado transparente";
         fondo.className = "desvanecido";
         setTimeout( () => {
             const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
             fondo.className = "oscurecido";
             fondo.insertBefore(estadoConexion, botonIntroduccion);
-            estadoConexion.className = "subsection estado";
+            estadoConexion.className = "subsection estado visible";
         }, 500 );
     }
 
     reaparecerMenuConexion = function () {
         const fondo = document.getElementById("fondoIntroduccion");
         const estadoConexion = document.getElementById("estadoConexion");
-        estadoConexion.className = "subsection estado animado";
+        estadoConexion.className = "subsection estado animado transparente";
         // fondo.className = "desvanecido";
         setTimeout( () => {
             const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
             // fondo.className = "oscurecido";
             fondo.insertBefore(estadoConexion, botonIntroduccion);
-            estadoConexion.className = "subsection estado";
+            estadoConexion.className = "subsection estado visible";
         }, 500 );
     }
 
@@ -258,15 +267,40 @@ class DOM{
             );
     }
     
+    /**
+     * Crear un elemento HTML del tipo
+     * <div class="lds-ripple">
+     *   <div></div>
+     *   <div></div>
+     * </div>
+     */
     aparecerMenuVerificacion = function () {
+        // Creando animacion de carga
+        const loadingElement = document.createElement("div");
+        loadingElement.appendChild(document.createElement("div"));
+        loadingElement.appendChild(document.createElement("div"));
+        loadingElement.className = "lds-ripple";
+
+        // Contenedor
         const estadoVerificacion = document.createElement("div");
         estadoVerificacion.id = "estadoVerificacion";
-        estadoVerificacion.className = "subsection estado animado";
-        estadoVerificacion.innerHTML = "Verificando versión de software";
+        // estadoVerificacion.className = "subsection estado animado transparente";
+        estadoVerificacion.className = "animado transparente";
+        
+        // Text
+        const texto = document.createElement("div");
+        texto.className = "texto";
+        texto.innerHTML = "Verificando versión de software";
+        
+        estadoVerificacion.appendChild(loadingElement);
+        estadoVerificacion.append(texto);
         const fondo = document.getElementById("fondoIntroduccion");
         const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
         fondo.insertBefore(estadoVerificacion, botonIntroduccion);
-        setTimeout( () => estadoVerificacion.className = "subsection estado", 500 );
+        setTimeout( () => {
+            estadoVerificacion.className = "loadingContainer visible";
+            
+        }, 500 );
     }
 
     eliminarMenuVerificacion = function () {

@@ -33,6 +33,7 @@ class Server{
      * y crea la ventana desde donde se mostrará el enlace
      */
     start = function() {
+        console.clear();
         this.app.set('port', process.env.PORT || 3000)
         const port = this.app.get('port');
         this.server.listen(port, ()=>{

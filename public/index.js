@@ -21,7 +21,6 @@ socket.on('arduinoSoftwareTest', data => {
     else{
         console.log("Software incorrecto");
         dom.ocultarTodoExcepto(0, ".Contenido_Estado");
-        // dom.reaparecerFondo();
         dom.eliminarMenuVerificacion();
         dom.reaparecerMenuConexion();
         setTimeout(()=>dom.errorAlIntentarConectar(data.message), 500);

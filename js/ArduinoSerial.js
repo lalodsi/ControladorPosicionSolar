@@ -14,7 +14,7 @@ class ArduinoSerial{
         ArduinoDisconnection: "Se ha desconectado el Arduino",
         ArduinoIsNoLongerConnected: "Parece que el arduino ya no se encuentra desconectado",
         AppWereReseted: "Parece que el servidor se recargó y el arduino ya no está conectado",
-        shareData: "Compartiendo datos",
+        shareData: "Compartiendo datos"
     }
     
     constructor() {
@@ -64,7 +64,7 @@ class ArduinoSerial{
             console.log(messages.arduinoRequest + port);
             const serial = new SerialPort({
                 path: port,
-                baudRate: 115200
+                baudRate: 9600
             }, function (err) {
                 if (err) {
                     console.log(messages.errorConnecting, err);
@@ -117,7 +117,7 @@ class ArduinoSerial{
         console.log("Activada la recepción de información desde arduino");
         this.parser.on('data', data => {
             try{
-                // console.log(data);
+                console.log(data);
                 const datos = JSON.parse(data);
                 // console.log(datos.accion);
                 if (datos.accion === "monitoreo") 
@@ -129,7 +129,6 @@ class ArduinoSerial{
                 }
                 if (datos.accion === "test") {
                     this.isApproved = true;
-                    clearTimeout(this.timeForVerifying);
                     console.log(datos.message);
                     socket.emit(this.server.sockets.versionSoftwareArduino, 
                         {
@@ -141,7 +140,6 @@ class ArduinoSerial{
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);
                 this.disconnect(socket, this.server);
-                clearTimeout(this.timeForVerifying);
             }
         });
     }
@@ -155,7 +153,7 @@ class ArduinoSerial{
      */
     disconnect = async function (socket, servidor) {
         await this.wait(500, this.mensajes.disconnecting);
-        if (this.port) {
+        if (this.port.isOpen) {
             await this.port.close();
             console.log(this.mensajes.ArduinoDisconnection);
         }

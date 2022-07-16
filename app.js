@@ -27,8 +27,9 @@ function sockets(socket) {
     })
     socket.on(servidor.sockets.versionSoftwareArduino, data => {
         console.log("Comprobando el software cargado en el arduino");
+        console.log(data.testing);
         if (data.testing) {
-            arduino.sendData("probar");
+            setTimeout(()=> arduino.sendData("probar"), 1000 );
         }
     })
     socket.on(servidor.sockets.monitorear, data => {

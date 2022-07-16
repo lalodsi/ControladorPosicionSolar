@@ -44,8 +44,9 @@ body{
     border-top: 3px solid var(--verdeOscuro);
     border-left: 3px solid var(--verdeOscuro);
     border-right: 3px solid var(--verdeOscuro);
-    background-color: var(--fondoBotonHoverAzul);
-    
+    /* background-color: var(--fondoBotonHoverAzul); */
+    background: rgb(9,116,122);
+    background: linear-gradient(90deg, rgba(9,116,122,1) 0%, rgba(10,111,73,1) 100%);
     position: fixed;
     top: 0px;
     left: 0px;
@@ -315,6 +316,7 @@ input{
 }
 .dato:hover{
     background: var(--fondoDatoHover);
+    cursor: copy;
 }
 .start{
     transition: all 500ms ease;
@@ -341,9 +343,15 @@ input{
     /* transform: translate(74%, 187px); */
     /* transform: translate(74%, 150%); */
     transform: translateY(-200px);
-    opacity: 0;
+    /* opacity: 0; */
     
     transition: all 500ms ease;
+}
+.transparente{
+    opacity: 0;
+}
+.visible{
+    opacity: 1;
 }
 .oscurecido, .desvanecido{
     display: flex;
@@ -363,7 +371,7 @@ input{
     border: 3px solid var(--verdeOscuro);
 }
 .oscurecido:hover{
-    background-color: rgba(0,0,0,0.65);
+    background-color: rgba(0,0,0,0.85);
 
 }
 .desvanecido{
@@ -461,4 +469,61 @@ option:hover{
     cursor: pointer;
     -webkit-transform: rotate(360deg);
     transition: 1s linear;
+}
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 30px;
+  }
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid #fff;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    4.9% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    5% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
+    }
+  }
+.texto{
+    font-size: 30px;
+    color: #00da98;
+}
+.loadingContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
