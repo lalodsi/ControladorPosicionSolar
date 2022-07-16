@@ -9,45 +9,71 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
-
+int option = 0;
 
 String entrada;
 
 void setup() {
   // initialize serial communications at 9600 bps:
-  Serial.begin(115200);
-  
+  Serial.begin(9600);
+  pinMode(LED_BUILTIN, OUTPUT);
   // testProject();
 }
 
 void loop() {
+  // switch (option)
+  // {
+  // case 1:
+  //   option = 0;
+  //   calibrar();
+  //   break;
+  
+  // case 2:
+  //   option = 0;
+  //   controlar();
+  //   break;
+  
+  // case 3:
+  //   option = 0;
+  //   enviarSensores();
+  //   break;
+  
+  // case 4:
+  //   option = 0;
+  //   testProject();
+  //   break;
+  
+  // default:
+  //   option = 0;
+  //   break;
+  // }
+
   // SPL_algorithm();
-  // moverY(1);
+  // delay(50);
+}
 
-
-  if (Serial.available())
-  {
-    entrada = Serial.readString();
-    // Serial.print(entrada);
-
+void serialEvent(){
+  entrada = Serial.readString();
+  entrada.trim();
     // Control de flujo
-    if (entrada.equals("calibrar")){
-      calibrar();
-    }
-    if(entrada.equals("controlar")){
-      controlar();
-    } 
-    if(entrada.equals("monitorear")){
-      enviarSensores();
-    } 
-    if(entrada.equals("probar")){
-      testProject();
-    } 
-    Serial.flush();
+  if(entrada.equals("calibrar")){
+    calibrar();
+  }
+  if(entrada.equals("controlar")){
+    controlar();
+  } 
+  if(entrada.equals("monitorear")){
+    enviarSensores();
+  } 
+  if(entrada.equals("probar")){
+    testProject();
   }
 
-  // SPL_algorithm();
-  delay(100);
+  Serial.flush();
+
+  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(50);                       // wait for a second
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void enviarSensores(){
@@ -78,7 +104,7 @@ void enviarSensores(){
       
     }
 
-    delay(100);
+    delay(50);
     SPL_algorithm();
   }
   
@@ -169,5 +195,6 @@ void controlar(){
 }
 
 void testProject(){
+  // delay(100);
   Serial.println("{\"accion\":\"test\",\"message\":\"successful\"}");
 }

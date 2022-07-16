@@ -3,6 +3,12 @@
 #include <math.h>
 
 /**
+ * @brief Valor tabulado de la distribución F del área 0.05 a la derecha
+ * Si cambia el tamaño de los arreglos de entrada, modificar este valor: http://uaaan.mx/~jmelbos/tablas/distf.pdf
+ */
+#define F_CRITICA 2.866081402
+
+/**
  * @brief Calcula el promedio de un arreglo de números
  * 
  * @param data arreglo de números
@@ -88,8 +94,10 @@ double* Varianzas(double **datos, int size){
 }
 
 /**
- * @brief Calcula el valor de S2PE de un arreglo bidimensional de datos. 
- * > Es importante saber que se tomarán las filas de datos y no las columnas, si se desea conocer las columnas, enviar la matriz traspuesta a esta función para que trabaje correctamente
+ * @brief Calcula el valor de la varianza debida al error puramente aleatorio, (S2PE)
+ *  de un arreglo bidimensional de datos. También es conocida como varianza dentro de las
+ *  muestras.
+ * Es importante saber que se tomarán las filas de datos y no las columnas, si se desea conocer las columnas, enviar la matriz traspuesta a esta función para que trabaje correctamente
  * 
  * @param datos matriz de datos a la que se le desea obtener el valor de  S2PE
  * @param size tamaño de la matriz N x N
@@ -101,7 +109,8 @@ double S2PE(double **datos, int size){
 }
 
 /**
- * @brief Calcula el valor del S2Factor de un arreglo bidimensional de datos
+ * @brief Calcula el valor de la varianza debida al factor (S2Factor) de un arreglo
+ *  bidimensional de datos, también es conocida como varianza entre muestras.
  * 
  * @param datos arreglo bidimensional dinámico
  * @param size tamaño del arreglo N x N
