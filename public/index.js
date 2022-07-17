@@ -1,5 +1,8 @@
 const socket = io();
 
+// Estados de Conexion
+let isConnected = false;
+let itHasTheProgram = false;
 
 // Inicializando
 topBarFunctions();
@@ -24,6 +27,7 @@ socket.on('disconnect', ()=>{
     console.log("Desconectado");
 })
 socket.on('arduinoSoftwareTest', data => {
+    itHasTheProgram = data.hasTheProgram;
     if (data.hasTheProgram) {
         console.log("Verificación de software aceptada");
         eliminarMenuVerificacion();
@@ -40,6 +44,7 @@ socket.on('arduinoSoftwareTest', data => {
 // Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
     enviarPalabraVerificacion();
+    isConnected = data.isConnected;
     activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         ocultarTodoExcepto(2, ".Contenido_Estado");

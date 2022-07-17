@@ -49,7 +49,7 @@ class ArduinoSerial{
         const servidor = this.server;
         // Verificar que el arduino traiga el software
         setTimeout(()=>{
-            if (!this.isApproved) {
+            if (!this.isApproved && this.isConnected) {
                 socket.emit(this.server.sockets.versionSoftwareArduino, 
                     {
                         hasTheProgram: false,
