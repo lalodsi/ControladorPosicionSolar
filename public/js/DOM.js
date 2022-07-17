@@ -201,22 +201,6 @@ const botonComenzarRecepcionDeDatos = function () {
     })
 };
 
-const eliminarMenuVerificacion = function () {
-    const estadoVerificacion = document.getElementById("estadoVerificacion")
-    const fondo = document.getElementById("fondoIntroduccion");
-    if (estadoVerificacion) {
-        fondo.removeChild(estadoVerificacion);
-    }
-};
-
-    
-const activarBotonActualizar = function () {
-    const boton = document.getElementById("botonActualizar");
-    boton.addEventListener("click", ()=>{
-        actualizarPuertos();
-    });
-};
-
 const copiarAlPortapapeles = function () {
     const datosHTML = document.querySelectorAll(".dato");
     const arrayHTML = devolverArrayHTML(datosHTML);

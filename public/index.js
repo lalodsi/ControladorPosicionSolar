@@ -5,14 +5,11 @@ const socket = io();
 topBarFunctions();
 introduccion();
 ocultarTodoExcepto(0, ".principal"); //Cambiar
-ocultarTodoExcepto(0, ".Contenido_Estado");
 btnShowContent();
 interactuarInputConRuedaDelMouse();
-
 botonComenzarRecepcionDeDatos();
-botonConectarConArduino();
+// botonConectarConArduino();
 activarBotonComenzar("desactivado");
-activarBotonActualizar();
 copiarAlPortapapeles();
 
 // Gráficas a generar

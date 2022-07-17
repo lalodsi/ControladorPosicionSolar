@@ -32,14 +32,16 @@ const reaparecerFondo = function () {
      * Para evitar que el usuario haga peticiones o interactue con elementos de la app sin que un arduino se encuentre conectado, se oscurecerá toda la pantalla y sólo se mostrará el menú correspondiente para conexión con arduino.
      * Además se tiene el detalle de mostrar una sección donde vienen los nombres de los creadores del proyecto
      */
-const introduccion = function () {
+const introduccion = async function () {
     const fondo = document.getElementById("fondoIntroduccion");
-    const estadoConexion = document.getElementsByClassName("subsection")[1];
+    const estadoConexion = await getMenuConexion();
     const botonContinuar = document.getElementsByClassName("contenedorIntroduccion")[0];
-    fondo.insertBefore(estadoConexion, botonContinuar);
+    fondo.insertAdjacentHTML('afterBegin', estadoConexion);
+    activarMenuConexion();
+
     const html = document.querySelectorAll("#fondoIntroduccion>section");
     const secciones = devolverArrayHTML(html);
-    secciones[0].setAttribute("style", "display: none;");
+    secciones[1].setAttribute("style", "display: none;");
     const boton = document.getElementsByClassName("botonIntroduccion")[0];
     boton.addEventListener("click", function(){
         if (secciones[0].getAttribute("style") === "display: none;") {
@@ -55,3 +57,11 @@ const introduccion = function () {
         
     });
 }
+
+const eliminarMenuVerificacion = function () {
+    const estadoVerificacion = document.getElementById("estadoVerificacion")
+    const fondo = document.getElementById("fondoIntroduccion");
+    if (estadoVerificacion) {
+        fondo.removeChild(estadoVerificacion);
+    }
+};

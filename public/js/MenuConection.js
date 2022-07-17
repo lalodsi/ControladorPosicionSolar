@@ -1,3 +1,9 @@
+const getMenuConexion = async function () {
+    const url = `http://localhost:3000/api/v1/menu/contenido/5`;
+    const response = await fetch(url);
+    return await response.text();
+}
+
 const reaparecerMenuConexion = function () {
     const fondo = document.getElementById("fondoIntroduccion");
     const estadoConexion = document.getElementById("estadoConexion");
@@ -95,4 +101,17 @@ const errorAlIntentarConectar = function (message) {
     fondo.insertBefore(mensaje, botonIntroduccion);
     setTimeout( () => mensaje.className = "subsection errorMessageBye", 1500);
     setTimeout( () => mensaje.parentNode.removeChild(mensaje), 2000);
+}
+
+const activarBotonActualizar = function () {
+    const boton = document.getElementById("botonActualizar");
+    boton.addEventListener("click", ()=>{
+        actualizarPuertos();
+    });
+};
+
+const activarMenuConexion = function () {
+    botonConectarConArduino();
+    activarBotonActualizar();
+    ocultarTodoExcepto(0, ".Contenido_Estado");
 }

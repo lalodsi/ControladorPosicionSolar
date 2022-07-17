@@ -1,0 +1,30 @@
+<section class="subsection estado" id="estadoConexion">
+    <div>
+        <div>Estado</div>
+        <div class="Contenido_Estado">
+            <div id="state" class="desconectado">Desconectado
+            </div>
+            <div class="menuConectar">
+                    <p class="info">Establecer una conexión con arduino</p>
+                    <!-- <div class="dosColumnas">
+                        <label for="port">Puerto:</label>
+                        <input class="port" type="text" value="COM3">
+                    </div> -->
+                    <div class="contenedorPuertos">
+                        <select name="puerto" id="puertos" class="listaPuertos" aria-placeholder="">
+                            <option value="1">Elige un puerto</option>
+                        </select>
+                        <button class="botonActualizar" id="botonActualizar"></button>
+                    </div>
+                    <button id="botonConectar" class="botonArduino conectar">Conectar</button>
+                </div>
+        </div>
+        <div class="Contenido_Estado">
+            <div id="state" class="conectando">Conectando...</div>
+        </div>
+        <div class="Contenido_Estado">
+            <div id="state" class="conectado">Conectado</div>
+            <button id="botonDesconectar" class="botonArduino desconectar">Desconectar</button>
+        </div>
+    </div>
+</section>

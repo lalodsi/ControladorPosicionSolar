@@ -19,6 +19,9 @@ router.get('/contenido/:id', function (req, res) {
     else if(id == 4){
         res.sendFile(tesisDirectory.dir + "\\menu\\panelDeControl.html");
     }
+    else if(id == 5){
+        res.sendFile(tesisDirectory.dir + "\\menu\\controladorConexion.html");
+    }
     else{
         res.json({message: "No encontrado", id: id});
     }
