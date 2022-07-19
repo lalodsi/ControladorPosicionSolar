@@ -38,21 +38,21 @@ const introduccion = async function () {
     const botonContinuar = document.getElementsByClassName("contenedorIntroduccion")[0];
     fondo.insertAdjacentHTML('afterBegin', estadoConexion);
     activarMenuConexion();
-
+    //Interaccion en el Modal
     const html = document.querySelectorAll("#fondoIntroduccion>section");
-    const secciones = devolverArrayHTML(html);
-    secciones[1].setAttribute("style", "display: none;");
+    const [sectionConexion, sectionCreditos] = devolverArrayHTML(html);
+    sectionCreditos.setAttribute("style", "display: none;");
     const boton = document.getElementsByClassName("botonIntroduccion")[0];
     boton.addEventListener("click", function(){
-        if (secciones[0].getAttribute("style") === "display: none;") {
-            secciones[0].setAttribute("style", "display: block;");
-            secciones[1].setAttribute("style", "display: none;");
-            this.innerHTML = "Regresar al proyecto";
+        if (sectionConexion.getAttribute("style") === "display: none;") {
+            sectionConexion.setAttribute("style", "display: block;");
+            sectionCreditos.setAttribute("style", "display: none;");
+            this.innerHTML = "Creadores";
         }
         else{
-            secciones[1].setAttribute("style", "display: block;");
-            secciones[0].setAttribute("style", "display: none;");
-            this.innerHTML = "Creadores";
+            sectionCreditos.setAttribute("style", "display: block;");
+            sectionConexion.setAttribute("style", "display: none;");
+            this.innerHTML = "Regresar al proyecto";
         }
         
     });

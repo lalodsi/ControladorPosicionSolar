@@ -14,12 +14,17 @@ const reaparecerMenuConexion = function () {
         // fondo.className = "oscurecido";
         fondo.insertBefore(estadoConexion, botonIntroduccion);
         estadoConexion.className = "subsection estado visible";
+        // Boton introduccion
+        botonIntroduccion.className = "botonIntroduccion transparente";
     }, 500 );
 }
 
 const desvanecerMenuConexion = function name(params) {
     const estado = document.getElementById("estadoConexion");
     estado.className = "subsection estado animado transparente";
+    // Desaparecer el boton
+    const botonIntroduccion = document.getElementsByClassName("botonIntroduccion")[0];
+    botonIntroduccion.className = "botonIntroduccion transparente";
     setTimeout( ()=>{
         const posicionOriginal = document.getElementsByClassName("control")[0];
         posicionOriginal.appendChild(estado);
@@ -83,6 +88,10 @@ const botonConectarConArduino = function () {
     botonDesconectar.addEventListener('click', ()=>{
         socket.emit(eventosSockets.requestConnection, {connect: false})
         reaparecerFondo();
+        // Reaparecer el boton introduccion
+        const botonIntroduccion = document.getElementsByClassName("botonIntroduccion")[0];
+        botonIntroduccion.className = "botonIntroduccion visible";
+
         setTimeout( ()=> ocultarTodoExcepto(0, ".Contenido_Estado"), 500 );
     })
 }

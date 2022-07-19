@@ -71,5 +71,9 @@ socket.on('data', data => {
 socket.on("ports", data => {
     console.log(data);
 });
+// Interacción con el arduino
+socket.on("MenuArduino", data => {
+    
+})
 
 

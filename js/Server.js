@@ -16,6 +16,7 @@ class Server{
         cambiarFechaYHora: "setDate",
         cambiarPosicion: "setPosition",
         cambiarOrientacion: "setOrientation",
+        menuArduino: "MenuArduino"
     }
 
     constructor(){

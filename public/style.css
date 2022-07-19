@@ -146,6 +146,10 @@ input{
     height: 580px;
 }
 
+.bloqueado{
+    opacity: 0.5;
+}
+
 .menu{
     margin-bottom: 25px;
 }
@@ -198,6 +202,12 @@ input{
     transition: all 500ms ease;
     background-color: var(--fondoBotonHover);
     cursor: pointer;
+}
+.botonDesactivado{
+    opacity: 0.3;
+}
+.botonDesactivado:hover{
+    cursor: not-allowed;
 }
 .botonArduino{
     display: block;

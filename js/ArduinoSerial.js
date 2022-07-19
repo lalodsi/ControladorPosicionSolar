@@ -136,6 +136,13 @@ class ArduinoSerial{
                             message: "El dispositivo tiene el software adecuado"
                         });
                 }
+                if (datos.accion === "changeMenu") {
+                    const menu = datos.menu;
+                    socket.emit(this.server.sockets.menuArduino,
+                        {
+                            menu
+                        });
+                }
             }
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);

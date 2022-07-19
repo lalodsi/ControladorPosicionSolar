@@ -120,63 +120,6 @@ const aparecerMenuVerificacion = function () {
 }
 
 /**
- * Agrega funcionalidad a los botones para mostrar las diferentes vistas de la sección para información principal
- * Los botones realizarán una consulta GET a través de la ruta 'api/v1/menu/contenido/:id' para recibir el menu correspondiente y añadirlo a la aplicación
- */
-const btnShowContent = function() {
-    const botones = document.querySelectorAll(".boton");
-    const arrBotones = devolverArrayHTML(botones);
-    const request = async function (index) {
-        const contenedor = document.getElementsByClassName("principal")[0];
-        const url = `http://localhost:3000/api/v1/menu/contenido/${index + 1}`;
-        const response = await fetch(url);
-        contenedor.innerHTML = await response.text();
-        if (index === 3) {
-            activarCalibracion();
-            activarForms();
-            interactuarInputConRuedaDelMouse();
-        }
-        if (index === 2) {
-            interactuarInputConRuedaDelMouse( ()=>{
-                const azimut = document.getElementById("azimut").value;
-                const elevacion = document.getElementById("elevacion").value;
-                socket.emit(
-                    eventos.enviarPalabra,
-                    {
-                        word: `${azimut},${elevacion}`,
-                        message: "Se envio la informacion"
-                    }
-                );
-            } );
-            socket.emit(
-                eventos.enviarPalabra,
-                {
-                    word: "salir",
-                    message: "Se envio la palabra salir"
-                }
-            );
-            setTimeout(() => {
-                socket.emit(eventos.enviarPalabra,
-                    {word: "controlar", message: "Se envio la palabra controlar"}
-                );
-            }, 200);
-        }
-        if (index === 0) {
-            socket.emit(eventos.enviarPalabra,
-                {word: "salir", message: "Se envio la palabra salir"}
-                );
-            copiarAlPortapapeles();
-        }
-    };
-
-    arrBotones.forEach( (elem, index) => {
-        elem.addEventListener( "click", () => {
-            request(index);
-        } )
-    } )
-};
-
-/**
  * Controla la actividad de monitoreo del arduino
  * El control de esta actividad se hace a través de las siguientes acciones:
  * - Cambiar el boton para comenzar y terminar monitoreo
