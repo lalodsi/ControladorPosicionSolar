@@ -570,4 +570,5 @@ option:hover{
     background-color: black;
     height: 75%;
     color: white;
+    overflow-y: scroll;
 }
