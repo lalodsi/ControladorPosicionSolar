@@ -119,6 +119,8 @@ class ArduinoSerial{
             try{
                 console.log(data);
                 const datos = JSON.parse(data);
+                // MonitorSerial
+                socket.emit("monitorSerial", data);
                 // console.log(datos.accion);
                 if (datos.accion === "monitoreo") 
                 {

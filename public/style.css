@@ -137,6 +137,7 @@ input{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 .subsection{
     width: 100%;
@@ -282,19 +283,19 @@ input{
     border: 3px solid var(--verdeClaro);
 }
 
-.contenido .header{
+.contenido .header, .header{
     font-size: 24px;
     color: var(--verdeClaro);
     font-weight: bold;
     text-align: left;
 }
-.contenido .subheader{
+.contenido .subheader, .subheader{
     font-size: 20px;
     color: var(--verdeDiscreto);
     font-weight: bold;
     text-align: left;
 }
-.contenido .info{
+.contenido .info, .info{
     color: var(--colorDescripcion);
     text-align: left;
 }
@@ -539,6 +540,34 @@ option:hover{
 .loadingContainer{
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+}
+.menuDesarrollo{
+    background-color: var(--fondoContenidoEstado);
+    height: 250px;
+    padding: 10px;
+    border-radius: 20px;
+}
+.menuDesarrollo > p{
+    margin-bottom: 0px;
+}
+.monitorSerial{
+    background-color: var(--fondoBotonHoverAzul);
+    position: fixed;
+    bottom: 0px;
+    left: 15%;
+    z-index: 2;
+    width: 70%;
+    height: 70%;
+    padding: 10px;
+
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+.contenedorSerial{
+    background-color: black;
+    height: 75%;
+    color: white;
 }

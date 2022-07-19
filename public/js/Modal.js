@@ -87,3 +87,32 @@ const eliminarMenuVerificacion = function () {
         fondo.removeChild(estadoVerificacion);
     }
 };
+
+const interaccionMenuDesarrollo = function (){
+    const botonContinuar = document.getElementById("botonContinuar");
+    const botonSerial = document.getElementById("botonSerial");
+
+    botonContinuar.addEventListener('click', () => {
+        enviarPalabraVerificacion();
+        aparecerMenuVerificacion();
+    })
+    botonSerial.addEventListener('click', () => {
+        const MonitorSerial = document.getElementsByClassName("monitorSerial")[0];
+        MonitorSerial.className = "monitorSerial";
+    })
+}
+
+const aparecerMenuDesarrollo = async function () {
+    // Trayendo elemento
+    const menuDesarrollo = document.createElement('section');
+    menuDesarrollo.className = "menuDesarrollo centrado";
+    const response = await requestMenu(6);
+    menuDesarrollo.innerHTML = response;
+
+    // Agregando Elemento y eliminando el boton
+    const fondo = document.getElementById("fondoIntroduccion");
+    setTimeout(() => {
+        fondo.append(menuDesarrollo);
+        interaccionMenuDesarrollo();
+    }, 500);
+}

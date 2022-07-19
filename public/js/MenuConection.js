@@ -23,12 +23,14 @@ const desvanecerMenuConexion = function name(params) {
     const estado = document.getElementById("estadoConexion");
     estado.className = "subsection estado animado transparente";
     // Desaparecer el boton
-    const botonIntroduccion = document.getElementsByClassName("botonIntroduccion")[0];
-    botonIntroduccion.className = "botonIntroduccion transparente";
+    const contenedorIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
+    contenedorIntroduccion.className = "contenedorIntroduccion transparente";
     setTimeout( ()=>{
         const posicionOriginal = document.getElementsByClassName("control")[0];
         posicionOriginal.appendChild(estado);
         estado.className = "subsection estado visible"
+
+        contenedorIntroduccion.className = "contenedorIntroduccion desaparecido";
     }, 500 );
 }
 

@@ -15,6 +15,7 @@ botonComenzarRecepcionDeDatos();
 // botonConectarConArduino();
 activarBotonComenzar("desactivado");
 copiarAlPortapapeles();
+botonEnviarMonitorSerial();
 
 // Gráficas a generar
 const graficaSensores = new graficas("Sensores");
@@ -44,13 +45,14 @@ socket.on('arduinoSoftwareTest', data => {
 })
 // Conexión entre servidor y arduino
 socket.on('arduinoConnectionState', data => {
-    enviarPalabraVerificacion();
+    // enviarPalabraVerificacion();
     isConnected = data.isConnected;
     activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         ocultarTodoExcepto(2, ".Contenido_Estado");
         desvanecerMenuConexion();
-        aparecerMenuVerificacion();
+        aparecerMenuDesarrollo();
+        // aparecerMenuVerificacion();
     } else {
         if (data.error) {
             ocultarTodoExcepto(0, ".Contenido_Estado");
@@ -76,5 +78,10 @@ socket.on("ports", data => {
 socket.on("MenuArduino", data => {
     actualState = data.menu;
 })
-
+socket.on("monitorSerial", data => {
+    const contenedor = document.getElementById("contenedorSerial");
+    const dato = document.createElement('p');
+    dato.innerText = data;
+    contenedor.appendChild(dato);
+})
 
