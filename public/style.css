@@ -127,11 +127,16 @@ input{
     background: var(--fondoTransparente);
     border-radius: 15px;
     text-align: center;
-    display:block;
     margin: 0;
+    display: block;
 }
 .section{
     width: 50%;
+}
+.centrado{
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .subsection{
     width: 100%;
@@ -204,7 +209,7 @@ input{
     cursor: pointer;
 }
 .botonDesactivado{
-    opacity: 0.3;
+    display: none;
 }
 .botonDesactivado:hover{
     cursor: not-allowed;

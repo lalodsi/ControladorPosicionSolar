@@ -3,6 +3,7 @@ const socket = io();
 // Estados de Conexion
 let isConnected = false;
 let itHasTheProgram = false;
+let actualState = "";
 
 // Inicializando
 topBarFunctions();
@@ -73,7 +74,7 @@ socket.on("ports", data => {
 });
 // Interacción con el arduino
 socket.on("MenuArduino", data => {
-    
+    actualState = data.menu;
 })
 
 

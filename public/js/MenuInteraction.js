@@ -6,21 +6,25 @@ const request = async function (index) {
 };
 
 const getInformacionMonitoreoSection = function () {
-    request(0);
-    socket.emit(eventos.enviarPalabra,
-        {word: "salir", message: "Se envio la palabra salir"}
-        );
+    // request(0);
+    socket.emit(
+        eventos.enviarPalabra,
+        {
+            word: "salir",
+            message: "Se envio la palabra salir"
+        }
+    );
     copiarAlPortapapeles();
     blockAll();
 };
 
 const getGraficasSection = function () {
-    request(1);
+    // request(1);
     blockAll();
 };
 
 const getControlManualSection = function () {
-    request(2);
+    // request(2);
     interactuarInputConRuedaDelMouse( ()=>{
         const azimut = document.getElementById("azimut").value;
         const elevacion = document.getElementById("elevacion").value;
@@ -48,7 +52,7 @@ const getControlManualSection = function () {
 }
 
 const getPanelDeControlSection = function () {
-    request(3);
+    // request(3);
     activarCalibracion();
     activarForms();
     interactuarInputConRuedaDelMouse();
@@ -62,15 +66,38 @@ const blockAll = function () {
     const botones = document.querySelectorAll(".boton");
     const arrBotones = devolverArrayHTML(botones);
     const contenedor = document.getElementsByClassName("principal")[0];
-    contenedor.className = "section principal bloqueado";
+    // contenedor.className = "section principal bloqueado";
     arrBotones.map( (boton, index) => {
         boton.className = "boton botonDesactivado";
     });
 
-    arrBotones[0].removeEventListener('click', getInformacionMonitoreoSection);
-    arrBotones[1].removeEventListener('click', getGraficasSection);
-    arrBotones[2].removeEventListener('click', getControlManualSection);
-    arrBotones[3].removeEventListener('click', getPanelDeControlSection);
+    switch (actualState) {
+        case 'monitorear':
+            arrBotones[2].removeEventListener('click', getControlManualSection);
+            arrBotones[3].removeEventListener('click', getPanelDeControlSection);
+            break;
+
+        case 'calibrar':
+            arrBotones[0].removeEventListener('click', getInformacionMonitoreoSection);
+            arrBotones[1].removeEventListener('click', getGraficasSection);
+            arrBotones[2].removeEventListener('click', getControlManualSection);
+            arrBotones[3].removeEventListener('click', getPanelDeControlSection);
+            break;
+    
+        case 'controlar':
+            arrBotones[0].removeEventListener('click', getInformacionMonitoreoSection);
+            arrBotones[1].removeEventListener('click', getGraficasSection);
+            arrBotones[2].removeEventListener('click', getControlManualSection);
+            arrBotones[3].removeEventListener('click', getPanelDeControlSection);
+            break;
+    
+        default:
+            break;
+    }
+
+    contenedor.innerHTML = "";
+    contenedor.className = "section principal centrado";
+    contenedor.append(getLoadingElement());
 }
 /**
  * Agrega funcionalidad a los botones para mostrar las diferentes vistas de la sección para información principal

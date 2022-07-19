@@ -34,3 +34,19 @@ const ocultarTodoExcepto = function(index, className, ...callbacks){
         }
     })
 };
+
+/**
+ * Crear un elemento HTML del tipo
+ * <div class="lds-ripple">
+ *   <div></div>
+ *   <div></div>
+ * </div>
+ */
+ const getLoadingElement = function () {
+    // Creando animacion de carga
+    const loadingElement = document.createElement("div");
+    loadingElement.appendChild(document.createElement("div"));
+    loadingElement.appendChild(document.createElement("div"));
+    loadingElement.className = "lds-ripple";
+    return loadingElement;
+}

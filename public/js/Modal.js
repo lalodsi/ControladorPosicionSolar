@@ -58,6 +58,28 @@ const introduccion = async function () {
     });
 }
 
+ const aparecerMenuVerificacion = function () {
+    // Contenedor
+    const estadoVerificacion = document.createElement("div");
+    estadoVerificacion.id = "estadoVerificacion";
+    // estadoVerificacion.className = "subsection estado animado transparente";
+    estadoVerificacion.className = "animado transparente";
+    
+    // Text
+    const texto = document.createElement("div");
+    texto.className = "texto";
+    texto.innerHTML = "Verificando versión de software";
+    
+    estadoVerificacion.appendChild(getLoadingElement());
+    estadoVerificacion.append(texto);
+    const fondo = document.getElementById("fondoIntroduccion");
+    const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
+    fondo.insertBefore(estadoVerificacion, botonIntroduccion);
+    setTimeout( () => {
+        estadoVerificacion.className = "loadingContainer visible";
+    }, 500 );
+}
+
 const eliminarMenuVerificacion = function () {
     const estadoVerificacion = document.getElementById("estadoVerificacion")
     const fondo = document.getElementById("fondoIntroduccion");

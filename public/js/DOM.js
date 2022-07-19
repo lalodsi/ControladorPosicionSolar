@@ -85,41 +85,6 @@ const interactuarInputConRuedaDelMouse = function ( callback ) {
 };
 
 /**
- * Crear un elemento HTML del tipo
- * <div class="lds-ripple">
- *   <div></div>
- *   <div></div>
- * </div>
- */
-const aparecerMenuVerificacion = function () {
-    // Creando animacion de carga
-    const loadingElement = document.createElement("div");
-    loadingElement.appendChild(document.createElement("div"));
-    loadingElement.appendChild(document.createElement("div"));
-    loadingElement.className = "lds-ripple";
-
-    // Contenedor
-    const estadoVerificacion = document.createElement("div");
-    estadoVerificacion.id = "estadoVerificacion";
-    // estadoVerificacion.className = "subsection estado animado transparente";
-    estadoVerificacion.className = "animado transparente";
-    
-    // Text
-    const texto = document.createElement("div");
-    texto.className = "texto";
-    texto.innerHTML = "Verificando versión de software";
-    
-    estadoVerificacion.appendChild(loadingElement);
-    estadoVerificacion.append(texto);
-    const fondo = document.getElementById("fondoIntroduccion");
-    const botonIntroduccion = document.getElementsByClassName("contenedorIntroduccion")[0];
-    fondo.insertBefore(estadoVerificacion, botonIntroduccion);
-    setTimeout( () => {
-        estadoVerificacion.className = "loadingContainer visible";
-    }, 500 );
-}
-
-/**
  * Controla la actividad de monitoreo del arduino
  * El control de esta actividad se hace a través de las siguientes acciones:
  * - Cambiar el boton para comenzar y terminar monitoreo
