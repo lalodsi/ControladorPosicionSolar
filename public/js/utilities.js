@@ -50,3 +50,10 @@ const ocultarTodoExcepto = function(index, className, ...callbacks){
     loadingElement.className = "lds-ripple";
     return loadingElement;
 }
+
+const request = async function (index) {
+    const contenedor = document.getElementsByClassName("principal")[0];
+    const url = `http://localhost:3000/api/v1/menu/contenido/${index + 1}`;
+    const response = await fetch(url);
+    contenedor.innerHTML = await response.text();
+};

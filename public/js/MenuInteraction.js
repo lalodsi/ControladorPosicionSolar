@@ -1,10 +1,3 @@
-const request = async function (index) {
-    const contenedor = document.getElementsByClassName("principal")[0];
-    const url = `http://localhost:3000/api/v1/menu/contenido/${index + 1}`;
-    const response = await fetch(url);
-    contenedor.innerHTML = await response.text();
-};
-
 const getInformacionMonitoreoSection = function () {
     // request(0);
     socket.emit(
