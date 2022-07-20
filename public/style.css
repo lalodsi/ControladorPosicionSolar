@@ -554,7 +554,8 @@ option:hover{
     margin-bottom: 0px;
 }
 .monitorSerial{
-    background-color: var(--fondoBotonHoverAzul);
+    transition: all 500ms ease;
+    background-color: var(--fondo);
     position: fixed;
     bottom: 0px;
     left: 15%;
@@ -566,9 +567,56 @@ option:hover{
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
 }
+.monitorSerial.abajo{
+    transform: translateY(510px);
+    
+}
 .contenedorSerial{
     background-color: black;
-    height: 75%;
+    height: 65%;
     color: white;
     overflow-y: scroll;
+}
+.contenedorSerial::-webkit-scrollbar{
+    width: 12px;
+}
+.contenedorSerial::-webkit-scrollbar-track{
+    background: var(--fondoTransparente);
+}
+.contenedorSerial::-webkit-scrollbar-thumb {
+    background-color: var(--fondoContenidoEstado);
+    border-radius: 20px;
+    border: 3px solid var(--verdeClaro);
+}
+
+.inputMonitorSerial{
+    width: 100%;
+    margin-top: 10px;
+}
+.botonSendSerial{
+    width: 50%;
+    margin-top: 10px;
+    margin-left: 110px;
+}
+.sendMonitorSerial{
+    width: 50%;
+    margin: auto;
+}
+.cerrarSerial{
+    position: absolute;
+    right: 0px;
+    top: 8px;
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: 0.2s;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-right: 10px;
+    background-image: url('./images/close.png');
 }

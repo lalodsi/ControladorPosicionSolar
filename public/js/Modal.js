@@ -97,8 +97,7 @@ const interaccionMenuDesarrollo = function (){
         aparecerMenuVerificacion();
     })
     botonSerial.addEventListener('click', () => {
-        const MonitorSerial = document.getElementsByClassName("monitorSerial")[0];
-        MonitorSerial.className = "monitorSerial";
+        abrirMonitorSerial();
     })
 }
 

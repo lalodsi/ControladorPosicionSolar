@@ -16,6 +16,7 @@ botonComenzarRecepcionDeDatos();
 activarBotonComenzar("desactivado");
 copiarAlPortapapeles();
 botonEnviarMonitorSerial();
+botonCerrarMonitorSerial();
 
 // Gráficas a generar
 const graficaSensores = new graficas("Sensores");

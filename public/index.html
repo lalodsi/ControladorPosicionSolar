@@ -103,13 +103,19 @@
             <button class="botonIntroduccion">Creadores</button>
         </div>
     </div>
-    <div class="monitorSerial desaparecido">
+    <div class="monitorSerial">
+        <button id="closeSerialBtn" class="cerrarSerial"></button>
         <p class="header">Monitor Serial</p>
-        <div class="sendMonitorSerial">
-            <input id="monitorSerialEnviarTexto" type="text">
-            <button id="monitorSerialEnviar">Enviar</button>
-        </div>
         <div class="contenedorSerial" id="contenedorSerial"></div>
+        <div class="sendMonitorSerial">
+            <input 
+                class="inputMonitorSerial"
+                id="monitorSerialEnviarTexto"
+                type="text"
+                placeholder="Escribe algo para enviar"
+                onkeypress="monitorSerialHandleClick(event)">
+            <button class="boton botonSendSerial" id="monitorSerialEnviar">Enviar</button>
+        </div>
     </div>
     <!-- <script src="./DOM.js"></script>    <script src="../js/ArduinoSerial.js"></script> -->
     <script src="/socket.io/socket.io.js"></script>
