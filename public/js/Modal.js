@@ -88,6 +88,11 @@ const eliminarMenuVerificacion = function () {
     }
 };
 
+const quitarMenuDesarrollo = function () {
+    const menuDesarrollo = document.getElementsByClassName("menuDesarrollo")[0];
+    menuDesarrollo.remove();
+}
+
 const interaccionMenuDesarrollo = function (){
     const botonContinuar = document.getElementById("botonContinuar");
     const botonSerial = document.getElementById("botonSerial");
@@ -95,6 +100,7 @@ const interaccionMenuDesarrollo = function (){
     botonContinuar.addEventListener('click', () => {
         enviarPalabraVerificacion();
         aparecerMenuVerificacion();
+        quitarMenuDesarrollo();
     })
     botonSerial.addEventListener('click', () => {
         abrirMonitorSerial();
@@ -114,4 +120,4 @@ const aparecerMenuDesarrollo = async function () {
         fondo.append(menuDesarrollo);
         interaccionMenuDesarrollo();
     }, 500);
-}
+};
