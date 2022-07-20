@@ -23,10 +23,12 @@ const botonEnviarMonitorSerial = function () {
 
 
 const cerrarMonitorSerial = function () {
+    socket.emit("monitorSerial", {connected: false})
     const contenedorSerial = document.getElementsByClassName("monitorSerial")[0];
     contenedorSerial.className = "monitorSerial abajo"
 }
 const abrirMonitorSerial = function () {
+    socket.emit("monitorSerial", {connected: true})
     const contenedorSerial = document.getElementsByClassName("monitorSerial")[0];
     contenedorSerial.className = "monitorSerial"
 }
