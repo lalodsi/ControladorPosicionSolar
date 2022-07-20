@@ -66,6 +66,10 @@ function sockets(socket) {
         // arduino.sendData(`${data.latitud},${data.longitud}`);
         setTimeout(() => arduino.sendData(`${data.latitud},${data.longitud}`), 1000);
     } );
+    socket.on(
+        "monitorSerial",
+        data => arduino.monitorSerialConnected = data.connected
+        );
 
 }
 

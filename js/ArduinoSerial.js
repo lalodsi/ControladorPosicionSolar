@@ -20,6 +20,7 @@ class ArduinoSerial{
     constructor() {
         this.isConnected = false;
         this.isApproved = false;
+        this.monitorSerialConnected = false;
     }
 
     /**
@@ -120,7 +121,10 @@ class ArduinoSerial{
                 console.log(data);
                 const datos = JSON.parse(data);
                 // MonitorSerial
-                socket.emit("monitorSerial", data);
+                if (this.monitorSerialConnected) {
+                    socket.emit("monitorSerial", data);
+                    return;
+                }
                 // console.log(datos.accion);
                 if (datos.accion === "monitoreo") 
                 {

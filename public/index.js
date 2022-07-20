@@ -12,7 +12,6 @@ ocultarTodoExcepto(0, ".principal"); //Cambiar
 btnShowContent();
 interactuarInputConRuedaDelMouse();
 botonComenzarRecepcionDeDatos();
-// botonConectarConArduino();
 activarBotonComenzar("desactivado");
 copiarAlPortapapeles();
 botonEnviarMonitorSerial();
