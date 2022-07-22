@@ -79,13 +79,6 @@ socket.on("MenuArduino", data => {
     actualState = data.menu;
 })
 socket.on("monitorSerial", data => {
-    const contenedor = document.getElementById("contenedorSerial");
-    const dato = document.createElement('p');
-    dato.innerText = data;
-    contenedor.appendChild(dato);
-    if (contenedor.scrollTop > contenedor.scrollHeight - 600) {
-        contenedor.scrollTop += 53;
-    }
-    console.log(`total: ${contenedor.scrollHeight}, desplazado: ${contenedor.scrollTop}`);
+    escribirMonitorSerialTexto();
 })
 

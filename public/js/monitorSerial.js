@@ -38,3 +38,13 @@ const botonCerrarMonitorSerial = function () {
         cerrarMonitorSerial();
     });
 }
+
+const escribirMonitorSerialTexto = function (){
+    const contenedor = document.getElementById("contenedorSerial");
+    const dato = document.createElement('p');
+    dato.innerText = data;
+    contenedor.appendChild(dato);
+    if (contenedor.scrollTop > contenedor.scrollHeight - 600) {
+        contenedor.scrollTop += 53;
+    }
+}
