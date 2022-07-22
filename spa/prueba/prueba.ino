@@ -1,3 +1,7 @@
+/*
+Prueba de importación de librería spa.h
+*/
+
 #include "spa.c"
 #include "SPATime.h"
   

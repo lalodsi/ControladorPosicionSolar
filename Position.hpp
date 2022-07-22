@@ -1,6 +1,9 @@
-/**
- * @brief Clase position
- * 
+/** SIN UTILIZAR
+ * @brief Clase position, aún no está implementada en el proyecto, pero pretende ser de utilizad para
+ * manejar las coordenadas de posición del proyecto.
+ * # Posible uso
+ *  Crear una instancia de la clase position de la siguiente manera
+ *     position panel;
  */
 class position
 {

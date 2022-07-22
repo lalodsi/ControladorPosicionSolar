@@ -1,6 +1,6 @@
 #include "external.hpp"
 /**
- * @brief sensor externo
+ * @brief clase que se encarga de realizar una lectura analógica
  * 
  */
 class sensor: public external
