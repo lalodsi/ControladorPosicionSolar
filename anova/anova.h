@@ -7,6 +7,7 @@
  * Si cambia el tamaño de los arreglos de entrada, modificar este valor: http://uaaan.mx/~jmelbos/tablas/distf.pdf
  */
 #define F_CRITICA 2.866081402
+#define ARRAY_SIZE 5
 
 /**
  * @brief Calcula el promedio de un arreglo de números
@@ -139,4 +140,17 @@ double F_Value(double **datos, int size){
     double s2pe_value = S2PE(datos, size);
     double s2factor_value = S2Factor(datos, size);
     return s2factor_value / s2pe_value;
+}
+
+/**
+ * @brief Realiza el test de la genuina diferencia de Tukey
+ * 
+ */
+void TukeyTest() {
+    // Todo
+}
+
+void QValue(double *first, double *second, size) {
+    double Xp = Promedio(first, size);
+    double Xq = Promedio(second, size);
 }

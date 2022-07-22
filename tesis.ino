@@ -57,12 +57,24 @@ void serialEvent(){
   entrada.trim();
     // Control de flujo
   if(entrada.equals("calibrar")){
+    Serial.print("{");
+    Serial.print("\"accion\":\"changeMenu\",");
+    Serial.print("\"menu\":\"calibrar\"");
+    Serial.println("}");
     calibrar();
   }
   if(entrada.equals("controlar")){
+    Serial.print("{");
+    Serial.print("\"accion\":\"changeMenu\",");
+    Serial.print("\"menu\":\"controlar\"");
+    Serial.println("}");
     controlar();
   } 
   if(entrada.equals("monitorear")){
+    Serial.print("{");
+    Serial.print("\"accion\":\"changeMenu\",");
+    Serial.print("\"menu\":\"monitorear\"");
+    Serial.println("}");
     enviarSensores();
   } 
   if(entrada.equals("probar")){
@@ -70,6 +82,13 @@ void serialEvent(){
   }
 
   Serial.flush();
+  // Serial.print("");
+
+  // MenuPrincipal
+  Serial.print("{");
+  Serial.print("\"accion\":\"changeMenu\",");
+  Serial.print("\"menu\":\"home\"");
+  Serial.println("}");
 
   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(50);                       // wait for a second
