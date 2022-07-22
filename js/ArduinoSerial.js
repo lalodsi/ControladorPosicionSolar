@@ -120,6 +120,14 @@ class ArduinoSerial{
             try{
                 console.log(data);
                 const datos = JSON.parse(data);
+                // Cambiar Menu
+                if (datos.accion === "changeMenu") {
+                    const menu = datos.menu;
+                    socket.emit(this.server.sockets.menuArduino,
+                        {
+                            menu
+                        });
+                }
                 // MonitorSerial
                 if (this.monitorSerialConnected) {
                     socket.emit("monitorSerial", data);
@@ -140,13 +148,6 @@ class ArduinoSerial{
                         {
                             hasTheProgram: true,
                             message: "El dispositivo tiene el software adecuado"
-                        });
-                }
-                if (datos.accion === "changeMenu") {
-                    const menu = datos.menu;
-                    socket.emit(this.server.sockets.menuArduino,
-                        {
-                            menu
                         });
                 }
             }

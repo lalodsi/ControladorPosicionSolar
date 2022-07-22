@@ -3,7 +3,7 @@ const socket = io();
 // Estados de Conexion
 let isConnected = false;
 let itHasTheProgram = false;
-let actualState = "";
+let actualState = "home";
 
 // Inicializando
 topBarFunctions();
@@ -30,15 +30,14 @@ socket.on('disconnect', ()=>{
 })
 socket.on('arduinoSoftwareTest', data => {
     itHasTheProgram = data.hasTheProgram;
+    eliminarMenuVerificacion();
     if (data.hasTheProgram) {
         console.log("Verificación de software aceptada");
-        eliminarMenuVerificacion();
         desvanecerFondo();
     }
     else{
         console.log("Software incorrecto");
         ocultarTodoExcepto(0, ".Contenido_Estado");
-        eliminarMenuVerificacion();
         reaparecerMenuConexion();
         setTimeout(()=>errorAlIntentarConectar(data.message), 500);
     }
@@ -60,6 +59,7 @@ socket.on('arduinoConnectionState', data => {
         }
         else{
             ocultarTodoExcepto(0, ".Contenido_Estado");
+            cerrarMonitorSerial();
         }
     }
 })
@@ -79,6 +79,6 @@ socket.on("MenuArduino", data => {
     actualState = data.menu;
 })
 socket.on("monitorSerial", data => {
-    escribirMonitorSerialTexto();
+    escribirMonitorSerialTexto(data);
 })
 

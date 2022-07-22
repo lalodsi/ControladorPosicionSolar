@@ -630,3 +630,31 @@ option:hover{
     align-items: center;
     margin-top: 20px;
 }
+.warning{
+    position: fixed;
+    width: 400px;
+    left: calc(50% - 200px);
+    z-index: 4;
+    background-color: #f8d7da;
+    color: #842029;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 1rem;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    
+    transition: all 500ms ease;
+}
+.warning.arriba{
+    top: -40px;
+    opacity: 0;
+}
+.warning.posicionado{
+    top: 43px;
+    opacity: 1;
+    
+}
+.warning.bye{
+    top: 100px;
+    opacity: 0;
+}

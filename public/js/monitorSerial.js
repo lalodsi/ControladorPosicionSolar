@@ -2,11 +2,19 @@ const monitorSerialHandleClick = (event)=>{
     if (event) {
         if (event.keyCode != 13) return;
     }
+    enviarTextoMonitorSerial();
+}
+
+const enviarTextoMonitorSerial = function () {
     const texto = document.getElementById("monitorSerialEnviarTexto").value;
     const serialContenedor = document.getElementById('contenedorSerial');
     const textoHTML = document.createElement('p');
     textoHTML.innerHTML = `> ${texto}`;
     serialContenedor.appendChild(textoHTML);
+    // Hacer scroll
+    const contenedor = document.getElementById("contenedorSerial");
+    contenedor.scrollTop += 53;
+    // Avisar de la interaccion
     socket.emit(
         eventos.enviarPalabra,
         {
@@ -18,14 +26,29 @@ const monitorSerialHandleClick = (event)=>{
 
 const botonEnviarMonitorSerial = function () {
     const boton = document.getElementById('monitorSerialEnviar');
-    boton.addEventListener('click', monitorSerialHandleClick);
+    boton.addEventListener('click', enviarTextoMonitorSerial);
 }
 
+const getAviso = (menu) => {
+    const aviso = document.createElement("div");
+    aviso.className = "warning arriba";
+    aviso.innerHTML = `Tienes que regresar al menu principal, estás en ${menu}`;
+    setTimeout(()=>aviso.className = "warning posicionado", 0);
+    setTimeout(()=>aviso.className = "warning bye", 3000);
+    setTimeout(()=>aviso.remove(), 3500);
+    return aviso;
+}
 
 const cerrarMonitorSerial = function () {
-    socket.emit("monitorSerial", {connected: false})
-    const contenedorSerial = document.getElementsByClassName("monitorSerial")[0];
-    contenedorSerial.className = "monitorSerial abajo"
+    if (actualState == "home") {
+        socket.emit("monitorSerial", {connected: false})
+        const contenedorSerial = document.getElementsByClassName("monitorSerial")[0];
+        contenedorSerial.className = "monitorSerial abajo";
+    }
+    else{
+        const cuerpo = document.getElementsByTagName("body")[0];
+        cuerpo.append(getAviso(actualState));
+    }
 }
 const abrirMonitorSerial = function () {
     socket.emit("monitorSerial", {connected: true})
@@ -39,7 +62,7 @@ const botonCerrarMonitorSerial = function () {
     });
 }
 
-const escribirMonitorSerialTexto = function (){
+const escribirMonitorSerialTexto = function (data){
     const contenedor = document.getElementById("contenedorSerial");
     const dato = document.createElement('p');
     dato.innerText = data;
