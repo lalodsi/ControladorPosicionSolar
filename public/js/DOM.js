@@ -49,26 +49,6 @@ const asignaDatosF = function (dataArray) {
 }
 
 /**
- * Activa o desactiva el botón para comenzar el envío de datos según el parámetro entrante que determina el estado del arduino
- * @param {boolean} data bandera para activar o desactivar el boton comenzar
- */
-const activarBotonComenzar = function (state) {
-    const botonStart =document.getElementById('startMonitoreo');
-    if (state === "start") {
-        botonStart.className = "botonStart start";
-        botonStart.setAttribute('style', 'display: block;')
-    }
-    else if (state === "stop") {
-        botonStart.className = "botonStart stop";
-        botonStart.setAttribute('style', 'display: block;')
-    }
-    else if(state === "desactivado"){
-        botonStart.className = "botonStart";
-        botonStart.setAttribute('style', 'display: none;')
-    }
-};
-
-/**
  * Activa un event listener en los input numéricos de modo que sus valores puedan
  * ser modificados con la rueda del mouse
  */
@@ -90,24 +70,24 @@ const interactuarInputConRuedaDelMouse = function ( callback ) {
  * - Cambiar el boton para comenzar y terminar monitoreo
  * - Enviar el socket correspondiente para 
  */
-const botonComenzarRecepcionDeDatos = function () {
-    const socketName = eventosSockets.comenzarRecepcionDeDatos; // startSendingData
-    const boton = document.getElementById('startMonitoreo');
-    const botonComenzarFuncion = activarBotonComenzar;
-    boton.addEventListener( "click", () => {
-        const texto = boton.innerHTML;
-        if (texto === "Comenzar Monitoreo") {
-            socket.emit(socketName, { comenzar : true });
-            botonComenzarFuncion("stop");
-            boton.innerHTML = "Terminar Monitoreo";
-        }
-        if (texto === "Terminar Monitoreo") {
-            socket.emit(socketName, { comenzar : false });
-            botonComenzarFuncion("start");
-            boton.innerHTML = "Comenzar Monitoreo";
-        }
-    })
-};
+// const botonComenzarRecepcionDeDatos = function () {
+//     const socketName = eventosSockets.comenzarRecepcionDeDatos; // startSendingData
+//     const boton = document.getElementById('startMonitoreo');
+//     const botonComenzarFuncion = activarBotonComenzar;
+//     boton.addEventListener( "click", () => {
+//         const texto = boton.innerHTML;
+//         if (texto === "Comenzar Monitoreo") {
+//             socket.emit(socketName, { comenzar : true });
+//             botonComenzarFuncion("stop");
+//             boton.innerHTML = "Terminar Monitoreo";
+//         }
+//         if (texto === "Terminar Monitoreo") {
+//             socket.emit(socketName, { comenzar : false });
+//             botonComenzarFuncion("start");
+//             boton.innerHTML = "Comenzar Monitoreo";
+//         }
+//     })
+// };
 
 const copiarAlPortapapeles = function () {
     const datosHTML = document.querySelectorAll(".dato");

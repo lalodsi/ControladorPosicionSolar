@@ -58,7 +58,7 @@ const introduccion = async function () {
     });
 }
 
- const aparecerMenuVerificacion = function () {
+const aparecerMenuVerificacion = function () {
     // Contenedor
     const estadoVerificacion = document.createElement("div");
     estadoVerificacion.id = "estadoVerificacion";

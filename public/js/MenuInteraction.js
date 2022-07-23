@@ -1,12 +1,35 @@
-const getInformacionMonitoreoSection = function () {
-    // request(0);
+/**
+ * Activa o desactiva el botón para comenzar el envío de datos según el parámetro entrante que determina el estado del arduino
+ * @param {boolean} data bandera para activar o desactivar el boton comenzar
+ */
+ const activarBotonComenzar = function (state) {
+    const botonStart =document.getElementById('startMonitoreo');
+    if (state === "start") {
+        botonStart.className = "botonStart start";
+        botonStart.setAttribute('style', 'display: block;')
+    }
+    else if (state === "stop") {
+        botonStart.className = "botonStart stop";
+        botonStart.setAttribute('style', 'display: block;')
+    }
+    else if(state === "desactivado"){
+        botonStart.className = "botonStart";
+        botonStart.setAttribute('style', 'display: none;')
+    }
+};
+
+const activarModoMonitoreo = function () {
     socket.emit(
         eventos.enviarPalabra,
         {
-            word: "salir",
-            message: "Se envio la palabra salir"
+            word: "monitorear",
+            message: "Se envio la palabra monitorear"
         }
     );
+}
+
+const getInformacionMonitoreoSection = function () {
+    // request(0);
     copiarAlPortapapeles();
     blockAll();
 };
@@ -100,8 +123,7 @@ const btnShowContent = function() {
     const botones = document.querySelectorAll(".boton");
     const arrBotones = devolverArrayHTML(botones);
     
-    arrBotones[0].addEventListener('click', getInformacionMonitoreoSection);
-    arrBotones[1].addEventListener('click', getGraficasSection);
-    arrBotones[2].addEventListener('click', getControlManualSection);
-    arrBotones[3].addEventListener('click', getPanelDeControlSection);
+    arrBotones[0].addEventListener('click', activarModoMonitoreo);
+    arrBotones[1].addEventListener('click', getControlManualSection);
+    arrBotones[2].addEventListener('click', getPanelDeControlSection);
 };

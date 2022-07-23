@@ -334,19 +334,19 @@ input{
     background: var(--fondoDatoHover);
     cursor: copy;
 }
-.start{
+.greenButton{
     transition: all 500ms ease;
     color: var(--colorTexto);
     background-color: var(--verdeDiscreto);
 }
-.start:hover{
+.greenButton:hover{
     background-color: var(--verdeMenta);
 }
-.stop{
+.backButton{
     color: var(--colorTexto);
     background-color: var(--fondoBotonHoverAzul);
 }
-.stop:hover{
+.backButton:hover{
     background-color: var(--fondoContenidoEstado);
 }
 /* Animación de inicio */
@@ -630,13 +630,11 @@ option:hover{
     align-items: center;
     margin-top: 20px;
 }
-.warning{
+.aviso{
     position: fixed;
     width: 400px;
     left: calc(50% - 200px);
     z-index: 4;
-    background-color: #f8d7da;
-    color: #842029;
     padding: 10px;
     border-radius: 10px;
     font-size: 1rem;
@@ -645,16 +643,24 @@ option:hover{
     
     transition: all 500ms ease;
 }
-.warning.arriba{
+.aviso.warning{
+    background-color: #f8d7da;
+    color: #842029;
+}
+.aviso.info{
+    background-color: #d7ecf8;
+    color: black;
+}
+.aviso.arriba{
     top: -40px;
     opacity: 0;
 }
-.warning.posicionado{
+.aviso.posicionado{
     top: 43px;
     opacity: 1;
     
 }
-.warning.bye{
+.aviso.bye{
     top: 100px;
     opacity: 0;
 }

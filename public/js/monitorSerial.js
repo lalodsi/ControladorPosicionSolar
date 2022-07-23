@@ -29,16 +29,6 @@ const botonEnviarMonitorSerial = function () {
     boton.addEventListener('click', enviarTextoMonitorSerial);
 }
 
-const getAviso = (menu) => {
-    const aviso = document.createElement("div");
-    aviso.className = "warning arriba";
-    aviso.innerHTML = `Tienes que regresar al menu principal, estás en ${menu}`;
-    setTimeout(()=>aviso.className = "warning posicionado", 0);
-    setTimeout(()=>aviso.className = "warning bye", 3000);
-    setTimeout(()=>aviso.remove(), 3500);
-    return aviso;
-}
-
 const cerrarMonitorSerial = function () {
     if (actualState == "home") {
         socket.emit("monitorSerial", {connected: false})
@@ -46,8 +36,7 @@ const cerrarMonitorSerial = function () {
         contenedorSerial.className = "monitorSerial abajo";
     }
     else{
-        const cuerpo = document.getElementsByTagName("body")[0];
-        cuerpo.append(getAviso(actualState));
+        makeAviso(`Tienes que regresar al menu principal, estás en ${actualState}`);
     }
 }
 const abrirMonitorSerial = function () {

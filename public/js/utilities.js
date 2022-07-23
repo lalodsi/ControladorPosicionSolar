@@ -56,3 +56,15 @@ const requestMenu = async function (index) {
     const response = await fetch(url);
     return await response.text();
 };
+
+
+const getAviso = (message) => {
+    const aviso = document.createElement("div");
+    aviso.className = "aviso warning arriba";
+    aviso.innerHTML = message;
+    setTimeout(()=>aviso.className = "aviso warning posicionado", 0);
+    setTimeout(()=>aviso.className = "aviso warning bye", 3000);
+    setTimeout(()=>aviso.remove(), 3500);
+    const cuerpo = document.getElementsByTagName("body")[0];
+    cuerpo.append(aviso);
+}

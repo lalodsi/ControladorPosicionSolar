@@ -11,8 +11,8 @@ introduccion();
 ocultarTodoExcepto(0, ".principal"); //Cambiar
 btnShowContent();
 interactuarInputConRuedaDelMouse();
-botonComenzarRecepcionDeDatos();
-activarBotonComenzar("desactivado");
+// botonComenzarRecepcionDeDatos();
+// activarBotonComenzar("desactivado");
 copiarAlPortapapeles();
 botonEnviarMonitorSerial();
 botonCerrarMonitorSerial();
@@ -46,7 +46,7 @@ socket.on('arduinoSoftwareTest', data => {
 socket.on('arduinoConnectionState', data => {
     // enviarPalabraVerificacion();
     isConnected = data.isConnected;
-    activarBotonComenzar( data.isConnected? "start" : "desactivado" )
+    // activarBotonComenzar( data.isConnected? "start" : "desactivado" )
     if (data.isConnected) {
         ocultarTodoExcepto(2, ".Contenido_Estado");
         desvanecerMenuConexion();

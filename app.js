@@ -32,16 +32,6 @@ function sockets(socket) {
             setTimeout(()=> arduino.sendData("probar"), 1000 );
         }
     })
-    socket.on(servidor.sockets.monitorear, data => {
-        if (data.comenzar) {
-            // arduino.receiveData(socket, data.comenzar);
-            console.log("Solicitaste el intercambio de información");
-            arduino.sendData("monitorear");
-        } else {
-            console.log("Haz cancelado el intercambio de información");
-            arduino.sendData("salir");
-        }
-    } )
     // Socket para envío de palabras al arduino
     socket.on( servidor.sockets.enviarPalabra, data => {
         console.log(data.message);
