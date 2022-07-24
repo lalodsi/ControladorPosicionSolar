@@ -77,6 +77,7 @@ socket.on("ports", data => {
 // Interacción con el arduino
 socket.on("MenuArduino", data => {
     actualState = data.menu;
+    traerContenidoALaSeccion(actualState);
 })
 socket.on("monitorSerial", data => {
     escribirMonitorSerialTexto(data);

@@ -18,25 +18,63 @@
     }
 };
 
-const activarModoMonitoreo = function () {
+let contenidoSection = "home";
+
+const ponerIconoCargandoEnSeccionPrincipal = function () {
+    const contenedor = document.getElementsByClassName("principal")[0];
+    contenedor.innerHTML = "";
+    contenedor.className = "section principal centrado";
+    contenedor.append(getLoadingElement());
+}
+
+const activarModoMonitoreo = async function (event) {
+    ponerIconoCargandoEnSeccionPrincipal();
+    if (actualState === "home") {
+        socket.emit(
+            eventos.enviarPalabra,
+            {
+                word: "monitorear",
+                message: "Se envio la palabra monitorear"
+            }
+        );
+        bloquearBotones(2, 3);
+    }
+    // Traer el menu adecuado
+    const seccionPrincipal = document.getElementsByClassName("principal")[0];
+    switch (event.target.textContent) {
+        case "Informacion Monitoreo":
+            contenidoSection = "Informacion Monitoreo";
+            seccionPrincipal.innerHTML = await requestMenu(1);
+            break;
+
+        case "Graficas":
+            contenidoSection = "Graficas"
+            seccionPrincipal.innerHTML = await requestMenu(2);                
+            break;
+    }
+}
+
+const botonRegresar = function () {
+    ponerIconoCargandoEnSeccionPrincipal();
     socket.emit(
         eventos.enviarPalabra,
         {
-            word: "monitorear",
-            message: "Se envio la palabra monitorear"
+            word: "salir",
+            message: "Se envio la palabra salir"
         }
     );
+    bloquearBotones(4);
 }
 
 const getInformacionMonitoreoSection = function () {
     // request(0);
     copiarAlPortapapeles();
-    blockAll();
+    bloquearBotones();
 };
 
 const getGraficasSection = function () {
     // request(1);
-    blockAll();
+    bloquearBotones();
 };
 
 const getControlManualSection = function () {
@@ -64,7 +102,7 @@ const getControlManualSection = function () {
             {word: "controlar", message: "Se envio la palabra controlar"}
         );
     }, 200);
-    blockAll();
+    bloquearBotones();
 }
 
 const getPanelDeControlSection = function () {
@@ -72,48 +110,21 @@ const getPanelDeControlSection = function () {
     activarCalibracion();
     activarForms();
     interactuarInputConRuedaDelMouse();
-    blockAll();
+    bloquearBotones();
 }
 
 /**
  * Bloquea el contenido
  */
-const blockAll = function () {
-    const botones = document.querySelectorAll(".boton");
-    const arrBotones = devolverArrayHTML(botones);
-    const contenedor = document.getElementsByClassName("principal")[0];
-    // contenedor.className = "section principal bloqueado";
-    arrBotones.map( (boton, index) => {
-        boton.className = "boton botonDesactivado";
-    });
-
-    switch (actualState) {
-        case 'monitorear':
-            arrBotones[2].removeEventListener('click', getControlManualSection);
-            arrBotones[3].removeEventListener('click', getPanelDeControlSection);
-            break;
-
-        case 'calibrar':
-            arrBotones[0].removeEventListener('click', getInformacionMonitoreoSection);
-            arrBotones[1].removeEventListener('click', getGraficasSection);
-            arrBotones[2].removeEventListener('click', getControlManualSection);
-            arrBotones[3].removeEventListener('click', getPanelDeControlSection);
-            break;
-    
-        case 'controlar':
-            arrBotones[0].removeEventListener('click', getInformacionMonitoreoSection);
-            arrBotones[1].removeEventListener('click', getGraficasSection);
-            arrBotones[2].removeEventListener('click', getControlManualSection);
-            arrBotones[3].removeEventListener('click', getPanelDeControlSection);
-            break;
-    
-        default:
-            break;
+const bloquearBotones = function (...arr) {
+    if(arr.length){
+        const botones = document.querySelectorAll(".boton");
+        const arrBotones = devolverArrayHTML(botones);
+        arrBotones.map(boton => boton.className = "boton");
+        arr.map( (index) => {
+            arrBotones[index].className = "boton botonDesactivado";
+        });
     }
-
-    contenedor.innerHTML = "";
-    contenedor.className = "section principal centrado";
-    contenedor.append(getLoadingElement());
 }
 /**
  * Agrega funcionalidad a los botones para mostrar las diferentes vistas de la sección para información principal
@@ -124,6 +135,29 @@ const btnShowContent = function() {
     const arrBotones = devolverArrayHTML(botones);
     
     arrBotones[0].addEventListener('click', activarModoMonitoreo);
-    arrBotones[1].addEventListener('click', getControlManualSection);
-    arrBotones[2].addEventListener('click', getPanelDeControlSection);
+    arrBotones[1].addEventListener('click', activarModoMonitoreo);
+    arrBotones[2].addEventListener('click', getControlManualSection);
+    arrBotones[3].addEventListener('click', getPanelDeControlSection);
+    arrBotones[4].addEventListener('click', botonRegresar);
 };
+
+const traerContenidoALaSeccion = async function (menu) {
+    // contenidoSection
+    // Traer el menu adecuado
+    const seccionPrincipal = document.getElementsByClassName("principal")[0];
+    if (menu === "home")
+        seccionPrincipal.innerHTML = "";
+    if (menu === "Monitoreo"){
+        switch (contenidoSection) {
+            case "Informacion Monitoreo":
+                contenidoSection = "Informacion Monitoreo";
+                seccionPrincipal.innerHTML = await requestMenu(1);
+                break;
+    
+            case "Graficas":
+                contenidoSection = "Graficas"
+                seccionPrincipal.innerHTML = await requestMenu(2);                
+                break;
+        }
+    }
+}
