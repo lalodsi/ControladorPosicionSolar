@@ -90,7 +90,9 @@ const eliminarMenuVerificacion = function () {
 
 const quitarMenuDesarrollo = function () {
     const menuDesarrollo = document.getElementsByClassName("menuDesarrollo")[0];
-    menuDesarrollo.remove();
+    if (menuDesarrollo) {
+        menuDesarrollo.remove();
+    }
 }
 
 const interaccionMenuDesarrollo = function (){

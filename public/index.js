@@ -53,6 +53,8 @@ socket.on('arduinoConnectionState', data => {
         aparecerMenuDesarrollo();
         // aparecerMenuVerificacion();
     } else {
+        eliminarMenuVerificacion();
+        quitarMenuDesarrollo();
         if (data.error) {
             ocultarTodoExcepto(0, ".Contenido_Estado");
             errorAlIntentarConectar(data.message);

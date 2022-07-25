@@ -28,8 +28,8 @@ const ponerIconoCargandoEnSeccionPrincipal = function () {
 }
 
 const activarModoMonitoreo = async function (event) {
-    ponerIconoCargandoEnSeccionPrincipal();
     if (actualState === "home") {
+        ponerIconoCargandoEnSeccionPrincipal();
         socket.emit(
             eventos.enviarPalabra,
             {
@@ -39,17 +39,23 @@ const activarModoMonitoreo = async function (event) {
         );
         bloquearBotones(2, 3);
     }
-    // Traer el menu adecuado
-    const seccionPrincipal = document.getElementsByClassName("principal")[0];
+    // Se actualizará el valor del contenido que debe tener la sección
+    // y se cambiará en caso de que el usuario se encuentre en el estado de monitorear
     switch (event.target.textContent) {
         case "Informacion Monitoreo":
             contenidoSection = "Informacion Monitoreo";
-            seccionPrincipal.innerHTML = await requestMenu(1);
+            if (actualState === "monitorear") {
+                const seccionPrincipal = document.getElementsByClassName("principal")[0];
+                seccionPrincipal.innerHTML = await requestMenu(1);
+            }
             break;
-
+            
         case "Graficas":
             contenidoSection = "Graficas"
-            seccionPrincipal.innerHTML = await requestMenu(2);                
+            if (actualState === "monitorear") {
+                const seccionPrincipal = document.getElementsByClassName("principal")[0];
+                seccionPrincipal.innerHTML = await requestMenu(2);
+            }
             break;
     }
 }
@@ -142,12 +148,13 @@ const btnShowContent = function() {
 };
 
 const traerContenidoALaSeccion = async function (menu) {
-    // contenidoSection
     // Traer el menu adecuado
+    console.log(`El menu es ${menu} ${menu === "monitorear"}`);
+    console.log(`La sección es ${contenidoSection}`);
     const seccionPrincipal = document.getElementsByClassName("principal")[0];
     if (menu === "home")
         seccionPrincipal.innerHTML = "";
-    if (menu === "Monitoreo"){
+    if (menu === "monitorear"){
         switch (contenidoSection) {
             case "Informacion Monitoreo":
                 contenidoSection = "Informacion Monitoreo";
@@ -158,6 +165,20 @@ const traerContenidoALaSeccion = async function (menu) {
                 contenidoSection = "Graficas"
                 seccionPrincipal.innerHTML = await requestMenu(2);                
                 break;
+        }
+    }
+    if (menu === "controlar") {
+        if (contenidoSection === "Modo de Control Manual") {
+            contenidoSection = "Informacion Monitoreo";
+            seccionPrincipal.innerHTML = await requestMenu(1);
+        }
+    }
+    if (menu === "calibrar") {
+        if (menu === "controlar") {
+            if (contenidoSection === "Modo de Calibración") {
+                contenidoSection = "Informacion Monitoreo";
+                seccionPrincipal.innerHTML = await requestMenu(1);
+            }
         }
     }
 }
