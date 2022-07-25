@@ -20,16 +20,16 @@
 
 let contenidoSection = "home";
 
-const ponerIconoCargandoEnSeccionPrincipal = function () {
+const ponerIconoCargandoEnSeccionPrincipal = function (message) {
     const contenedor = document.getElementsByClassName("principal")[0];
     contenedor.innerHTML = "";
     contenedor.className = "section principal centrado";
-    contenedor.append(getLoadingElement());
+    contenedor.append(getLoadingElement(message));
 }
 
 const activarModoMonitoreo = async function (event) {
     if (actualState === "home") {
-        ponerIconoCargandoEnSeccionPrincipal();
+        ponerIconoCargandoEnSeccionPrincipal("Activando modo monitoreo");
         socket.emit(
             eventos.enviarPalabra,
             {
@@ -61,7 +61,7 @@ const activarModoMonitoreo = async function (event) {
 }
 
 const botonRegresar = function () {
-    ponerIconoCargandoEnSeccionPrincipal();
+    ponerIconoCargandoEnSeccionPrincipal("Regresando al menu Home");
     socket.emit(
         eventos.enviarPalabra,
         {

@@ -42,13 +42,21 @@ const ocultarTodoExcepto = function(index, className, ...callbacks){
  *   <div></div>
  * </div>
  */
- const getLoadingElement = function () {
+ const getLoadingElement = function (message) {
     // Creando animacion de carga
     const loadingElement = document.createElement("div");
     loadingElement.appendChild(document.createElement("div"));
     loadingElement.appendChild(document.createElement("div"));
     loadingElement.className = "lds-ripple";
-    return loadingElement;
+    // Texto que lo acompaña
+    const texto = document.createElement("div");
+    texto.className = "texto";
+    texto.innerHTML = message? message : "";
+    // Contenedor global
+    const container = document.createElement("div");
+    container.append(loadingElement)
+    container.append(texto)
+    return container;
 }
 
 const requestMenu = async function (index) {
