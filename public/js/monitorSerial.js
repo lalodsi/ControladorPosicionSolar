@@ -36,7 +36,10 @@ const cerrarMonitorSerial = function () {
         contenedorSerial.className = "monitorSerial abajo";
     }
     else{
-        makeAviso(`Tienes que regresar al menu principal, estás en ${actualState}`);
+        makeAviso(
+            `Tienes que regresar al menu principal, estás en ${actualState}`,
+            'warning'
+        );
     }
 }
 const abrirMonitorSerial = function () {

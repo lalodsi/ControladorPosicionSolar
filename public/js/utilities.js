@@ -66,12 +66,12 @@ const requestMenu = async function (index) {
 };
 
 
-const makeAviso = (message) => {
+const makeAviso = (message, type) => {
     const aviso = document.createElement("div");
-    aviso.className = "aviso warning arriba";
+    aviso.className = `aviso ${type} arriba`;
     aviso.innerHTML = message;
-    setTimeout(()=>aviso.className = "aviso warning posicionado", 0);
-    setTimeout(()=>aviso.className = "aviso warning bye", 3000);
+    setTimeout(()=>aviso.className = `aviso ${type} posicionado`, 0);
+    setTimeout(()=>aviso.className = `aviso ${type} bye`, 3000);
     setTimeout(()=>aviso.remove(), 3500);
     const cuerpo = document.getElementsByTagName("body")[0];
     cuerpo.append(aviso);
