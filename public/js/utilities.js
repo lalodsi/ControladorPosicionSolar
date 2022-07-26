@@ -66,7 +66,7 @@ const requestMenu = async function (index) {
 };
 
 
-const getAviso = (message) => {
+const makeAviso = (message) => {
     const aviso = document.createElement("div");
     aviso.className = "aviso warning arriba";
     aviso.innerHTML = message;

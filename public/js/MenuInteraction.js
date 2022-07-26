@@ -84,7 +84,15 @@ const getGraficasSection = function () {
 };
 
 const getControlManualSection = function () {
-    // request(2);
+    contenidoSection = "Modo de Control Manual"
+    ponerIconoCargandoEnSeccionPrincipal("Activando el control manual");
+    socket.emit(
+        eventos.enviarPalabra,
+        {
+            word: "controlar",
+            message: "Se envio la palabra controlar"
+        }
+    );
     interactuarInputConRuedaDelMouse( ()=>{
         const azimut = document.getElementById("azimut").value;
         const elevacion = document.getElementById("elevacion").value;
@@ -96,27 +104,14 @@ const getControlManualSection = function () {
             }
         );
     } );
-    socket.emit(
-        eventos.enviarPalabra,
-        {
-            word: "salir",
-            message: "Se envio la palabra salir"
-        }
-    );
-    setTimeout(() => {
-        socket.emit(eventos.enviarPalabra,
-            {word: "controlar", message: "Se envio la palabra controlar"}
-        );
-    }, 200);
-    bloquearBotones();
+    bloquearBotones(0,1,2,3);
 }
 
 const getPanelDeControlSection = function () {
-    // request(3);
+    contenidoSection = "Modo de Calibración"
+    ponerIconoCargandoEnSeccionPrincipal("Activando el modo calibración");
     activarCalibracion();
-    activarForms();
-    interactuarInputConRuedaDelMouse();
-    bloquearBotones();
+    bloquearBotones(0,1,2,3);
 }
 
 /**
@@ -157,28 +152,22 @@ const traerContenidoALaSeccion = async function (menu) {
     if (menu === "monitorear"){
         switch (contenidoSection) {
             case "Informacion Monitoreo":
-                contenidoSection = "Informacion Monitoreo";
                 seccionPrincipal.innerHTML = await requestMenu(1);
                 break;
     
             case "Graficas":
-                contenidoSection = "Graficas"
                 seccionPrincipal.innerHTML = await requestMenu(2);                
                 break;
         }
     }
-    if (menu === "controlar") {
-        if (contenidoSection === "Modo de Control Manual") {
-            contenidoSection = "Informacion Monitoreo";
-            seccionPrincipal.innerHTML = await requestMenu(1);
-        }
+    if (menu === "controlar" && contenidoSection === "Modo de Control Manual"){
+        seccionPrincipal.innerHTML = await requestMenu(3);
+        interactuarInputConRuedaDelMouse();
     }
-    if (menu === "calibrar") {
-        if (menu === "controlar") {
-            if (contenidoSection === "Modo de Calibración") {
-                contenidoSection = "Informacion Monitoreo";
-                seccionPrincipal.innerHTML = await requestMenu(1);
-            }
-        }
+
+    if (menu === "calibrar" && contenidoSection === "Modo de Calibración"){
+        seccionPrincipal.innerHTML = await requestMenu(4);
+        activarForms();
+        interactuarInputConRuedaDelMouse();
     }
 }
