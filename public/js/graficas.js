@@ -67,30 +67,8 @@ class graficas{
         x: [0, 1],
         y: [0, 1],
         z: [0, 1],
-        // marker: {
-        // 	size: 8,
-        // 	line: {
-        // 	    color: 'rgba(217, 217, 217, 0.14)',
-        // 	    width: 0.5
-        //     },
-        // 	opacity: 0.8
-        // },
-        // line: {
-        //     width: 10,
-        //     color: [2],
-        //     colorscale: "Viridis"
-        // },
         type: 'scatter3d',
-        scene: 'scene1',
-        // xaxis: {
-        //     range: [-1, 1]
-        // },
-        // yaxis: {
-        //     range: [-1, 1]
-        // },
-        // zaxis: {
-        //     range: [-1, 1]
-        // },
+        scene: 'scene1'
     };
     cantidadMediciones = 0;
     conjuntoDeDatos = [
@@ -103,7 +81,6 @@ class graficas{
 
     constructor(title){
         this.layout2D.title = title;
-        // this.title = type;
     }
 
     draw = function (id, datos) {
