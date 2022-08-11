@@ -18,8 +18,8 @@ botonEnviarMonitorSerial();
 botonCerrarMonitorSerial();
 
 // Gráficas a generar
-const graficaSensores = new graficas("Sensores");
-const representacion3D = new graficas("robot3d");
+// const graficaSensores = new graficas("Sensores");
+// const representacion3D = new graficas("robot3d");
 
 // Conexión entre servidor y cliente
 socket.on('connect', ()=>{
@@ -68,9 +68,9 @@ socket.on('arduinoConnectionState', data => {
 // Tratamiento de datos en modo monitoreo
 socket.on('data', data => {
     asignaDatosSensores(data);
-    graficaSensores.draw("sensores", data);
-    representacion3D.draw3d("robot3d", data);
-    graficaSensores.analisisANOVA(data);
+    draw2DPlot("sensores", data);
+    draw3DPlot("robot3d", data);
+    analisisANOVA(data);
 });
 // Informacion de puertos
 socket.on("ports", data => {
