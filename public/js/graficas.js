@@ -78,10 +78,6 @@ const conjuntoDeDatos = [
     [],
 ];
 
-// constructor(title){
-//     layout2D.title = title;
-// }
-
 const draw2DPlot = function (id, datos) {
     const data = sortData(datos);
     if (document.getElementById(id)) {
@@ -103,11 +99,11 @@ const draw2DPlot = function (id, datos) {
     }
 }
     
-    /**
-     * 
-     * @param {html element} id objeto html con el div que contiene a la grafica
-     * @param {*} data 
-     */
+/**
+ * Realiza la gráfica en 3d
+ * @param {html element} id objeto html con el div que contiene a la grafica
+ * @param {*} data 
+ */
 const draw3DPlot = function (id, datos) {
     const data = modificaLimites(datos);
     if (document.getElementById(id)) {
@@ -122,11 +118,6 @@ const draw3DPlot = function (id, datos) {
         }
     }
 }
-
-    // Dont using
-    // reset = function () {
-    //     isPlotted = false;
-    // }
 
 const sortData = function (data) {
 
