@@ -1,11 +1,10 @@
 {
-  "name": "Tesis",
+  "name": "controladorposicionsolar-ui",
   "version": "1.0.0",
   "type": "commonjs",
   "description": "Interfaz física para el seguidor solar construido",
   "main": "./app.js",
   "scripts": {
-    "dev": "npx electromon ./app.js",
     "update": "git pull origin master; npm run dev",
     "start": "electron-forge start",
     "prueba": "node ./js/pruebaServer",
