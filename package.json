@@ -2,7 +2,7 @@
   "name": "controladorposicionsolar",
   "version": "1.0.0",
   "description": "En la Ciudad de México, los días duran aproximadamente 13 horas, además de que es allí donde la luz solar es bastante aprovechable, es debido a ello que este repositorio contiene un proyecto que controla un sistema de posicionamiento solar, es decir, un **sistema mecatrónico** que controla el movimiento de un panel fotovoltaico de modo que este siempre se encuentre mirando hacia el sol y así aprovechar mejor cada segundo de la luz solar del día.",
-  "workspaces" :[
+  "workspaces": [
     "apps/*"
   ],
   "scripts": {
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/lalodsi/ControladorPosicionSolar/issues"
   },
-  "homepage": "https://github.com/lalodsi/ControladorPosicionSolar#readme"
+  "homepage": "https://github.com/lalodsi/ControladorPosicionSolar#readme",
+  "devDependencies": {
+    "lerna": "^6.0.1"
+  }
 }
