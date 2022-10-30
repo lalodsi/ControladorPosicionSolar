@@ -2,7 +2,7 @@
   "name": "controladorposicionsolar-ui",
   "version": "1.0.0",
   "description": "Interfaz física para el seguidor solar construido",
-  "main": "./src/index.js",
+  
   "scripts": {
     "update": "git pull origin master; npm run dev",
     "start": "electron-forge start",
@@ -31,8 +31,11 @@
     "@electron-forge/maker-rpm": "^6.0.0-beta.64",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
     "@electron-forge/maker-zip": "^6.0.0-beta.64",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
     "electron": "^19.0.8",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "typescript": "^4.8.4"
   },
   "config": {
     "forge": {
