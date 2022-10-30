@@ -1,17 +1,18 @@
-const ArduinoSerial = require('./js/ArduinoSerial.js');
-const {Server, startWindow} = require('./js/Server.js');
-const electron = require('electron');
+// const ArduinoSerial = require('./js/ArduinoSerial.js');
+// const {Server, startWindow} = require('./js/Server.js');
+// const electron = require('electron');
+
 
 console.clear();
 
 // Requerir child_process
-var exec = require('child_process').exec;
-const arduino = new ArduinoSerial();
-const servidor = new Server();
+// var exec = require('child_process').exec;
+// const arduino = new ArduinoSerial();
+// const servidor = new Server();
 
-servidor.start()
-servidor.socket(sockets)
-startWindow();
+// servidor.start()
+// servidor.socket(sockets)
+// startWindow();
 
 function sockets(socket) {
     /**

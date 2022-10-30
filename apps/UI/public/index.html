@@ -3,98 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height">
-    <link rel="stylesheet" href="style.css">
-    <!-- Modulos js -->
-    <script src="./js/plotly-latest.min.js"></script>
-    <script src="./js/monitorSerial.js"></script>
-    <script src="./js/TitleBar.js"></script>
-    <script src="./js/Eventos.js"></script>
-    <script src="./js/utilities.js"></script>
-    <script src="./js/Socket.js"></script>
-    <script src="./js/Formularios.js"></script>
-    <script src="./js/MenuInteraction.js"></script>
-    <script src="./js/DOM.js"></script>
-    <script src="./js/graficas.js"></script>
-    <script src="./js/MenuConection.js"></script>
-    <script src="./js/Modal.js"></script>
-    <title>Tesis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-    <div class="topBar">
-        <div class="titleBar">
-            <!-- <button class="toggleButton"></button> -->
-            <img src="" alt="">
-            <div class="title">
-                Tesis
-            </div>
-        </div>
-        <div class="titleBarBtns">
-            <button id="minimizeBtn" class="topBtn minimizeBtn"></button>
-            <button id="closeBtn" class="topBtn closeBtn"></button>
-        </div>
-    </div>
-    <div class="appContent">
-        <div class="control">
-            <section class="subsection menu">
-                <h2>Menú</h2>
-                <hr>
-                <div class="contenidoMenu">
-                    <button class="boton">Informacion Monitoreo</button>
-                    <button class="boton">Graficas</button>
-                    <button class="boton">Modo de Control Manual</button>
-                    <button class="boton">Modo de Calibración</button>
-                    <button class="boton botonDesactivado">Regresar</button>
-                    <!-- <button class="boton">Modo de Monitoreo</button> -->
-                    <!-- <button class="botonStart" id="startMonitoreo">Comenzar Monitoreo</button> -->
-                </div>
-            </section>
-        </div>
-        <!-- Contenedor principal -->
-        <section class="section principal">
-     
-        </section>
-    </div>
-    <div class="oscurecido" id="fondoIntroduccion">
-        <section class="section presentacion">
-            <div class="contenido">
-                <p class="header">
-                    Sistema controlador de posición de dos grado de libertad para la orientación de paneles fotovoltaicos
-                </p>
-                <p class="subheader">Trabajo terminal para obtener el titulo de <strong>Ingeniero en Mecatrónica</strong></p>
-                <p class="subheader">Creadores</p>
-                <ul class="info">
-                    <li>Luis Eduardo Rodríguez Ramírez</li>
-                    <li>Néstor Alberto Ruiz Méndez</li>
-                    <li>Cesar Alexis Romero Domínguez</li>
-                </ul>
-                <p class="subheader">Asesores</p>
-                <ul class="info">
-                    <li>M. en C. Alvaro Gordillo Sol</li>
-                    <li>Ing. Erick Lopez Alarcón</li>
-                </ul>
-            </div>
-        </section>
-        <div class="contenedorIntroduccion">
-            <button class="botonIntroduccion">Creadores</button>
-        </div>
-    </div>
-    <div class="monitorSerial abajo">
-        <button id="closeSerialBtn" class="cerrarSerial"></button>
-        <p class="header">Monitor Serial</p>
-        <div class="contenedorSerial" id="contenedorSerial"></div>
-        <div class="sendMonitorSerial">
-            <input 
-                class="inputMonitorSerial"
-                id="monitorSerialEnviarTexto"
-                type="text"
-                placeholder="Escribe algo para enviar"
-                onkeypress="monitorSerialHandleClick(event)">
-            <button class="boton botonSendSerial" id="monitorSerialEnviar">Enviar</button>
-        </div>
-    </div>
-    <!-- <script src="./DOM.js"></script>    <script src="../js/ArduinoSerial.js"></script> -->
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="index.js"></script>
+    <div id="root"></div>
 </body>
 </html>

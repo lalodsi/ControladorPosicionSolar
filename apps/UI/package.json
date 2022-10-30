@@ -1,9 +1,8 @@
 {
   "name": "controladorposicionsolar-ui",
   "version": "1.0.0",
-  "type": "commonjs",
   "description": "Interfaz física para el seguidor solar construido",
-  "main": "./app.js",
+  "main": "./src/index.js",
   "scripts": {
     "update": "git pull origin master; npm run dev",
     "start": "electron-forge start",
@@ -21,6 +20,8 @@
     "gitignore": "^0.7.0",
     "is-odd": "^3.0.1",
     "plotly.js-dist": "^2.9.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "serialport": "^10.4.0",
     "socket.io": "^4.4.1"
   },
@@ -59,5 +60,17 @@
         }
       ]
     }
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
