@@ -2,11 +2,11 @@
   "name": "controladorposicionsolar-ui",
   "version": "1.0.0",
   "description": "Interfaz física para el seguidor solar construido",
-  
+  "private": true,
+  "main": "public/main.js",
   "scripts": {
-    "update": "git pull origin master; npm run dev",
-    "start": "electron-forge start",
-    "prueba": "node ./js/pruebaServer",
+    "start": "react-scripts start",
+    "electron-dev": "electron .",
     "package": "electron-forge package",
     "make": "electron-forge make"
   },
@@ -22,6 +22,7 @@
     "plotly.js-dist": "^2.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
     "serialport": "^10.4.0",
     "socket.io": "^4.4.1"
   },
