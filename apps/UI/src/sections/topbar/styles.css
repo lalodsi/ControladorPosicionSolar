@@ -61,8 +61,8 @@
     background-color: var(--verdeClaro);
 }
 .titleBarBtns > .minimizeBtn {
-    background-image: url('./images/minimize.png');
+    background-image: url('../../../public/images/minimize.png');
 }
 .titleBarBtns > .closeBtn {
-    background-image: url('./images/close.png');
+    background-image: url('../../../public/images/close.png');
 }

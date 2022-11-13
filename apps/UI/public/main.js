@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path = require("path");
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -8,18 +9,19 @@ function createWindow() {
         titleBarStyle: 'hidden',
         resizable: false,
         webPreferences: {
-            // preload: path.join(__dirname, '../public/preload.js'),
+            preload: path.join(__dirname, '../public/preload.js'),
             nodeIntegration: true,
             contextIsolation: true,
             devTools: true,
         }
     })
-    // ipcMain.on('closeApp', ()=> {
-    //     win.close();
-    // })
-    // ipcMain.on('minimizeApp', ()=> {
-    //     win.minimize();
-    // })
+    ipcMain.on('closeApp', ()=> {
+        win.close();
+    })
+    ipcMain.on('minimizeApp', ()=> {
+        console.log("Minimizando App desde server");
+        win.minimize();
+    })
     win.loadURL(`http://localhost:3000`);
 };
 
