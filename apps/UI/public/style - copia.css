@@ -98,53 +98,6 @@ input{
     font-size: 40px;
 }
 
-.boton, .botonStart, .botonIntroduccion{
-    border: none;
-    padding: 5px;
-    width: calc(100% - 10px);
-    background-color: var(--fondoBoton);
-    border-radius: 25px;
-    color: var(--colorTexto);
-    font-size: 22px;
-    margin-bottom: 10px;
-    font-family: inherit;
-}
-.boton:hover, .botonStart:hover, .botonIntroduccion:hover{
-    transition: all 500ms ease;
-    background-color: var(--fondoBotonHover);
-    cursor: pointer;
-}
-.botonDesactivado{
-    display: none;
-}
-.botonDesactivado:hover{
-    cursor: not-allowed;
-}
-.botonArduino{
-    display: block;
-    width: 100%;
-    padding: 12px;
-    color: var(--colorTexto);
-    border-style: none;
-    font-size: 16px;
-}
-.botonArduino.conectar{
-    transition: all 500ms ease;
-    background-color: var(--fondoBoton);
-}
-.botonArduino.conectar:hover{
-    /* background-color: rgba(255, 255, 255, 0.35); */
-    background-color: var(--fondoBotonHover);
-    cursor: pointer;
-}
-.botonArduino.desconectar{
-    transition: all 500ms ease;
-    background-color: var(--rojo);
-}
-.botonArduino.desconectar:hover{
-    background-color: var(--rojoPresionado);
-    cursor: pointer;
-}
 .Contenido_Estado > div{
     width: inherit;
 }

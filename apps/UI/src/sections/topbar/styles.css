@@ -9,6 +9,7 @@
     /* background-color: var(--fondoBotonHoverAzul); */
     background: rgb(9,116,122);
     background: linear-gradient(90deg, rgba(9,116,122,1) 0%, rgba(10,111,73,1) 100%);
+    
     position: fixed;
     top: 0px;
     left: 0px;
