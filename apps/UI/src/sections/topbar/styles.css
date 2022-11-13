@@ -1,0 +1,68 @@
+.topBar{
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 6px);
+    height: 40px;
+    border-top: 3px solid var(--verdeOscuro);
+    border-left: 3px solid var(--verdeOscuro);
+    border-right: 3px solid var(--verdeOscuro);
+    /* background-color: var(--fondoBotonHoverAzul); */
+    background: rgb(9,116,122);
+    background: linear-gradient(90deg, rgba(9,116,122,1) 0%, rgba(10,111,73,1) 100%);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 2;
+
+    -webkit-user-select: none;
+}
+.topBar > .titleBar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+
+    font-size: 18px;
+    color: var(--verdeMenta);
+}
+.titleBar > .title {
+    margin-left: 50px;
+    width: 100%;
+    line-height: 30px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    -webkit-app-region: drag;
+}
+.topBar > .titleBarBtns {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 120px;
+    height: 40px;
+}
+.titleBarBtns > .topBtn {
+    width: 40px;
+    height: 40px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    transition: 0.2s;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+.titleBarBtns > .topBtn:hover {
+    background-color: var(--verdeDiscreto);
+}
+.titleBarBtns > .topBtn:active {
+    background-color: var(--verdeClaro);
+}
+.titleBarBtns > .minimizeBtn {
+    background-image: url('./images/minimize.png');
+}
+.titleBarBtns > .closeBtn {
+    background-image: url('./images/close.png');
+}
