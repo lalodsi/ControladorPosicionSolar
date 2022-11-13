@@ -2,16 +2,17 @@ import * as React from 'react';
 import "./styles.css"
 
 export enum buttonTypes {
-    NavigationButton = "boton",
-    processButton = "ArduinoBoton"
+    commonButton = "boton",
+    connectButton = "botonArduino conectar",
+    disconnectButton = "botonArduino desconectar",
+    disabledButton = "botonDesactivado",
+    contentButton = "botonContenido"
 }
 
 interface IButtonProps {
     text: string,
     className: buttonTypes,
-    // handleClick: (event: React.MouseEventHandler<HTMLButtonElement>) => void
     handleClick: () => void
-    // handleClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
 const Button: React.FunctionComponent<IButtonProps> = (props) => {
@@ -21,7 +22,7 @@ const Button: React.FunctionComponent<IButtonProps> = (props) => {
         handleClick
     } = props;
 
-    const classes = className? className : buttonTypes.NavigationButton;
+    const classes = className? className : buttonTypes.commonButton;
 
     return (
         <button onClick={handleClick} className={classes}>{text}</button>
