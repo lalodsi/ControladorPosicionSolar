@@ -1,10 +1,11 @@
 import React from "react"
+import TopBar from "./sections/topbar"
+import "./styles.css"
 
 const App: React.FC = () => {
 
-
     return (
-        <h1>Hola mundo</h1>
+        <TopBar />
     )
 }
 
