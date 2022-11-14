@@ -1,12 +1,14 @@
 import * as React from 'react';
 import "./styles.css"
+import "../../../variables.css"
 
 export enum buttonTypes {
     commonButton = "boton",
     connectButton = "botonArduino conectar",
     disconnectButton = "botonArduino desconectar",
     disabledButton = "botonDesactivado",
-    contentButton = "botonContenido"
+    contentButton = "botonContenido",
+    serialButton = "boton botonSendSerial"
 }
 
 interface IButtonProps {

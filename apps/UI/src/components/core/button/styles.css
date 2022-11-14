@@ -45,3 +45,22 @@
     background-color: var(--rojoPresionado);
     cursor: pointer;
 }
+.contenido .botonContenido{
+    background-color: var(--fondoBoton);
+    color: white;
+    border-style: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin: 15px 5px;
+    transition: all 500ms ease;
+}
+.contenido .botonContenido:hover{
+    background-color: var(--fondoBotonHoverAzul);
+    /* font-weight: bold; */
+    cursor: pointer;
+}
+.botonSendSerial{
+    width: 50%;
+    margin-top: 10px;
+    margin-left: 110px;
+}
