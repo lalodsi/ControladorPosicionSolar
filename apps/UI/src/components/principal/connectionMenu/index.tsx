@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Socket } from 'socket.io';
 import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
 
@@ -7,7 +8,19 @@ interface IConnectionMenuProps {
   esperando?: boolean
 }
 
+const getSerialPortList = async () => {
+  const url = `http://localhost:3000/api/v1/menu/ports`;
+  const response = await fetch(url);
+  const responseList = await response.json();
+  return responseList;
+}
+
 const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) => {
+  React.useEffect(() => {
+    Socket.on('ports', data => {
+      console.log(data);
+    })
+  }, [])
   // Just for testing
   const {
     conectado = false,

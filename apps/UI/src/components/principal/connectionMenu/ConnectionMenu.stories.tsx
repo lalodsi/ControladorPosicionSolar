@@ -1,6 +1,6 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import ConnectionMenu from '../components/principal/connectionMenu';
+import ConnectionMenu from '.';
 
 export default {
   title: 'Connection Menu',
