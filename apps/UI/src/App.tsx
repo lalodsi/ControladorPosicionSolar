@@ -1,9 +1,9 @@
 import React from "react"
-import Button from "./components/core/button"
 import TopBar from "./sections/topbar"
 import "./styles.css"
-import { buttonTypes } from "./components/core/button"
+import "./variables.css"
 import MainContent from "./sections/mainContent"
+import ConnectionMenu from "./components/principal/connectionMenu"
 
 const App: React.FC = () => {
     const pruebaBoton = () => {
@@ -14,8 +14,7 @@ const App: React.FC = () => {
         <React.Fragment>
             <TopBar />
             <MainContent>
-                Hola
-                <Button text="Boton 1" handleClick={pruebaBoton} className={buttonTypes.commonButton} />
+                <ConnectionMenu esperando={false} conectado={false} />
             </MainContent>
         </React.Fragment>
     )
