@@ -82,47 +82,14 @@ input{
     margin: 15px auto;
 }
 
-.conectado{
-    color: var(--verdeClaro);/* color: rgb(151 255 168); */
-    font-size: 40px;
-}
-.desconectado{
-    margin-top: 0;
-    font-size: 25px;
-    color: var(--colorTexto);
-}
-.conectando{
-    color:var(--colorTexto);
-}
-.conectando{
-    font-size: 40px;
-}
 
-.Contenido_Estado > div{
-    width: inherit;
-}
-.Contenido_Estado .info{
-    font-size: 20px;
-    color: var(--verdeDiscreto);
-    margin: 0;
-    text-align: left;
-}
+
+
 .contenidoMenu{
     display: flex;
     flex-direction: column;
 }
-.menuConectar{
-    color: var(--colorTexto);
-    font-size: 18px;
-    padding: 10px;
-}
-.menuConectar > input{
-    background-color: var(--fondoTransparente);
-    color: var(--colorTexto);
-    /* border-style: none; */
-    font-size: 18px;
-    width: 150px;
-}
+
 .contenido {
     font-size: 18px;
     /* max-height: max-content; */
@@ -294,56 +261,9 @@ input{
     transition: all 500ms ease;
     opacity: 0;
 }
-.contenedorPuertos{
-    margin-top: 20px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: flex-end;
-}
-.listaPuertos, #botonActualizar{
-    margin: 0%;
-    padding: 0%;
-    height: 30px;
-    color: var(--verdeMenta);
-    background-color: var(--fondoTransparente);
-}
-.listaPuertos{
-    width: 80%;
-    font-size: 18px;
-}
-option{
-    color: black;
-}
-option:hover{
-    background-color: var(--fondo);
-    color: var(--verdeMenta);
-}
-.listaPuertos option{
-    background-color: var(--verdeClaro);
-}
-.listaPuertos option:focus{
-    background-color: var(--verdeOscuro);
-}
-.listaPuertos option[disabled]{
-    background-color: var(--fondoBotonHoverAzul);
-}
-.listaPuertos option[selected]{
-    background-color: var(--fondoBotonHoverAzul);
-}
-#botonActualizar{
-    width: 30px;
-    margin-left: 20px;
-    background: url("./images/iconActualizar.png");
-    background-size:cover;
-    background-repeat: no-repeat;
-    font-size: 30px;
-    border: none;
-}
-#botonActualizar:hover{
-    cursor: pointer;
-    -webkit-transform: rotate(360deg);
-    transition: 1s linear;
-}
+
+
+
 .lds-ripple {
     display: inline-block;
     position: relative;
