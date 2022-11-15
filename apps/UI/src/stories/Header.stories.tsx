@@ -2,24 +2,21 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { Header } from './Header';
+import TopBar from '../sections/topbar';
 
 export default {
-  title: 'Example/Header',
-  component: Header,
+  title: 'TopBar',
+  component: TopBar,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} as ComponentMeta<typeof Header>;
+} as ComponentMeta<typeof TopBar>;
 
-const Template: ComponentStory<typeof Header> = (args) => <Header {...args} />;
+const Template: ComponentStory<typeof TopBar> = (args) => <TopBar {...args} />;
 
-export const LoggedIn = Template.bind({});
-LoggedIn.args = {
-  user: {
-    name: 'Jane Doe',
-  },
+export const Normal = Template.bind({});
+Normal.args = {
+  handleClose: () => console.log("Cerrando App"),
+  handleMinimize: () => console.log("Minimizando App")
 };
-
-export const LoggedOut = Template.bind({});
-LoggedOut.args = {};
