@@ -452,11 +452,6 @@ option:hover{
     width: 100%;
     margin-top: 10px;
 }
-.botonSendSerial{
-    width: 50%;
-    margin-top: 10px;
-    margin-left: 110px;
-}
 .sendMonitorSerial{
     width: 50%;
     margin: auto;

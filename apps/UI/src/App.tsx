@@ -15,7 +15,7 @@ const App: React.FC = () => {
             <TopBar />
             <MainContent>
                 Hola
-                <Button text="Boton 1" handleClick={pruebaBoton} className={buttonTypes.NavigationButton} />
+                <Button text="Boton 1" handleClick={pruebaBoton} className={buttonTypes.commonButton} />
             </MainContent>
         </React.Fragment>
     )
