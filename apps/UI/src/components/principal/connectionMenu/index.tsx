@@ -3,11 +3,12 @@ import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
 
 interface IConnectionMenuProps {
-  conectado: boolean,
-  esperando: boolean
+  conectado?: boolean,
+  esperando?: boolean
 }
 
 const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) => {
+  // Just for testing
   const {
     conectado = false,
     esperando = false
@@ -15,7 +16,6 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
 
   const handleConnect = () => {
     console.log("Conectar al arduino");
-    
   }
 
   return (
