@@ -1,5 +1,7 @@
 import * as React from 'react';
-import { Socket } from 'socket.io';
+import { io } from 'socket.io-client';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { socketContext } from '../../../context/socket';
 import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
 
@@ -16,9 +18,11 @@ const getSerialPortList = async () => {
 }
 
 const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) => {
+  const socket = React.useContext(socketContext);
+
   React.useEffect(() => {
-    Socket.on('ports', data => {
-      console.log(data);
+    socket.on('ports', () => {
+      
     })
   }, [])
   // Just for testing
@@ -31,8 +35,10 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     console.log("Conectar al arduino");
   }
 
-  const handleUpdate = () => {
-
+  const handleUpdate = async () => {
+    const ports = await getSerialPortList()
+    console.log(ports);
+    
   }
 
   return (
