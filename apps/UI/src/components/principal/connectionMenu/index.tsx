@@ -18,6 +18,10 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     console.log("Conectar al arduino");
   }
 
+  const handleUpdate = () => {
+
+  }
+
   return (
     <section className="subsection estado" id="estadoConexion">
       <div>
@@ -32,7 +36,7 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
                   <select name="puerto" id="puertos" className="listaPuertos" aria-placeholder="">
                       <option value="1">Elige un puerto</option>
                   </select>
-                  <button className="botonActualizar" id="botonActualizar"></button>
+                  <button onClick={handleUpdate} className="botonActualizar" id="botonActualizar"></button>
                 </div>
                 {/* <button id="botonConectar" className="botonArduino conectar">Conectar</button> */}
                 <Button text='Conectar' className={buttonTypes.connectButton} handleClick={handleConnect} />

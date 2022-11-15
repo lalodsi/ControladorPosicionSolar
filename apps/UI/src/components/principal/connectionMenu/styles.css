@@ -33,6 +33,9 @@
 .conectando{
     font-size: 40px;
 }
+.Contenido_Estado {
+    text-align: center;
+}
 .Contenido_Estado > div{
     width: inherit;
 }
