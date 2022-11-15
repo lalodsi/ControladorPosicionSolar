@@ -5,18 +5,20 @@ import "./variables.css"
 import MainContent from "./sections/mainContent"
 import ConnectionMenu from "./components/principal/connectionMenu"
 
+import { socket, socketContext } from "./context/socket";
+
 const App: React.FC = () => {
     const pruebaBoton = () => {
         console.log("Hola");
     }
 
     return (
-        <React.Fragment>
-            <TopBar />
-            <MainContent>
-                <ConnectionMenu esperando={false} conectado={false} />
-            </MainContent>
-        </React.Fragment>
+            <socketContext.Provider value={socket}>
+                <TopBar />
+                <MainContent>
+                    <ConnectionMenu esperando={false} conectado={false} />
+                </MainContent>
+            </socketContext.Provider>
     )
 }
 
