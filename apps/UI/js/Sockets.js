@@ -1,6 +1,7 @@
 const arduino = require('./ArduinoSerial.js');
 
 const socketsNames = {
+    test: 'test',
     estadoArduino: 'arduinoConnectionState',
     versionSoftwareArduino: 'arduinoSoftwareTest',
     iniciarConexion: 'connect-to-arduino',
@@ -18,6 +19,9 @@ function sockets(socket) {
     /**
      * Socket para comenzar la conexión
      */
+    socket.on(socketsNames.test, () => {
+        console.log("Recibido un Hola!");
+    })
     socket.on(socketsNames.iniciarConexion, data => {
         if (data.connect) {
             const port = data.port;
