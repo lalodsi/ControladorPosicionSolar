@@ -20,7 +20,8 @@ class ArduinoSerial{
     constructor() {
         this.isConnected = false;
         this.isApproved = false;
-        this.monitorSerialConnected = false;
+        this.monitor
+        SerialConnected = false;
     }
 
     /**
@@ -200,7 +201,6 @@ class ArduinoSerial{
         const puertos = await SerialPort.list();
         socket.emit("ports", puertos);
     }
-    
 }
 
 module.exports = ArduinoSerial

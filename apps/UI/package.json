@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Interfaz física para el seguidor solar construido",
   "private": true,
-  "main": "public/main.js",
+  "main": "./app.js",
   "scripts": {
     "start": "react-scripts start",
     "electron-dev": "electron .",

@@ -1,67 +1,72 @@
-// const ArduinoSerial = require('./js/ArduinoSerial.js');
-// const {Server, startWindow} = require('./js/Server.js');
-// const electron = require('electron');
+// Electron
+const { app : electronApp, BrowserWindow, ipcMain } = require("electron");
+const ArduinoSerial = require('./js/ArduinoSerial.js');
+const path = require("path");
 
+// Servidor
+const socketIo = require('socket.io');
+const http = require('http');
+const express = require('express');
+const sockets = require('./js/Sockets');
+const routerApi = require("./js/routes");
+
+function createWindow() {
+    const win = new BrowserWindow({
+        width: 1200,
+        height: 700,
+        frame: false,
+        titleBarStyle: 'hidden',
+        resizable: false,
+        webPreferences: {
+            preload: path.join(__dirname, './public/preload.js'),
+            nodeIntegration: true,
+            contextIsolation: true,
+            devTools: true,
+        }
+    })
+    ipcMain.on('closeApp', ()=> {
+        win.close();
+    })
+    ipcMain.on('minimizeApp', ()=> {
+        console.log("Minimizando App desde server");
+        win.minimize();
+    })
+    win.loadURL(`http://localhost:3000`);
+};
+
+electronApp.whenReady().then(createWindow)
+
+electronApp.on('window-all-closed', () => {
+    if (process.platform !== 'darwin') {
+        electronApp.quit();
+    }
+})
+
+electronApp.on('activate', () => {
+    if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow()
+    }
+})
 
 console.clear();
 
-// Requerir child_process
-// var exec = require('child_process').exec;
-// const arduino = new ArduinoSerial();
-// const servidor = new Server();
+// Iniciar Servidor
 
-// servidor.start()
-// servidor.socket(sockets)
-// startWindow();
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+app.use(express.json())
 
-function sockets(socket) {
-    /**
-     * Socket para comenzar la conexión
-     */
-    socket.on(servidor.sockets.iniciarConexion, data => {
-        if (data.connect) {
-            const port = data.port;
-            arduino.init(port, socket, servidor);
-        } else {
-            arduino.disconnect(socket, servidor);
-        }
-    })
-    socket.on(servidor.sockets.versionSoftwareArduino, data => {
-        console.log("Comprobando el software cargado en el arduino");
-        console.log(data.testing);
-        if (data.testing) {
-            setTimeout(()=> arduino.sendData("probar"), 1000 );
-        }
-    })
-    // Socket para envío de palabras al arduino
-    socket.on( servidor.sockets.enviarPalabra, data => {
-        console.log(data.message);
-        arduino.sendData(data.word);
-    })
-    /**
-     * Sockets para actualización de datos
-     */
-    socket.on( servidor.sockets.cambiarOrientacion, data =>{
-        console.log(`Se cambiará la orientación a ${data.orientacion} grados`);
-        arduino.sendData("orientation");
-        setTimeout(() => arduino.sendData(`${data.orientacion}\n`), 1000);
-    } );
-    socket.on( servidor.sockets.cambiarFechaYHora, data =>{
-        console.log(`Se cambiará la fecha y hora a ${data.fecha}, ${data.hora}`);
-        arduino.sendData("date");
-        setTimeout(() => arduino.sendData(`${data.fecha},${data.hora}`), 1000);
-    } );
-    socket.on( servidor.sockets.cambiarPosicion, data =>{
-        console.log(`Se cambiará la posición a ${data.latitud}, ${data.longitud}`);
-        arduino.sendData("position");
-        // arduino.sendData(`${data.latitud},${data.longitud}`);
-        setTimeout(() => arduino.sendData(`${data.latitud},${data.longitud}`), 1000);
-    } );
-    socket.on(
-        "monitorSerial",
-        data => arduino.monitorSerialConnected = data.connected
-        );
+// Start
+app.set('port', process.env.port || 4001);
+const port = app.get('port');
+server.listen(port, () => {
+    console.log('Servidor conectado en el puerto: ' + port);
+});
 
-}
+routerApi(app);
 
-module.exports = arduino
+io.on('connection', socket => {
+    console.log('Tenemos una nueva conexión, Id: '+ socket.id);
+    sockets(socket);
+})

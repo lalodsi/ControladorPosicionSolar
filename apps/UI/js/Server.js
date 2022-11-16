@@ -6,28 +6,6 @@ const path = require("path");
 const windowApp = require('electron').app;
 
 class Server{
-    sockets = {
-        estadoArduino: 'arduinoConnectionState',
-        versionSoftwareArduino: 'arduinoSoftwareTest',
-        iniciarConexion: 'connect-to-arduino',
-        monitorear: "startSendingData",
-        intercambiarDatos: "data",
-        enviarPalabra: "sendString",
-        cambiarFechaYHora: "setDate",
-        cambiarPosicion: "setPosition",
-        cambiarOrientacion: "setOrientation",
-        menuArduino: "MenuArduino"
-    }
-
-    constructor(){
-        this.http = require('http')
-        this.app = express();
-        this.server = this.http.createServer(this.app); 
-        // Socket IO
-        this.io = socketIo(this.server);
-
-        this.app.use(express.json())
-    }
 
     /**
      * Despliega el servidor, envía la carpeta public al cliente que se conecte
