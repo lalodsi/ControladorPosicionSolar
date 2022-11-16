@@ -1,6 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import ConnectionMenu from '.';
+import CenterElements from '../../core/centerElements';
 
 export default {
   title: 'Connection Menu',
@@ -11,7 +12,13 @@ export default {
   },
 } as ComponentMeta<typeof ConnectionMenu>;
 
-const Template: ComponentStory<typeof ConnectionMenu> = (args) => <ConnectionMenu {...args} />;
+const Template: ComponentStory<typeof ConnectionMenu> = (args) =>
+  (
+    <CenterElements >
+      <ConnectionMenu {...args} />
+    </CenterElements>
+  )
+;
 
 export const Normal = Template.bind({});
 Normal.args = {
