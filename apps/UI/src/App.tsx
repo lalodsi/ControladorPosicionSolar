@@ -3,7 +3,6 @@ import TopBar from "./sections/topbar"
 import "./styles.css"
 import "./variables.css"
 import MainContent from "./sections/mainContent"
-import ConnectionMenu from "./components/principal/connectionMenu"
 
 import { socket, socketContext } from "./context/socket";
 
@@ -15,9 +14,7 @@ const App: React.FC = () => {
     return (
             <socketContext.Provider value={socket}>
                 <TopBar />
-                <MainContent>
-                    <ConnectionMenu esperando={false} conectado={false} />
-                </MainContent>
+                <MainContent />
             </socketContext.Provider>
     )
 }

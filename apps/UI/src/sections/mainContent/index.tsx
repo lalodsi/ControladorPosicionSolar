@@ -1,16 +1,16 @@
 import * as React from 'react';
+import ConnectionMenu from '../../components/principal/connectionMenu';
 import "./styles.css"
 
 interface IMainContentProps {
-    children: React.ReactNode
 }
 
 const MainContent: React.FunctionComponent<IMainContentProps> = (props) => {
-    const {
-        children
-    } = props;
+
     return (
-        <div className='mainContent'>{children}</div>
+        <div className='mainContent'>
+            <ConnectionMenu esperando={false} conectado={false} />
+        </div>
     );
 };
 

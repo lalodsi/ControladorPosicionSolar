@@ -12,6 +12,7 @@ interface ServerToClientEvents {
 
 interface ClientToServerEvents {
     data: (data: unknown) => void;
+    hello: () => void;
 }
 
 export const socket: Socket<ServerToClientEvents,ClientToServerEvents> = io();

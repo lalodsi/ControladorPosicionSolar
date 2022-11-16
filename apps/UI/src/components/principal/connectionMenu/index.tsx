@@ -33,6 +33,7 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
 
   const handleConnect = () => {
     console.log("Conectar al arduino");
+    socket.emit('hello')
   }
 
   const handleUpdate = async () => {
