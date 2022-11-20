@@ -12,23 +12,24 @@ class Server{
      * y crea la ventana desde donde se mostrará el enlace
      */
     start = function() {
-        console.clear();
-        this.app.set('port', process.env.PORT || 3000)
-        const port = this.app.get('port');
-        this.server.listen(port, ()=>{
-            console.log('Servidor conectado en el puerto: ' + port);
-        })
-        // Enviar la carpeta public al servidor
-        this.app.use(express.static('public'));
+        // console.clear();
+        // this.app.set('port', process.env.PORT || 3000)
+        // const port = this.app.get('port');
+        // this.server.listen(port, ()=>{
+        //     console.log('Servidor conectado en el puerto: ' + port);
+        // })
+        // // Enviar la carpeta public al servidor
+        // this.app.use(express.static('public'));
 
-        routerApi(this.app);
+        // routerApi(this.app);
+        
     }
 
     /**
      * Establece un websocket
      * @param {function} callback funcion a ejecutar cuando se conecte el socket
      */
-    socket = function(callback) {
+    defineEvents = function(callback) {
         this.io.on('connection', (socket)=>{
             console.log('Tenemos una nueva conexión, Id: '+ socket.id);
             callback(socket);

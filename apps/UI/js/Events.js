@@ -1,7 +1,11 @@
 const arduino = require('./ArduinoSerial.js');
+const electron = require('electron')
+const {SerialPort} = require('serialport');
 
-const socketsNames = {
-    test: 'test',
+const ipcMain = electron.ipcMain;
+
+const eventNames = {
+    test: 'synchronous-message',
     estadoArduino: 'arduinoConnectionState',
     versionSoftwareArduino: 'arduinoSoftwareTest',
     iniciarConexion: 'connect-to-arduino',
@@ -11,61 +15,68 @@ const socketsNames = {
     cambiarFechaYHora: "setDate",
     cambiarPosicion: "setPosition",
     cambiarOrientacion: "setOrientation",
-    menuArduino: "MenuArduino"
+    menuArduino: "MenuArduino",
+    getPorts: "getPorts"
 }
 
 
-function sockets(socket) {
+function appEvents() {
     /**
-     * Socket para comenzar la conexión
+     * event para comenzar la conexión
      */
-    socket.on(socketsNames.test, () => {
-        console.log("Recibido un Hola!");
+
+    ipcMain.on(eventNames.test, (event, arg) => {
+        console.log(arg);
+        event.returnValue = "pong"
     })
-    socket.on(socketsNames.iniciarConexion, data => {
+    ipcMain.on(eventNames.getPorts, async (event, arg) => {
+        const ports = await SerialPort.list()
+        event.returnValue = ports
+    })
+    ipcMain.on(eventNames.iniciarConexion, data => {
         if (data.connect) {
             const port = data.port;
-            arduino.init(port, socket, servidor);
+            arduino.init(port, event, servidor);
         } else {
-            arduino.disconnect(socket, servidor);
+            arduino.disconnect(event, servidor);
         }
     })
-    socket.on(socketsNames.versionSoftwareArduino, data => {
+    ipcMain.on(eventNames.versionSoftwareArduino, data => {
         console.log("Comprobando el software cargado en el arduino");
         console.log(data.testing);
         if (data.testing) {
             setTimeout(()=> arduino.sendData("probar"), 1000 );
         }
     })
-    // Socket para envío de palabras al arduino
-    socket.on( socketsNames.enviarPalabra, data => {
+    // event para envío de palabras al arduino
+    ipcMain.on( eventNames.enviarPalabra, data => {
         console.log(data.message);
         arduino.sendData(data.word);
     })
     /**
-     * Sockets para actualización de datos
+     * events para actualización de datos
      */
-    socket.on( socketsNames.cambiarOrientacion, data =>{
+    ipcMain.on( eventNames.cambiarOrientacion, data =>{
         console.log(`Se cambiará la orientación a ${data.orientacion} grados`);
         arduino.sendData("orientation");
         setTimeout(() => arduino.sendData(`${data.orientacion}\n`), 1000);
     } );
-    socket.on( socketsNames.cambiarFechaYHora, data =>{
+    ipcMain.on( eventNames.cambiarFechaYHora, data =>{
         console.log(`Se cambiará la fecha y hora a ${data.fecha}, ${data.hora}`);
         arduino.sendData("date");
         setTimeout(() => arduino.sendData(`${data.fecha},${data.hora}`), 1000);
     } );
-    socket.on( socketsNames.cambiarPosicion, data =>{
+    ipcMain.on( eventNames.cambiarPosicion, data =>{
         console.log(`Se cambiará la posición a ${data.latitud}, ${data.longitud}`);
         arduino.sendData("position");
         // arduino.sendData(`${data.latitud},${data.longitud}`);
         setTimeout(() => arduino.sendData(`${data.latitud},${data.longitud}`), 1000);
     } );
-    socket.on(
+    ipcMain.on(
         "monitorSerial",
         data => arduino.monitorSerialConnected = data.connected
         );
 
 }
 
-module.exports = sockets;
+module.exports = appEvents;

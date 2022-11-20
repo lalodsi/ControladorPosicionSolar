@@ -1,30 +1,19 @@
 import * as React from 'react';
-import { io } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io/dist/typed-events';
-import { socketContext } from '../../../context/socket';
 import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
+import electron from "electron"
 
 interface IConnectionMenuProps {
   conectado?: boolean,
   esperando?: boolean
 }
 
-const getSerialPortList = async () => {
-  const url = `http://localhost:3000/api/v1/menu/ports`;
-  const response = await fetch(url);
-  const responseList = await response.json();
-  return responseList;
+const getSerialPortList = () => {
+  // @ts-ignore
+  return electronAPI.getPorts()
 }
 
 const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) => {
-  const socket = React.useContext(socketContext);
-
-  React.useEffect(() => {
-    socket.on('ports', () => {
-      
-    })
-  }, [])
   // Just for testing
   const {
     conectado = false,
@@ -33,13 +22,11 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
 
   const handleConnect = () => {
     console.log("Conectar al arduino");
-    socket.emit('hello')
   }
 
   const handleUpdate = async () => {
     const ports = await getSerialPortList()
     console.log(ports);
-    
   }
 
   return (

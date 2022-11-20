@@ -2,13 +2,7 @@
 const { app : electronApp, BrowserWindow, ipcMain } = require("electron");
 const ArduinoSerial = require('./js/ArduinoSerial.js');
 const path = require("path");
-
-// Servidor
-const socketIo = require('socket.io');
-const http = require('http');
-const express = require('express');
-const sockets = require('./js/Sockets');
-const routerApi = require("./js/routes");
+const events = require('./js/Events')
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -36,26 +30,6 @@ function createWindow() {
 
 console.clear();
 
-// Iniciar Servidor
-
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
-app.use(express.json())
-
-// Start
-app.set('port', process.env.port || 3001);
-const port = app.get('port');
-server.listen(port, () => {
-    console.log('Servidor conectado en el puerto: ' + port);
-})
-
-routerApi(app);
-io.on('connection', socket => {
-    console.log('Tenemos una nueva conexión, Id: '+ socket.id);
-    sockets(socket);
-})
-
 // Iniciar Electron
 
 electronApp.whenReady().then(createWindow)
@@ -68,6 +42,8 @@ electronApp.on('window-all-closed', () => {
 
 electronApp.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow()
+        createWindow(port)
     }
 })
+
+events()

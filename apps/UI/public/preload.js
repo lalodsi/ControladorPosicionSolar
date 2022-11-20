@@ -13,5 +13,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 contextBridge.exposeInMainWorld('electronAPI', {
     closeApp: () => ipcRenderer.send('closeApp', true),
-    minimizeApp: () => ipcRenderer.send('minimizeApp', true)
+    minimizeApp: () => ipcRenderer.send('minimizeApp', true),
+    pingPong: (message) => {
+      const result = ipcRenderer.sendSync('synchronous-message', 'ping')
+      if (message) {
+        console.log(`${result} con el mensaje: ${message}`);
+      } else {
+        console.log(result);
+      }
+    },
+    getPorts: () => ipcRenderer.sendSync('getPorts', true)
 })
