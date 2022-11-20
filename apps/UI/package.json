@@ -8,6 +8,7 @@
     "start": "react-scripts start",
     "electron-dev": "electron .",
     "package": "electron-forge package",
+    "dev": "concurrently --kill-others \"npm run start\" \"npm run electron-dev\" \"npm run storybook\"",
     "make": "electron-forge make",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
