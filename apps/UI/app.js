@@ -34,6 +34,30 @@ function createWindow() {
     win.loadURL(`http://localhost:3000`);
 };
 
+console.clear();
+
+// Iniciar Servidor
+
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+app.use(express.json())
+
+// Start
+app.set('port', process.env.port || 3001);
+const port = app.get('port');
+server.listen(port, () => {
+    console.log('Servidor conectado en el puerto: ' + port);
+})
+
+routerApi(app);
+io.on('connection', socket => {
+    console.log('Tenemos una nueva conexión, Id: '+ socket.id);
+    sockets(socket);
+})
+
+// Iniciar Electron
+
 electronApp.whenReady().then(createWindow)
 
 electronApp.on('window-all-closed', () => {
@@ -46,27 +70,4 @@ electronApp.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow()
     }
-})
-
-console.clear();
-
-// Iniciar Servidor
-
-const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
-app.use(express.json())
-
-// Start
-app.set('port', process.env.port || 4001);
-const port = app.get('port');
-server.listen(port, () => {
-    console.log('Servidor conectado en el puerto: ' + port);
-});
-
-routerApi(app);
-
-io.on('connection', socket => {
-    console.log('Tenemos una nueva conexión, Id: '+ socket.id);
-    sockets(socket);
 })

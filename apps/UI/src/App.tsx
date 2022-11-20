@@ -6,6 +6,10 @@ import MainContent from "./sections/mainContent"
 
 import { socket, socketContext } from "./context/socket";
 
+socket.on('connect', () => {
+    console.log(socket.id);
+})
+
 const App: React.FC = () => {
     const pruebaBoton = () => {
         console.log("Hola");
