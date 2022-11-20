@@ -2,10 +2,23 @@ import * as React from 'react';
 import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
 import electron from "electron"
+import { SerialPort } from 'serialport';
+import { SerialPortMockOpenOptions } from 'serialport/dist/serialport-mock';
 
 interface IConnectionMenuProps {
   conectado?: boolean,
   esperando?: boolean
+}
+
+interface portType{
+  friendlyName: string,
+  locationId: string | undefined,
+  manufacturer: string,
+  path: string,
+  pnpId: string,
+  productId: number | undefined,
+  serialNumber: number | undefined,
+  vendorId: number | undefined
 }
 
 const getSerialPortList = () => {
@@ -20,12 +33,16 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     esperando = false
   } = props;
 
+  const [ports, setPorts] = React.useState<portType[]>(
+    []
+  );
+
   const handleConnect = () => {
     console.log("Conectar al arduino");
   }
 
-  const handleUpdate = async () => {
-    const ports = await getSerialPortList()
+  const handleUpdate = () => {
+    setPorts(getSerialPortList());
     console.log(ports);
   }
 
@@ -42,6 +59,11 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
                 <div className="contenedorPuertos">
                   <select name="puerto" id="puertos" className="listaPuertos" aria-placeholder="">
                       <option value="1">Elige un puerto</option>
+                      {
+                        ports.map( (map, i) => (
+                          <option key={i} value={map.path}>{map.friendlyName}</option>
+                        ))
+                      }
                   </select>
                   <button onClick={handleUpdate} className="botonActualizar" id="botonActualizar"></button>
                 </div>
