@@ -6,7 +6,6 @@ export enum buttonTypes {
     commonButton = "boton",
     connectButton = "botonArduino conectar",
     disconnectButton = "botonArduino desconectar",
-    disabledButton = "botonDesactivado",
     contentButton = "botonContenido",
     serialButton = "boton botonSendSerial"
 }

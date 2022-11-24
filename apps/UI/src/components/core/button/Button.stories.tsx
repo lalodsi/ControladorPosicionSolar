@@ -31,12 +31,6 @@ Disconnect.args = {
   className: buttonTypes.connectButton
 }
 
-export const Disable = Template.bind({})
-Disable.args = {
-  text: "Deshabilitado",
-  className: buttonTypes.disabledButton
-}
-
 export const Contenido = Template.bind({})
 Contenido.args = {
   text: "Boton de Contenido",
