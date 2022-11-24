@@ -1,0 +1,25 @@
+.contenido .header, .header{
+    font-size: 24px;
+    color: var(--verdeClaro);
+    font-weight: bold;
+    text-align: left;
+}
+.contenido .subheader, .subheader{
+    font-size: 20px;
+    color: var(--verdeDiscreto);
+    font-weight: bold;
+    text-align: left;
+}
+.contenido .info, .info{
+    color: var(--colorDescripcion);
+    text-align: left;
+}
+.dato{
+    background: var(--fondoDato);
+    padding: 5px 10px;
+    text-align: center;
+}
+.dato:hover{
+    background: var(--fondoDatoHover);
+    cursor: copy;
+}
