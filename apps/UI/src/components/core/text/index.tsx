@@ -2,7 +2,6 @@ import React from 'react'
 import "./styles.css"
 
 export enum TextType {
-    title = 'title',
     info = 'info',
     header = 'header',
     subheader = 'subheader',
@@ -15,11 +14,11 @@ type TextProps = {
 }
 
 const Text: React.FC<TextProps> = (props) => {
-    const {
-        content,
-        type
-    } = props
- 
+  const {
+      content,
+      type
+  } = props
+
   return (
     <p className={type}>{content}</p>
   )

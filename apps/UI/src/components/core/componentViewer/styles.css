@@ -9,5 +9,5 @@
     background-color: var(--fondo);
 }
 .centerElements.centerElementsLight{
-    background-color: aliceblue;
+    background-color: var(--verdeMenta)
 }

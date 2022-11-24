@@ -10,11 +10,6 @@ export default {
     component: Text
 } as ComponentMeta<typeof Text>
 
-export const TextTitle: ComponentStory<typeof Text> = () => (
-        <ComponentViewer type={ComponentViewerTypes.dark}>
-            <Text type={TextType.title} content="abcdefghijklmnopqrstuvwxyz" />
-        </ComponentViewer>
-    )
 export const TextHeader: ComponentStory<typeof Text> = () => (
         <ComponentViewer type={ComponentViewerTypes.dark}>
             <Text type={TextType.header} content="abcdefghijklmnopqrstuvwxyz" />
