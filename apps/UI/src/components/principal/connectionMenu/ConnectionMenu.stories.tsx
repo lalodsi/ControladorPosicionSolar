@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import ConnectionMenu from '.';
-import CenterElements from '../../core/centerElements';
+import CenterElements from '../../core/componentViewer';
 
 export default {
   title: 'Connection Menu',

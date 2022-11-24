@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import Loading, { LoadingTypes } from '.';
-import CenterElements from '../centerElements';
+import ComponentViewer from '../componentViewer';
 
 export default {
   title: 'Loading Components',
@@ -14,9 +14,9 @@ export default {
 
 const Template: ComponentStory<typeof Loading> = (args) =>
   (
-    <CenterElements >
+    <ComponentViewer >
       <Loading {...args} />
-    </CenterElements>
+    </ComponentViewer>
   )
 ;
 

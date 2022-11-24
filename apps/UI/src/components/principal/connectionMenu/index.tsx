@@ -3,7 +3,6 @@ import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
 import electron from "electron"
 import { SerialPort } from 'serialport';
-import { SerialPortMockOpenOptions } from 'serialport/dist/serialport-mock';
 
 interface IConnectionMenuProps {
   conectado?: boolean,
@@ -33,17 +32,28 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     esperando = false
   } = props;
 
-  const [ports, setPorts] = React.useState<portType[]>(
-    []
-  );
+  const [ports, setPorts] = React.useState<portType[]>([]);
+  const [selectedPort, setSelectedPort] = React.useState<string>("");
 
   const handleConnect = () => {
-    console.log("Conectar al arduino");
+    // const out = {
+    //   connect: true,
+    //   port: selectedPort
+    // }
+    const out = true
+    // @ts-ignore
+    console.log(electronAPI);
+    // @ts-ignore
+    electronAPI.connect(out);
+    
   }
 
-  const handleUpdate = () => {
+  const handleUpdatePorts = () => {
     setPorts(getSerialPortList());
-    console.log(ports);
+  }
+
+  const changeSelected = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedPort(event.target.value)
   }
 
   return (
@@ -57,15 +67,20 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
               <div className="menuConectar">
                 <p className="info">Establecer una conexión con arduino</p>
                 <div className="contenedorPuertos">
-                  <select name="puerto" id="puertos" className="listaPuertos" aria-placeholder="">
+                  <select onChange={changeSelected} name="puerto" id="puertos" className="listaPuertos" aria-placeholder="">
                       <option value="1">Elige un puerto</option>
                       {
                         ports.map( (map, i) => (
-                          <option key={i} value={map.path}>{map.friendlyName}</option>
+                          <option
+                            key={i}
+                            value={map.path}
+                          >
+                            {map.friendlyName}
+                          </option>
                         ))
                       }
                   </select>
-                  <button onClick={handleUpdate} className="botonActualizar" id="botonActualizar"></button>
+                  <button onClick={handleUpdatePorts} className="botonActualizar" id="botonActualizar"></button>
                 </div>
                 {/* <button id="botonConectar" className="botonArduino conectar">Conectar</button> */}
                 <Button text='Conectar' className={buttonTypes.connectButton} handleClick={handleConnect} />

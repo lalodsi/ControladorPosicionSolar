@@ -8,7 +8,7 @@ const eventNames = {
     test: 'synchronous-message',
     estadoArduino: 'arduinoConnectionState',
     versionSoftwareArduino: 'arduinoSoftwareTest',
-    iniciarConexion: 'connect-to-arduino',
+    definirConexion: 'connect-to-arduino',
     monitorear: "startSendingData",
     intercambiarDatos: "data",
     enviarPalabra: "sendString",
@@ -33,12 +33,16 @@ function appEvents() {
         const ports = await SerialPort.list()
         event.returnValue = ports
     })
-    ipcMain.on(eventNames.iniciarConexion, data => {
+    ipcMain.on(eventNames.definirConexion, data => {
+        // console.log(data);
+        console.log(data);
         if (data.connect) {
             const port = data.port;
-            arduino.init(port, event, servidor);
+            //arduino.init(port, event, servidor);
+            console.log("if");
         } else {
-            arduino.disconnect(event, servidor);
+            //arduino.disconnect(event, servidor);
+            console.log("else");
         }
     })
     ipcMain.on(eventNames.versionSoftwareArduino, data => {
@@ -79,4 +83,7 @@ function appEvents() {
 
 }
 
-module.exports = appEvents;
+module.exports = {
+    appEvents,
+    eventNames
+}

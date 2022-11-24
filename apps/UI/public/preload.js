@@ -1,4 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
+const ArduinoSerial = require('../js/ArduinoSerial');
+const { eventNames } = require('../js/Events');
 
 window.addEventListener('DOMContentLoaded', () => {
     const replaceText = (selector, text) => {
@@ -22,5 +24,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
         console.log(result);
       }
     },
-    getPorts: () => ipcRenderer.sendSync('getPorts', true)
+    getPorts: () => ipcRenderer.sendSync('getPorts', true),
+    connect: (data) => {
+      // console.log(data);
+      ipcRenderer.sendSync(eventNames.iniciarConexion, data)
+    }
 })
