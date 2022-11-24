@@ -23,3 +23,5 @@ const Text: React.FC<TextProps> = (props) => {
     <p className={type}>{content}</p>
   )
 }
+
+export default Text;
