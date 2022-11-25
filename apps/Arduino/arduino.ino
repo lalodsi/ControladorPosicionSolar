@@ -23,7 +23,7 @@ String entrada;
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
-  pinMode(LED_BUILTIN, OUTPUT);
+  // pinMode(LED_BUILTIN, OUTPUT);
   // testProject();
 }
 
@@ -57,6 +57,8 @@ void loop() {
 
   // SPL_algorithm();
   // delay(50);
+  waitForSerial();
+  serialEvent();
 }
 
 void serialEvent(){
@@ -97,9 +99,9 @@ void serialEvent(){
   Serial.print("\"menu\":\"home\"");
   Serial.println("}");
 
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  // digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(50);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);
+  // digitalWrite(LED_BUILTIN, LOW);
 }
 
 void enviarSensores(){
@@ -127,7 +129,6 @@ void enviarSensores(){
       {
         break;
       }
-      
     }
 
     delay(50);

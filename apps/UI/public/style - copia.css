@@ -38,12 +38,6 @@ input{
 .section{
     width: 50%;
 }
-.centrado{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
 .subsection{
     width: 100%;
 }
@@ -90,40 +84,6 @@ input{
     flex-direction: column;
 }
 
-.contenido {
-    font-size: 18px;
-    /* max-height: max-content; */
-    height: 85%;
-    overflow-y: scroll;
-}
-.contenido::-webkit-scrollbar{
-    width: 12px;
-}
-.contenido::-webkit-scrollbar-track{
-    background: var(--fondoTransparente);
-}
-.contenido::-webkit-scrollbar-thumb {
-    background-color: var(--fondoContenidoEstado);
-    border-radius: 20px;
-    border: 3px solid var(--verdeClaro);
-}
-
-.contenido .header, .header{
-    font-size: 24px;
-    color: var(--verdeClaro);
-    font-weight: bold;
-    text-align: left;
-}
-.contenido .subheader, .subheader{
-    font-size: 20px;
-    color: var(--verdeDiscreto);
-    font-weight: bold;
-    text-align: left;
-}
-.contenido .info, .info{
-    color: var(--colorDescripcion);
-    text-align: left;
-}
 .contenido .botonContenido{
     background-color: var(--fondoBoton);
     color: white;
@@ -137,18 +97,6 @@ input{
     background-color: var(--fondoBotonHoverAzul);
     /* font-weight: bold; */
     cursor: pointer;
-}
-.dosColumnas{
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-}
-.dosColumnas > p,
-.dosColumnas > label, 
-.dosColumnas > input 
-{
-    width: 40%;
-    margin: 10px 0;
 }
 .greenButton{
     transition: all 500ms ease;

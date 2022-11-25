@@ -12,8 +12,8 @@ const MainContent: React.FunctionComponent<IMainContentProps> = (props) => {
         <div className='mainContent'>
             <div className="mainSection"></div>
             <div className="secondarySection">
-                <ConnectionMenu esperando={false} conectado={false} />
                 <NavigationSection />
+                <ConnectionMenu esperando={false} conectado={false} />
             </div>
         </div>
     );
