@@ -24,6 +24,7 @@ function appEvents() {
     /**
      * event para comenzar la conexión
      */
+     const Arduino = new arduino();
 
     ipcMain.on(eventNames.test, (event, arg) => {
         console.log(arg);
@@ -33,16 +34,17 @@ function appEvents() {
         const ports = await SerialPort.list()
         event.returnValue = ports
     })
-    ipcMain.on(eventNames.definirConexion, data => {
-        // console.log(data);
-        console.log(data);
-        if (data.connect) {
-            const port = data.port;
-            //arduino.init(port, event, servidor);
-            console.log("if");
+    ipcMain.on(eventNames.definirConexion, (event, arg) => {
+        if (arg.connect) {
+            const port = arg.port;
+            Arduino.init(port, ipcMain, eventNames.definirConexion);
         } else {
-            //arduino.disconnect(event, servidor);
-            console.log("else");
+            Arduino.disconnect();
+        }
+        event.returnValue = {
+            isConnected: true,
+            error: false,
+            message: ""
         }
     })
     ipcMain.on(eventNames.versionSoftwareArduino, data => {

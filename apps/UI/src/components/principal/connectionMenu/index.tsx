@@ -32,21 +32,30 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     esperando = false
   } = props;
 
+  const [connected, setConnected] = React.useState(conectado || false);
+  const [waiting, setWaiting] = React.useState(esperando || false);
   const [ports, setPorts] = React.useState<portType[]>([]);
   const [selectedPort, setSelectedPort] = React.useState<string>("");
 
-  const handleConnect = () => {
-    // const out = {
-    //   connect: true,
-    //   port: selectedPort
-    // }
-    const out = true
+  const handleConnect = async () => {
+    const out = {
+      connect: true,
+      port: selectedPort
+    }
     // @ts-ignore
-    console.log(electronAPI);
-    // @ts-ignore
-    electronAPI.connect(out);
-    
+    electronAPI.connect(out, (event) => {
+      console.log(event);
+    });
   }
+
+
+  React.useEffect(() => {
+    setPorts(getSerialPortList());
+    // @ts-ignore
+    electronAPI.setConnectionListener((some) => {
+      console.log(some);
+    })
+  }, [])
 
   const handleUpdatePorts = () => {
     setPorts(getSerialPortList());
@@ -61,7 +70,7 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
       <div>
           <div>Estado</div>
           {
-            (!conectado && !esperando) &&
+            (!connected && !waiting) &&
             <div className="Contenido_Estado">
               <div id="state" className="desconectado">Desconectado</div>
               <div className="menuConectar">
@@ -88,13 +97,13 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
             </div>
           }
           {
-            (!conectado && esperando) &&
+            (!connected && waiting) &&
             <div className="Contenido_Estado">
                 <div id="state" className="conectando">Conectando...</div>
             </div>
           }
           {
-            conectado &&
+            connected &&
             <div className="Contenido_Estado">
                 <div id="state" className="conectado">Conectado</div>
                 <button id="botonDesconectar" className="botonArduino desconectar">Desconectar</button>

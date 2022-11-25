@@ -26,7 +26,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
     },
     getPorts: () => ipcRenderer.sendSync('getPorts', true),
     connect: (data) => {
-      // console.log(data);
-      ipcRenderer.sendSync(eventNames.iniciarConexion, data)
-    }
+      return ipcRenderer.send(eventNames.definirConexion, data)
+    },
+    setConnectionListener: (callback) => ipcRenderer.on(eventNames.definirConexion, callback)
 })

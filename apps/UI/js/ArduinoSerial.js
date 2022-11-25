@@ -20,8 +20,7 @@ class ArduinoSerial{
     constructor() {
         this.isConnected = false;
         this.isApproved = false;
-        this.monitor
-        SerialConnected = false;
+        this.SerialConnected = false;
     }
 
     /**
@@ -30,13 +29,12 @@ class ArduinoSerial{
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
-    init = async function (port, socket, server) {
+    init = async function (port, ipcMain, eventName) {
         await this.wait(500, this.mensajes.connecting);
-        this.server = server;
-        this.port = this.establishConnection(port, socket);
+        this.port = this.establishConnection(port, ipcMain, eventName);
         this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
-        this.receiveData(socket);
+        this.receiveData();
     }
 
     /**
@@ -46,23 +44,21 @@ class ArduinoSerial{
      * @param {io.socket} socket Websocket en el que se comunicará el estado de la conexión con arduino
      * @returns {Promise} Al resolver la promesa se retornará el objeto serial para conectarse
      */
-    establishConnection = function (port, socket) {
+    establishConnection = function (port, ipcMain, eventName) {
         const messages = this.mensajes
-        const servidor = this.server;
+        // const servidor = this.server;
         // Verificar que el arduino traiga el software
         setTimeout(()=>{
             if (!this.isApproved && this.isConnected) {
-                socket.emit(this.server.sockets.versionSoftwareArduino, 
-                    {
-                        hasTheProgram: false,
-                        message: "El dispositivo no tiene el software adecuado"
-                    });    
+                ipcMain.emit(eventName, {
+                    hasTheProgram: false,
+                    message: "El dispositivo no tiene el software adecuado"
+                })
                 console.log(this.mensajes.checkingFailed);
-                this.disconnect(socket, this.server);
+                this.disconnect();
             }
         }, 3000);
 
-        // return new Promise( function (resolve, reject) {
             console.log(messages.arduinoRequest + port);
             const serial = new SerialPort({
                 path: port,
@@ -70,7 +66,7 @@ class ArduinoSerial{
             }, function (err) {
                 if (err) {
                     console.log(messages.errorConnecting, err);
-                    socket.emit(servidor.sockets.estadoArduino, 
+                    ipcMain.emit(eventName, 
                         {
                             isConnected: false, 
                             error: true, 
@@ -80,18 +76,16 @@ class ArduinoSerial{
                         this.isApproved = false;
                 } else {
                     console.log(messages.connectionSuccessful);
-                    socket.emit(servidor.sockets.estadoArduino, 
+                    ipcMain(eventName,
                         {
-                            isConnected: true, 
-                            error: false, 
+                            isConnected: true,
+                            error: false,
                             message: ""
                         });
                     this.isConnected = true;
                     this.isApproved = false;
                 }
             });
-            // resolve(serial)
-        // })
         return serial;
     }
 
@@ -115,7 +109,7 @@ class ArduinoSerial{
      * TODO: establecer el intercambio de información con arduino
      * @param {function} callback funcion a ejecutar
      */
-    receiveData = function (socket, sendData) {
+    receiveData = function (sendData) {
         console.log("Activada la recepción de información desde arduino");
         this.parser.on('data', data => {
             try{
@@ -124,14 +118,14 @@ class ArduinoSerial{
                 // Cambiar Menu
                 if (datos.accion === "changeMenu") {
                     const menu = datos.menu;
-                    socket.emit(this.server.sockets.menuArduino,
-                        {
-                            menu
-                        });
+                    // socket.emit(this.server.sockets.menuArduino,
+                    //     {
+                    //         menu
+                    //     });
                 }
                 // MonitorSerial
                 if (this.monitorSerialConnected) {
-                    socket.emit("monitorSerial", data);
+                    // socket.emit("monitorSerial", data);
                     return;
                 }
                 // console.log(datos.accion);
@@ -145,16 +139,16 @@ class ArduinoSerial{
                 if (datos.accion === "test") {
                     this.isApproved = true;
                     console.log(datos.message);
-                    socket.emit(this.server.sockets.versionSoftwareArduino, 
-                        {
-                            hasTheProgram: true,
-                            message: "El dispositivo tiene el software adecuado"
-                        });
+                    // socket.emit(this.server.sockets.versionSoftwareArduino, 
+                    //     {
+                    //         hasTheProgram: true,
+                    //         message: "El dispositivo tiene el software adecuado"
+                    //     });
                 }
             }
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);
-                this.disconnect(socket, this.server);
+                this.disconnect();
             }
         });
     }
@@ -166,7 +160,7 @@ class ArduinoSerial{
     /**
      * Desconecta el arduino del puerto serie
      */
-    disconnect = async function (socket, servidor) {
+    disconnect = async function () {
         await this.wait(500, this.mensajes.disconnecting);
         if (this.port.isOpen) {
             await this.port.close();
@@ -177,30 +171,29 @@ class ArduinoSerial{
         }
         this.isConnected = false;
         this.isApproved = false;
-        socket.emit(servidor.sockets.estadoArduino, 
-            {
-                isConnected: false, 
-                error: false,
-                message: ""
-            });
+        // socket.emit(servidor.sockets.estadoArduino, 
+        //     {
+        //         isConnected: false, 
+        //         error: false,
+        //         message: ""
+        //     });
     }
 
-    analizaDatosDeEntrada = function (datos, socket, servidor) {
+    analizaDatosDeEntrada = function (datos) {
         let arrayFinal = [];
         arrayFinal.push(datos.sensor1);
         arrayFinal.push(datos.sensor2);
         arrayFinal.push(datos.sensor3);
         arrayFinal.push(datos.sensor4);
         arrayFinal.push(datos.sensor5);
-        // console.log(arrayFinal);
         // Enviar datos al servidor por web sockets
-        socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
+        // socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
     }
 
-    enviarPuertosDisponibles = async function (socket, servidor) {
-        const puertos = await SerialPort.list();
-        socket.emit("ports", puertos);
-    }
+    // enviarPuertosDisponibles = async function (socket, servidor) {
+    //     const puertos = await SerialPort.list();
+    //     socket.emit("ports", puertos);
+    // }
 }
 
 module.exports = ArduinoSerial
