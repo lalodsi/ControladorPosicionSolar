@@ -3,6 +3,8 @@ import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
 import electron from "electron"
 import { SerialPort } from 'serialport';
+import { connect } from "react-redux";
+import { mapArgsToTypes } from '@storybook/store';
 
 interface IConnectionMenuProps {
   conectado?: boolean,
@@ -114,6 +116,4 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
   );
 };
 
-
-
-export default ConnectionMenu;
+export default connect(mapArgsToTypes, null)(ConnectionMenu);

@@ -3,17 +3,16 @@ import TopBar from "./sections/topbar"
 import "./styles.css"
 import "./variables.css"
 import MainContent from "./sections/mainContent"
+import { Provider } from "react-redux"
+import { store } from "./redux/store"
 
 const App: React.FC = () => {
-    const pruebaBoton = () => {
-        console.log("Hola");
-    }
 
     return (
-        <React.Fragment>
+        <Provider store={store} >
             <TopBar />
             <MainContent />
-        </React.Fragment>
+        </Provider>
     )
 }
 
