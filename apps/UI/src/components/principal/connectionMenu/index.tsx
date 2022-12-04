@@ -66,7 +66,7 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
   }
 
   return (
-    <section className="subsection estado" id="estadoConexion">
+    <section className="connectionMenuContainer estado" id="estadoConexion">
       <div>
           <div>Estado</div>
           {

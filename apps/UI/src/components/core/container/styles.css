@@ -40,14 +40,14 @@
     overflow-y: scroll;
 }
 .contenido::-webkit-scrollbar{
-    width: 12px;
-    height: 90px;
+    width: 19px;
 }
 .contenido::-webkit-scrollbar-track{
     /* background: var(--fondoTransparente); */
 }
 .contenido::-webkit-scrollbar-thumb {
     background-color: var(--fondoContenidoEstado);
-    border-radius: 20px;
+    border-radius: 40px;
     border: 3px solid var(--verdeClaro);
+    height: 30px;
 }

@@ -1,7 +1,7 @@
 import React, { Children } from 'react'
 import "./styles.css"
 
-type ContainerType = "section" | "subsection" | "doubleColumns"
+export type ContainerType = "section" | "subsection" | "doubleColumns"
 
 type ContainerProps = {
     children: React.ReactNode,
