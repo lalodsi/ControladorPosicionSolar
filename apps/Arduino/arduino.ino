@@ -1,7 +1,7 @@
 /**
-Tesis.ino
-Este archivo será el punto de entrada del proyecto, controlará todo el funcionamiento total
-del proyecto.
+  Tesis.ino
+  Este archivo será el punto de entrada del proyecto, controlará todo el funcionamiento total
+  del proyecto.
 
 */
 
@@ -34,22 +34,22 @@ void loop() {
   //   option = 0;
   //   calibrar();
   //   break;
-  
+
   // case 2:
   //   option = 0;
   //   controlar();
   //   break;
-  
+
   // case 3:
   //   option = 0;
   //   enviarSensores();
   //   break;
-  
+
   // case 4:
   //   option = 0;
   //   testProject();
   //   break;
-  
+
   // default:
   //   option = 0;
   //   break;
@@ -61,32 +61,32 @@ void loop() {
   serialEvent();
 }
 
-void serialEvent(){
+void serialEvent() {
   entrada = Serial.readString();
   entrada.trim();
-    // Control de flujo
-  if(entrada.equals("calibrar")){
+  // Control de flujo
+  if (entrada.equals("calibrar")) {
     Serial.print("{");
     Serial.print("\"accion\":\"changeMenu\",");
     Serial.print("\"menu\":\"calibrar\"");
     Serial.println("}");
     calibrar();
   }
-  if(entrada.equals("controlar")){
+  if (entrada.equals("controlar")) {
     Serial.print("{");
     Serial.print("\"accion\":\"changeMenu\",");
     Serial.print("\"menu\":\"controlar\"");
     Serial.println("}");
     controlar();
-  } 
-  if(entrada.equals("monitorear")){
+  }
+  if (entrada.equals("monitorear")) {
     Serial.print("{");
     Serial.print("\"accion\":\"changeMenu\",");
     Serial.print("\"menu\":\"monitorear\"");
     Serial.println("}");
     enviarSensores();
-  } 
-  if(entrada.equals("probar")){
+  }
+  if (entrada.equals("probar")) {
     testProject();
   }
 
@@ -104,7 +104,7 @@ void serialEvent(){
   // digitalWrite(LED_BUILTIN, LOW);
 }
 
-void enviarSensores(){
+void enviarSensores() {
 
   while (true)
   {
@@ -125,6 +125,7 @@ void enviarSensores(){
     if (Serial.available())
     {
       entrada = Serial.readString();
+      entrada.trim();
       if (entrada.equals("salir"))
       {
         break;
@@ -134,69 +135,69 @@ void enviarSensores(){
     delay(50);
     SPL_algorithm();
   }
-  
+
 }
 
-void SPL_algorithm(){
+void SPL_algorithm() {
   const float umbral = 30; // Sirve de referencia para la comparación
 
   int diferenciaY = sensor2.getData() - sensor4.getData();
   int diferenciaX = sensor3.getData() - sensor5.getData();
-  
+
   if (sensor1.getData() > umbral)
   {
-    if ( abs(diferenciaY) > umbral ){
+    if ( abs(diferenciaY) > umbral ) {
       moverY(diferenciaY);
     }
 
-    if ( abs(diferenciaX) > umbral ){
+    if ( abs(diferenciaX) > umbral ) {
       moverX(diferenciaX);
     }
   }
-  
+
 }
 
 /**
- * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
- * 
- */
-void waitForSerial(){
+   @brief Esperará a que haya información en el puerto serie para continuar la ejecución
+
+*/
+void waitForSerial() {
   // Serial.flush();
-  while (!Serial.available()){
+  while (!Serial.available()) {
     // Wait
   }
 }
 
-void calibrar(){
+void calibrar() {
   Serial.println("{\"accion\":\"mensaje\",\"message\":\"Calibracion activada\"}");
   waitForSerial();
 
   entrada = Serial.readString();
-    // Serial.print(entrada);
-    if (entrada.equals("position")){
-      waitForSerial();
-      entrada = Serial.readString();
-      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
-    }
-    if (entrada.equals("date")){
-      waitForSerial();
-      entrada = Serial.readString();
-      // Actualizar la info en el modulo de reloj
-      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora\"}");
-    }
-    if (entrada.equals("orientation")){
-      waitForSerial();
-      entrada = Serial.readString();
-      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion\"}");
-    }
+  // Serial.print(entrada);
+  if (entrada.equals("position")) {
+    waitForSerial();
+    entrada = Serial.readString();
+    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
+  }
+  if (entrada.equals("date")) {
+    waitForSerial();
+    entrada = Serial.readString();
+    // Actualizar la info en el modulo de reloj
+    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora\"}");
+  }
+  if (entrada.equals("orientation")) {
+    waitForSerial();
+    entrada = Serial.readString();
+    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion\"}");
+  }
 
   Serial.flush();
 
   // Serial.println("Calibracion");
 }
 
-void controlar(){
-  while (true){
+void controlar() {
+  while (true) {
     waitForSerial();
     entrada = Serial.readString();
     if (entrada.equals("salir"))
@@ -218,10 +219,10 @@ void controlar(){
     delay(100);
     // Serial.println("La entrada es " + x + "," + y);
   }
-  
+
 }
 
-void testProject(){
+void testProject() {
   // delay(100);
   Serial.println("{\"accion\":\"test\",\"message\":\"successful\"}");
 }
