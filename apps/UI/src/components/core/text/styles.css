@@ -16,10 +16,14 @@
 }
 .dato{
     background: var(--fondoDato);
+    color: var(--verdeDiscreto);
     padding: 5px 10px;
     text-align: center;
 }
 .dato:hover{
     background: var(--fondoDatoHover);
     cursor: copy;
+}
+.normal{
+    color: var(--colorDescripcion);
 }

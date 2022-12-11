@@ -1,0 +1,4 @@
+.MonitoringDataSection  {
+    display: flex;
+    flex-direction: column;
+}

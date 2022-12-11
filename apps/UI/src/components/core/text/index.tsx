@@ -5,7 +5,8 @@ export enum TextType {
     info = 'info',
     header = 'header',
     subheader = 'subheader',
-    dato = 'dato'
+    dato = 'dato',
+    normal = 'normal'
 }
 
 type TextProps = {
