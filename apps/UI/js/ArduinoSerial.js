@@ -31,10 +31,11 @@ class ArduinoSerial{
      */
     init = async function (port, ipcMain, eventName) {
         await this.wait(500, this.mensajes.connecting);
-        this.port = this.establishConnection(port, ipcMain, eventName);
-        this.parser = new ReadlineParser();
-        this.port.pipe(this.parser);
-        this.receiveData();
+        // this.port = this.establishConnection(port, ipcMain, eventName);
+        return this.establishConnection(port, ipcMain, eventName);
+        // this.parser = new ReadlineParser();
+        // this.port.pipe(this.parser);
+        // this.receiveData();
     }
 
     /**
@@ -46,6 +47,8 @@ class ArduinoSerial{
      */
     establishConnection = function (port, ipcMain, eventName) {
         const messages = this.mensajes
+        console.log("Establish connection");
+        console.log(ipcMain);
         // const servidor = this.server;
         // Verificar que el arduino traiga el software
         setTimeout(()=>{

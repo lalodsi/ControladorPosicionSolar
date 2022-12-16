@@ -12,7 +12,7 @@ function createWindow() {
         titleBarStyle: 'hidden',
         resizable: false,
         webPreferences: {
-            preload: path.join(__dirname, './public/preload.js'),
+            preload: path.join(__dirname, './js/preload.js'),
             nodeIntegration: true,
             contextIsolation: true,
             devTools: true,
