@@ -62,33 +62,33 @@ class ArduinoSerial{
             }
         }, 3000);
 
-            console.log(messages.arduinoRequest + port);
-            const serial = new SerialPort({
-                path: port,
-                baudRate: 9600
-            }, function (err) {
-                if (err) {
-                    console.log(messages.errorConnecting, err);
-                    ipcMain.emit(eventName, 
-                        {
-                            isConnected: false, 
-                            error: true, 
-                            message: err.message
-                        });
-                        this.isConnected = false
-                        this.isApproved = false;
-                } else {
-                    console.log(messages.connectionSuccessful);
-                    ipcMain(eventName,
-                        {
-                            isConnected: true,
-                            error: false,
-                            message: ""
-                        });
-                    this.isConnected = true;
+        console.log(messages.arduinoRequest + port);
+        const serial = new SerialPort({
+            path: port,
+            baudRate: 9600
+        }, function (err) {
+            if (err) {
+                console.log(messages.errorConnecting, err);
+                ipcMain.emit(eventName, 
+                    {
+                        isConnected: false, 
+                        error: true, 
+                        message: err.message
+                    });
+                    this.isConnected = false
                     this.isApproved = false;
-                }
-            });
+            } else {
+                console.log(messages.connectionSuccessful);
+                ipcMain(eventName,
+                    {
+                        isConnected: true,
+                        error: false,
+                        message: ""
+                    });
+                this.isConnected = true;
+                this.isApproved = false;
+            }
+        });
         return serial;
     }
 
