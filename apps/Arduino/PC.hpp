@@ -4,9 +4,9 @@
 class PC: public external
 {
 private:
-    void receive(string data){
+    //void receive(string data){
         //
-    }
+    //}
 
 public:
     void init(int baudRate = 115200){

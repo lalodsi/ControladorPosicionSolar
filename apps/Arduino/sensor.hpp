@@ -1,11 +1,12 @@
-#include "external.hpp"
+// #include "external.hpp"
 /**
  * @brief clase que se encarga de realizar una lectura analógica
  * 
  */
-class sensor: public external
+class sensor // : public external
 {
 private:
+  int pins = 0;
     // double value = 0;
 
 public:
