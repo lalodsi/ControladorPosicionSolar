@@ -46,9 +46,7 @@ class ArduinoSerial{
      * @returns {Promise} Al resolver la promesa se retornará el objeto serial para conectarse
      */
     establishConnection = function (port, ipcMain, eventName) {
-        const messages = this.mensajes
-        console.log("Establish connection");
-        console.log(ipcMain);
+        const messages = this.mensajes;
         // const servidor = this.server;
         // Verificar que el arduino traiga el software
         setTimeout(()=>{
@@ -79,7 +77,7 @@ class ArduinoSerial{
                     this.isApproved = false;
             } else {
                 console.log(messages.connectionSuccessful);
-                ipcMain(eventName,
+                ipcMain.emit(eventName,
                     {
                         isConnected: true,
                         error: false,

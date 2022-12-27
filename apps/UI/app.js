@@ -2,7 +2,7 @@
 const { app : electronApp, BrowserWindow, ipcMain } = require("electron");
 const ArduinoSerial = require('./js/ArduinoSerial.js');
 const path = require("path");
-const { appEvents } = require('./js/Events')
+const { setBehindEvents } = require('./js/BehindEvents.js')
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -46,4 +46,4 @@ electronApp.on('activate', () => {
     }
 })
 
-appEvents()
+setBehindEvents()

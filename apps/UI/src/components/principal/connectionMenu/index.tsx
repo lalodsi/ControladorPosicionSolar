@@ -8,7 +8,8 @@ import { mapArgsToTypes } from '@storybook/store';
 
 interface IConnectionMenuProps {
   conectado?: boolean,
-  esperando?: boolean
+  esperando?: boolean,
+  testing?: boolean
 }
 
 interface portType{
@@ -31,7 +32,8 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
   // Just for testing
   const {
     conectado = false,
-    esperando = false
+    esperando = false,
+    testing = false,
   } = props;
 
   const [connected, setConnected] = React.useState(conectado || false);
@@ -39,32 +41,54 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
   const [ports, setPorts] = React.useState<portType[]>([]);
   const [selectedPort, setSelectedPort] = React.useState<string>("");
 
-  const handleConnect = async () => {
+  const handleConnect = () => {
     const out = {
       connect: true,
       port: selectedPort
     }
-    // @ts-ignore
-    electronAPI.connect(out, (event) => {
-      console.log(event);
-    });
+    if (!testing) {
+      // @ts-ignore
+      electronAPI.connect(out, (event) => {
+        console.log(event);
+      });
+    }
+    else{
+      setWaiting(true);
+      setTimeout(() => {
+        setWaiting(false);
+        setConnected(true);
+      }, 2000)
+    }
   }
 
+  const handleDisconnect = () => {
+    if (!testing) {
+      // Pass
+    }
+    else{
+      setConnected(false);
+    }
+  }
 
   React.useEffect(() => {
-    setPorts(getSerialPortList());
-    // @ts-ignore
-    electronAPI.setConnectionListener((some) => {
-      console.log(some);
-    })
+    if (!testing) {
+      setPorts(getSerialPortList());
+      // @ts-ignore
+      electronAPI.setConnectionListener((some) => {
+        console.log("This is the connection listener setter function");
+        console.log(some);
+      })
+    }
   }, [])
 
   const handleUpdatePorts = () => {
-    setPorts(getSerialPortList());
+    if (!testing) {
+      setPorts(getSerialPortList());
+    }
   }
 
   const changeSelected = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPort(event.target.value)
+    setSelectedPort(event.target.value);
   }
 
   return (
@@ -108,7 +132,11 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
             connected &&
             <div className="Contenido_Estado">
                 <div id="state" className="conectado">Conectado</div>
-                <button id="botonDesconectar" className="botonArduino desconectar">Desconectar</button>
+                <button
+                  id="botonDesconectar"
+                  className="botonArduino desconectar"
+                  onClick={handleDisconnect}
+                  >Desconectar</button>
             </div>
           }
       </div>
@@ -116,4 +144,4 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
   );
 };
 
-export default connect(mapArgsToTypes, null)(ConnectionMenu);
+export default ConnectionMenu;

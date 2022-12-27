@@ -1,4 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
+const { ipcRenderer } = require('electron');
 const ArduinoSerial = require('../ArduinoSerial');
 
 const eventNames = {
@@ -25,8 +25,8 @@ const pingPong = (message) => {
     }
   }
 const getPorts = () => ipcRenderer.sendSync(eventNames.getPorts, true)
-const connect = (data) => {
-    return ipcRenderer.send(eventNames.definirConexion, data)
+const setConnect = (data) => {
+    return ipcRenderer.sendSync(eventNames.definirConexion, data)
 }
 const setConnectionListener = (callback) => ipcRenderer.on(eventNames.definirConexion, callback)
 

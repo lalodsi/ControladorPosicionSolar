@@ -2,6 +2,7 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import ConnectionMenu from '.';
 import CenterElements from '../../core/componentViewer';
+import Container, { ContainerType } from '../../core/container';
 
 export default {
   title: 'Connection Menu',
@@ -15,7 +16,9 @@ export default {
 const Template: ComponentStory<typeof ConnectionMenu> = (args) =>
   (
     <CenterElements >
-      <ConnectionMenu {...args} />
+      <Container type="section">
+        <ConnectionMenu { ...args } />
+      </Container>
     </CenterElements>
   )
 ;
@@ -23,5 +26,6 @@ const Template: ComponentStory<typeof ConnectionMenu> = (args) =>
 export const Normal = Template.bind({});
 Normal.args = {
     conectado : false,
-    esperando : false
+    esperando : false,
+    testing : true
 };

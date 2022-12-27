@@ -20,7 +20,7 @@ const eventNames = {
 }
 
 
-function appEvents() {
+function setBehindEvents() {
     /**
      * event para comenzar la conexión
      */
@@ -34,12 +34,13 @@ function appEvents() {
         const ports = await SerialPort.list()
         event.returnValue = ports
     })
-    ipcMain.on(eventNames.definirConexion, (event, arg) => {
+    ipcMain.on(eventNames.definirConexion, async (event, arg) => {
+        console.log(arg);
         if (arg.connect) {
             const port = arg.port;
-            Arduino.init(port, ipcMain, eventNames.definirConexion);
+            await Arduino.init(port, ipcMain, eventNames.definirConexion)
         } else {
-            Arduino.disconnect();
+            await Arduino.disconnect();
         }
         event.returnValue = {
             isConnected: true,
@@ -86,6 +87,6 @@ function appEvents() {
 }
 
 module.exports = {
-    appEvents,
+    setBehindEvents,
     eventNames
 }
