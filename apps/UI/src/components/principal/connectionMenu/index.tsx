@@ -48,7 +48,7 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     }
     if (!testing) {
       // @ts-ignore
-      electronAPI.connect(out, (event) => {
+      electronAPI.setConnection(out, (event) => {
         console.log(event);
       });
     }

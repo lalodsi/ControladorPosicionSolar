@@ -25,7 +25,7 @@ const pingPong = (message) => {
     }
   }
 const getPorts = () => ipcRenderer.sendSync(eventNames.getPorts, true)
-const setConnect = (data) => {
+const setConnection = (data) => {
     return ipcRenderer.sendSync(eventNames.definirConexion, data)
 }
 const setConnectionListener = (callback) => ipcRenderer.on(eventNames.definirConexion, callback)
@@ -33,6 +33,6 @@ const setConnectionListener = (callback) => ipcRenderer.on(eventNames.definirCon
 module.exports = {
     pingPong,
     getPorts,
-    connect,
+    setConnection,
     setConnectionListener
 }
