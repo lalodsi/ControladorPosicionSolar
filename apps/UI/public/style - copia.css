@@ -160,11 +160,6 @@ input{
 .desaparecido{
     display: none;
 }
-.presentacion{
-    margin-bottom: 20px;
-    background-color: var(--fondoTransparente);
-    border: 5px solid var(--verdeDiscreto);
-}
 .contenedorIntroduccion{
     width: 30%;
     margin-top: 20px;
