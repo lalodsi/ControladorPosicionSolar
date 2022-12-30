@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Button, { buttonTypes } from '../../core/button';
 import "./styles.css"
-import electron from "electron"
+import electron, { ipcRenderer } from "electron";
 import { SerialPort } from 'serialport';
 import { connect } from "react-redux";
 import { mapArgsToTypes } from '@storybook/store';
@@ -37,15 +37,18 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
   } = props;
 
   const [connected, setConnected] = React.useState(conectado || false);
+  const [error, setError] = React.useState(conectado || false);
+  const [conectionMessage, setConectionMessage] = React.useState(conectado || false);
   const [waiting, setWaiting] = React.useState(esperando || false);
   const [ports, setPorts] = React.useState<portType[]>([]);
   const [selectedPort, setSelectedPort] = React.useState<string>("");
 
-  const handleConnect = () => {
+  const setConnection = (willConnect: boolean) => {
     const out = {
-      connect: true,
+      connect: willConnect,
       port: selectedPort
     }
+    setWaiting(true)
     if (!testing) {
       // @ts-ignore
       electronAPI.setConnection(out, (event) => {
@@ -60,10 +63,13 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
       }, 2000)
     }
   }
+  const handleConnect = () => {
+    setConnection(true)
+  }
 
   const handleDisconnect = () => {
     if (!testing) {
-      // Pass
+      setConnection(false);
     }
     else{
       setConnected(false);
@@ -74,9 +80,10 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     if (!testing) {
       setPorts(getSerialPortList());
       // @ts-ignore
-      electronAPI.setConnectionListener((some) => {
-        console.log("This is the connection listener setter function");
-        console.log(some);
+      electronAPI.setConnectionListener((event, args) => {
+        setConnected(args.isConnected);
+        setError(args.error);
+        setConectionMessage(args.message);
       })
     }
   }, [])

@@ -2,6 +2,7 @@ const {SerialPort} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
+const { ipcRenderer, ipcMain } = require('electron');
 
 class ArduinoSerial{
     mensajes = {
@@ -29,10 +30,9 @@ class ArduinoSerial{
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
-    init = async function (port, ipcMain, eventName) {
+    init = async function (port, ipcMain, win) {
         await this.wait(500, this.mensajes.connecting);
-        // this.port = this.establishConnection(port, ipcMain, eventName);
-        return this.establishConnection(port, ipcMain, eventName);
+        this.port = this.establishConnection(port, ipcMain, win);
         // this.parser = new ReadlineParser();
         // this.port.pipe(this.parser);
         // this.receiveData();
@@ -45,13 +45,14 @@ class ArduinoSerial{
      * @param {io.socket} socket Websocket en el que se comunicará el estado de la conexión con arduino
      * @returns {Promise} Al resolver la promesa se retornará el objeto serial para conectarse
      */
-    establishConnection = function (port, ipcMain, eventName) {
+    establishConnection = function (port, win) {
+        const eventName = "connect-to-arduino";
         const messages = this.mensajes;
         // const servidor = this.server;
         // Verificar que el arduino traiga el software
         setTimeout(()=>{
             if (!this.isApproved && this.isConnected) {
-                ipcMain.emit(eventName, {
+                win.webContents.send(eventName, {
                     hasTheProgram: false,
                     message: "El dispositivo no tiene el software adecuado"
                 })
@@ -67,7 +68,7 @@ class ArduinoSerial{
         }, function (err) {
             if (err) {
                 console.log(messages.errorConnecting, err);
-                ipcMain.emit(eventName, 
+                win.webContents.send(eventName, 
                     {
                         isConnected: false, 
                         error: true, 
@@ -77,7 +78,7 @@ class ArduinoSerial{
                     this.isApproved = false;
             } else {
                 console.log(messages.connectionSuccessful);
-                ipcMain.emit(eventName,
+                win.webContents.send(eventName,
                     {
                         isConnected: true,
                         error: false,
@@ -161,8 +162,8 @@ class ArduinoSerial{
     /**
      * Desconecta el arduino del puerto serie
      */
-    disconnect = async function () {
-        await this.wait(500, this.mensajes.disconnecting);
+    disconnect = async function (port) {
+        await this.wait (500, this.mensajes.disconnecting);
         if (this.port.isOpen) {
             await this.port.close();
             console.log(this.mensajes.ArduinoDisconnection);
@@ -172,12 +173,13 @@ class ArduinoSerial{
         }
         this.isConnected = false;
         this.isApproved = false;
-        // socket.emit(servidor.sockets.estadoArduino, 
-        //     {
-        //         isConnected: false, 
-        //         error: false,
-        //         message: ""
-        //     });
+        ipcMain.emit(this.mensajes.estadoArduino,
+            {
+                isConnected: false, 
+                error: false,
+                message: ""
+            }
+        );
     }
 
     analizaDatosDeEntrada = function (datos) {

@@ -25,6 +25,7 @@ function createWindow() {
         console.log("Minimizando App desde server");
         win.minimize();
     })
+    setBehindEvents(win)
     win.loadURL(`http://localhost:3000`);
 };
 
@@ -45,5 +46,3 @@ electronApp.on('activate', () => {
         createWindow(port)
     }
 })
-
-setBehindEvents()
