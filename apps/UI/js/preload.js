@@ -1,5 +1,4 @@
-const { contextBridge, ipcRenderer } = require('electron');
-const ArduinoSerial = require('./ArduinoSerial');
+const { contextBridge } = require('electron');
 const preloadEvents = require('./preloadEvents');
 
 window.addEventListener('DOMContentLoaded', () => {

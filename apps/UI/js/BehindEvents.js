@@ -19,7 +19,13 @@ const eventNames = {
     getPorts: "getPorts"
 }
 
-
+/**
+ * # set Behind Events
+ * > Esta función está hecha para correrse antes de la creación de la ventana.
+ * Permite crear eventos entre la UI y el proceso principal (Main) de modo que haya comunicación entre el puerto serie y la interfaz
+ * Esta función permite que la interfaz obtenga y envíe información del puerto serie conectándose hacia el proceso principal.
+ * @param {electron.BrowserWindow} win referencia a la ventana creada, utilizada para que la clase Arduino acceda a ella para definir callbacks para eventos
+ */
 function setBehindEvents(win) {
     /**
      * event para comenzar la conexión
