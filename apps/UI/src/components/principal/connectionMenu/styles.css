@@ -5,9 +5,11 @@
     padding: 10px;
     border-radius: 15px;
     margin: 0;
+    margin-bottom: 20px;
     width: 100%;
     height: fit-content;
     background-color: var(--fondoContenidoEstado);
+    position: relative;
     float: right;
     text-align: left;
 }
@@ -119,4 +121,7 @@ option:hover{
 .temblor{
     animation: temblor 0.5s 1;
     background-color: rgba(160, 0, 0, 0.652);
+}
+.connectionMenuContainer{
+    overflow:hidden
 }

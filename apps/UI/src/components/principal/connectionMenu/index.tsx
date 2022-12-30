@@ -5,6 +5,7 @@ import electron, { ipcRenderer } from "electron";
 import { SerialPort } from 'serialport';
 import { connect } from "react-redux";
 import { mapArgsToTypes } from '@storybook/store';
+import clsx from 'clsx';
 
 interface IConnectionMenuProps {
   conectado?: boolean,
@@ -89,6 +90,10 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     }
   }, [])
 
+  React.useEffect(() => {
+    setTimeout(() => setError(false), 1000);
+  }, [error])
+
   const handleUpdatePorts = () => {
     if (!testing) {
       setPorts(getSerialPortList());
@@ -99,8 +104,13 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
     setSelectedPort(event.target.value);
   }
 
+  const connectionMenuClasses = clsx({
+    connectionMenuContainer: true,
+    temblor: error
+  })
+
   return (
-    <section className="connectionMenuContainer" id="estadoConexion">
+    <section className={connectionMenuClasses} id="estadoConexion">
       <div>
           <div>Estado</div>
           {

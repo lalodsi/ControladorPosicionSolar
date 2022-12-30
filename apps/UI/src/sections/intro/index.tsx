@@ -12,21 +12,20 @@ type IntroductionProps = {}
 const container = document.getElementById("modal") ?? document.createElement("div")
 const Introduction: React.FC<IntroductionProps> = (props) => {
 
-    const [introSectionsButton, setIntroSectionsButton] = React.useState<"Creditos" | "Volver al menu">("Creditos")
+    const [introSectionsButton, setIntroSectionsButton] = React.useState<"Créditos" | "Volver al menu">("Créditos")
 
     const handleChangeSection = () => {
         setIntroSectionsButton(
-            introSectionsButton === "Creditos" ? "Volver al menu" : "Creditos"
+            introSectionsButton === "Créditos" ? "Volver al menu" : "Créditos"
         )
     }
     return (
         <Modal>
             <Container type={"section"}>
                 {
-                    introSectionsButton === "Creditos" ? (
+                    introSectionsButton === "Créditos" ? (
                         <React.Fragment>
                             <ConnectionMenu />
-                            <hr />
                         </React.Fragment>
                     ) : (
                         <div className="Introduction-contenedor">

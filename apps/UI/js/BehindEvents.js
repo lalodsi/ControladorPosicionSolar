@@ -35,8 +35,6 @@ function setBehindEvents(win) {
         event.returnValue = ports
     })
     ipcMain.on(eventNames.definirConexion, (event, arg) => {
-        console.log("Definiendo conexion");
-        console.log(arg);
         const state = {
             isConnected: true,
             error: false,

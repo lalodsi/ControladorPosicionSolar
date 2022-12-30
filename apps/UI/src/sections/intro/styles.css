@@ -6,4 +6,5 @@
     margin-bottom: 20px;
     background-color: var(--fondoTransparente);
     border: 5px solid var(--verdeDiscreto);
+    overflow:hidden;
 }
