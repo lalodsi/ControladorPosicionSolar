@@ -15,6 +15,12 @@
     --colorDescripcion: #959595;
     --fondoBoton: #ffffff2a;
     --fondoBotonHover: #959595;
+    --mensajeAlert: rgb(170, 255, 251);
+    --mensajeError: rgb(255, 179, 179);
+    --mensajeSuccess: rgb(156, 255, 169);
+    --mensajeAlertBorder: rgb(0, 155, 147);
+    --mensajeErrorBorder: rgb(157, 0, 0);
+    --mensajeSuccessBorder: rgb(0, 155, 21);
   }
   body{
     background-color: var(--fondo);
