@@ -162,7 +162,8 @@ class ArduinoSerial{
     /**
      * Desconecta el arduino del puerto serie
      */
-    disconnect = async function (port) {
+    disconnect = async function (win) {
+        const eventName = "connect-to-arduino";
         await this.wait (500, this.mensajes.disconnecting);
         if (this.port.isOpen) {
             await this.port.close();
@@ -173,7 +174,7 @@ class ArduinoSerial{
         }
         this.isConnected = false;
         this.isApproved = false;
-        ipcMain.emit(this.mensajes.estadoArduino,
+        win.webContents.send(eventName,
             {
                 isConnected: false, 
                 error: false,

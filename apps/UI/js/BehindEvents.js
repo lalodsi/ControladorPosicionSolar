@@ -46,11 +46,11 @@ function setBehindEvents(win) {
             if (arg.connect) {
                 Arduino.init(arg.port, win)
             }
-            else Arduino.disconnect();
+            else Arduino.disconnect(win);
         } catch (error) {
             console.log("Ocurrio un error");
             console.error(error.message);
-            Arduino.disconnect();
+            Arduino.disconnect(win);
             state.error = true
         }
         event.returnValue = {

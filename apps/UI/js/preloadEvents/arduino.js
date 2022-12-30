@@ -24,10 +24,21 @@ const pingPong = (message) => {
       console.log(result);
     }
   }
+// Obtiene los puertos disponibles en la computadora
 const getPorts = () => ipcRenderer.sendSync(eventNames.getPorts, true)
+/**
+ * Conecta y desconecta el arduino
+ * @param {object} data 
+ * @returns 
+ */
 const setConnection = (data) => {
     return ipcRenderer.sendSync(eventNames.definirConexion, data)
-}
+};
+/**
+ * Event listenes, cuando ocurra el evento, se llama al callback
+ * @param {(event, args) => void} callback funcion a llamar con los parametros deseados.
+ * @returns void
+ */
 const setConnectionListener = (callback) => ipcRenderer.on(eventNames.definirConexion, callback)
 
 module.exports = {

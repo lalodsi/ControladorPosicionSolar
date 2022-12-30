@@ -81,6 +81,7 @@ const ConnectionMenu: React.FunctionComponent<IConnectionMenuProps> = (props) =>
       setPorts(getSerialPortList());
       // @ts-ignore
       electronAPI.setConnectionListener((event, args) => {
+        setWaiting(false);
         setConnected(args.isConnected);
         setError(args.error);
         setConectionMessage(args.message);
