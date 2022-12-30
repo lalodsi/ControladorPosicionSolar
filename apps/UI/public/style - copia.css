@@ -181,9 +181,6 @@ input{
     90%{-webkit-transform: translate(20px, 0px);}
     100%{-webkit-transform: translate(0px, 0px);}
 }
-#estadoConexion{
-    transition: all 500ms ease;
-}
 .temblor{
     -webkit-animation: temblor 0.5s 1;
     background-color: rgba(160, 0, 0, 0.652);

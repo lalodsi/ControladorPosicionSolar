@@ -1,19 +1,15 @@
 .connectionMenuContainer{
-    background: var(--fondoTransparente);
     color: var(--colorTexto);
-    text-align: center;
+    /* text-align: center; */
     display: block;
     padding: 10px;
     border-radius: 15px;
     margin: 0;
     width: 100%;
-}
-.estado{
-    float: right;
-    /* position: relative; */
-    text-align: left;
     height: fit-content;
     background-color: var(--fondoContenidoEstado);
+    float: right;
+    text-align: left;
 }
 #estadoConexion{
     transition: all 500ms ease;
@@ -106,4 +102,21 @@ option:hover{
     cursor: pointer;
     -webkit-transform: rotate(360deg);
     transition: 1s linear;
+}
+@keyframes temblor{
+    0%{-webkit-transform: translate(0px, 0px);}
+    10%{-webkit-transform: translate(20px, 0px);}
+    20%{-webkit-transform: translate(0px, 0px);}
+    30%{-webkit-transform: translate(20px, 0px);}
+    40%{-webkit-transform: translate(0px, 0px);}
+    50%{-webkit-transform: translate(20px, 0px);}
+    60%{-webkit-transform: translate(0px, 0px);}
+    70%{-webkit-transform: translate(20px, 0px);}
+    80%{-webkit-transform: translate(0px, 0px);}
+    90%{-webkit-transform: translate(20px, 0px);}
+    100%{-webkit-transform: translate(0px, 0px);}
+}
+.temblor{
+    animation: temblor 0.5s 1;
+    background-color: rgba(160, 0, 0, 0.652);
 }
