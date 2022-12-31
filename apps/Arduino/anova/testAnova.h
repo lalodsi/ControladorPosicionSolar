@@ -26,6 +26,7 @@ void printArray(double *data,int size){
     for (int i = 0; i < size; i++){
         printf("%0.1f \t", data[i]);
     }
+    printf("\n");
 }
 
 /**
