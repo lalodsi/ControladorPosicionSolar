@@ -41,7 +41,7 @@ double Promedio(double *data, int size){
  */
 double* Promedios(double **data, int i, int j){
     double *resultado;
-    resultado = malloc( i * sizeof(int) );
+    resultado = malloc( i * sizeof(double) );
     for (int index = 0; index < i; index++)
         resultado[index] = Promedio(data[index], j);
     return resultado;
@@ -150,7 +150,7 @@ void TukeyTest() {
     // Todo
 }
 
-void QValue(double *first, double *second, size) {
-    double Xp = Promedio(first, size);
-    double Xq = Promedio(second, size);
-}
+// void QValue(double *first, double *second, size) {
+//     double Xp = Promedio(first, size);
+//     double Xq = Promedio(second, size);
+// }
