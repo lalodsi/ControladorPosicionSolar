@@ -8,6 +8,7 @@
 #include "sensor.hpp"
 #include "math.h"
 #include "motor.h"
+#include "anova/anova.h"
 
 // Declaración de sensores externos
 sensor sensor1(A0);
@@ -57,8 +58,6 @@ void loop() {
 
   // SPL_algorithm();
   // delay(50);
-  waitForSerial();
-  serialEvent();
 }
 
 void serialEvent() {
