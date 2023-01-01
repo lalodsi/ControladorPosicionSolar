@@ -17,6 +17,9 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
+// Tamaño de los arreglos a recibir
+#define ANOVA_DATA_SIZE 5
+
 int option = 0;
 
 String entrada;
@@ -26,6 +29,12 @@ void setup() {
   Serial.begin(9600);
   // pinMode(LED_BUILTIN, OUTPUT);
   // testProject();
+
+  // Reservar memoria dinámica para el análisis ANOVA
+  double **data; // Variable que contendrá los datos a guardar
+  data = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+    data[i] = (double *) malloc(ANOVA_DATA_SIZE * sizeof(double));
 }
 
 void loop() {
