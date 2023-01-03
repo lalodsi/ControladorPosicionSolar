@@ -19,19 +19,22 @@ sensor sensor5(A4);
 
 // Tamaño de los arreglos a recibir
 #define ANOVA_DATA_SIZE 5
+// Cantidad de sensores a medir
+#define SENSORS 5
 
 int option = 0;
+double **data; // Variable que contendrá los datos a guardar
 
 String entrada;
 
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
-  // pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
   // testProject();
 
   // Reservar memoria dinámica para el análisis ANOVA
-  double **data; // Variable que contendrá los datos a guardar
+
   data = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
   for (int i = 0; i < ANOVA_DATA_SIZE; i++)
     data[i] = (double *) malloc(ANOVA_DATA_SIZE * sizeof(double));
@@ -94,6 +97,13 @@ void serialEvent() {
     Serial.println("}");
     enviarSensores();
   }
+  if (entrada.equals("spl")) {
+    // Serial.print("{");
+    // Serial.print("\"accion\":\"changeMenu\",");
+    // Serial.print("\"menu\":\"Solar Position Algorithm\"");
+    // Serial.println("}");
+    SPL_algorithm();
+  }
   if (entrada.equals("probar")) {
     testProject();
   }
@@ -141,27 +151,42 @@ void enviarSensores() {
     }
 
     delay(50);
-    SPL_algorithm();
+    //SPL_algorithm();
   }
 
 }
 
 void SPL_algorithm() {
   const float umbral = 30; // Sirve de referencia para la comparación
+  const int delay_time = 500;
 
-  int diferenciaY = sensor2.getData() - sensor4.getData();
-  int diferenciaX = sensor3.getData() - sensor5.getData();
-
-  if (sensor1.getData() > umbral)
+  // Comienza proceso de recolección de datos
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
   {
-    if ( abs(diferenciaY) > umbral ) {
-      moverY(diferenciaY);
-    }
-
-    if ( abs(diferenciaX) > umbral ) {
-      moverX(diferenciaX);
-    }
+    *data[i,0] = analogRead(A0);
+    *data[i,1] = analogRead(A1);
+    *data[i,2] = analogRead(A2);
+    *data[i,3] = analogRead(A3);
+    *data[i,4] = analogRead(A4);
+    delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(delay_time);
+    digitalWrite(LED_BUILTIN, LOW);
   }
+
+  // int diferenciaY = sensor2.getData() - sensor4.getData();
+  // int diferenciaX = sensor3.getData() - sensor5.getData();
+
+  // if (sensor1.getData() > umbral)
+  // {
+  //   if ( abs(diferenciaY) > umbral ) {
+  //     moverY(diferenciaY);
+  //   }
+
+  //   if ( abs(diferenciaX) > umbral ) {
+  //     moverX(diferenciaX);
+  //   }
+  // }
 
 }
 
