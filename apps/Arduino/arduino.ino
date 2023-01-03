@@ -174,6 +174,39 @@ void SPL_algorithm() {
     digitalWrite(LED_BUILTIN, LOW);
   }
 
+  //Comienza impresión de los datos graficados
+  Serial.print("{");
+  for (int i = 0; i < SENSORS; i++)
+  {
+    if (i == 0) {
+      Serial.print("\"sensor");
+      Serial.print((i+1));
+    }
+    else {
+      Serial.print(",\"sensor");
+      Serial.print(i+1);
+    }
+      Serial.print("\": [");
+    for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+    {
+      if (j == 0) Serial.print(*data[j,i]);
+      else {
+        Serial.print(",");
+        Serial.print(*data[j,i]);
+      }
+    }
+    Serial.print("]");
+  }
+  Serial.print("}\n");
+
+  // Analisis ANOVA
+  bool result = ANOVA_test(data, ANOVA_DATA_SIZE);
+  Serial.print("{");
+  Serial.print("\"result\":");
+  if (result) Serial.print("true");
+  else Serial.print("false");
+  Serial.print("}\n");
+
   // int diferenciaY = sensor2.getData() - sensor4.getData();
   // int diferenciaX = sensor3.getData() - sensor5.getData();
 
