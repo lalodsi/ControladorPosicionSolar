@@ -46,50 +46,18 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
-int option = 0;
-
-String entrada;
+String serial_info;
 
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
-  pinMode(LED_BUILTIN, OUTPUT);
-  // testProject();
 }
 
 void loop() {
-  // switch (option)
-  // {
-  // case 1:
-  //   option = 0;
-  //   calibrar();
-  //   break;
-  
-  // case 2:
-  //   option = 0;
-  //   controlar();
-  //   break;
-  
-  // case 3:
-  //   option = 0;
-  //   enviarSensores();
-  //   break;
-  
-  // case 4:
-  //   option = 0;
-  //   testProject();
-  //   break;
-  
-  // default:
-  //   option = 0;
-  //   break;
-  // }
 
-  // SPL_algorithm();
-  // delay(50);
 }
 
-void enviarSensores(){
+void modoMonitoreo(){
 
   while (true)
   {
@@ -109,17 +77,15 @@ void enviarSensores(){
 
     if (Serial.available())
     {
-      entrada = Serial.readString();
-      entrada.trim();
-      if (entrada.equals("salir"))
+      serial_info = Serial.readString();
+      serial_info.trim();
+      if (serial_info.equals("salir"))
       {
         break;
       }
-      
     }
 
     delay(50);
-    //SPL_algorithm();
   }
   
 }
@@ -154,43 +120,40 @@ void waitForSerial(){
   }
 }
 
-void calibrar(){
+void modoCalibracion(){
   Serial.println("{\"accion\":\"mensaje\",\"message\":\"Calibracion activada\"}");
   waitForSerial();
 
-  entrada = Serial.readString();
-    // Serial.print(entrada);
-    if (entrada.equals("position")){
-      waitForSerial();
-      entrada = Serial.readString();
-      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
-    }
-    if (entrada.equals("date")){
-      waitForSerial();
-      entrada = Serial.readString();
-      // Actualizar la info en el modulo de reloj
-      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora\"}");
-    }
-    if (entrada.equals("orientation")){
-      waitForSerial();
-      entrada = Serial.readString();
-      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion\"}");
-    }
+  serial_info = Serial.readString();
+  if (serial_info.equals("position")){
+    waitForSerial();
+    serial_info = Serial.readString();
+    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
+  }
+  if (serial_info.equals("date")){
+    waitForSerial();
+    serial_info = Serial.readString();
+    // Actualizar la info en el modulo de reloj
+    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora\"}");
+  }
+  if (serial_info.equals("orientation")){
+    waitForSerial();
+    serial_info = Serial.readString();
+    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion\"}");
+  }
 
   Serial.flush();
-
-  // Serial.println("Calibracion");
 }
 
-void controlar(){
+void modoControlManual(){
   while (true){
     waitForSerial();
-    entrada = Serial.readString();
-    if (entrada.equals("salir"))
+    serial_info = Serial.readString();
+    if (serial_info.equals("salir"))
       break;
-    int n = entrada.indexOf(","); // Separador para el valor de X y de Y
-    String rotacionTexto = entrada.substring(0, n);
-    String elevacionTexto = entrada.substring(n + 1);
+    int n = serial_info.indexOf(","); // Separador para el valor de X y de Y
+    String rotacionTexto = serial_info.substring(0, n);
+    String elevacionTexto = serial_info.substring(n + 1);
     // Movimiento
     int rotacion = rotacionTexto.toInt();
     int elevacion = elevacionTexto.toInt();
@@ -203,47 +166,45 @@ void controlar(){
       moverY(elevacion - pasosElevacion);
     }
     delay(100);
-    // Serial.println("La entrada es " + x + "," + y);
+    // Serial.println("La serial_info es " + x + "," + y);
   }
   
 }
 
-void testProject(){
-  // delay(100);
+void modoPrueba(){
   Serial.println("{\"accion\":\"test\",\"message\":\"successful\"}");
 }
 
 void serialEvent(){
-  entrada = Serial.readString();
-  entrada.trim();
+  serial_info = Serial.readString();
+  serial_info.trim();
     // Control de flujo
-  if(entrada.equals("calibrar")){
+  if(serial_info.equals("calibrar")){
     Serial.print("{");
     Serial.print("\"accion\":\"changeMenu\",");
     Serial.print("\"menu\":\"calibrar\"");
     Serial.println("}");
-    calibrar();
+    modoCalibracion();
   }
-  if(entrada.equals("controlar")){
+  if(serial_info.equals("controlar")){
     Serial.print("{");
     Serial.print("\"accion\":\"changeMenu\",");
     Serial.print("\"menu\":\"controlar\"");
     Serial.println("}");
-    controlar();
+    modoControlManual();
   } 
-  if(entrada.equals("monitorear")){
+  if(serial_info.equals("monitorear")){
     Serial.print("{");
     Serial.print("\"accion\":\"changeMenu\",");
     Serial.print("\"menu\":\"monitorear\"");
     Serial.println("}");
-    enviarSensores();
+    modoMonitoreo();
   } 
-  if(entrada.equals("probar")){
-    testProject();
+  if(serial_info.equals("probar")){
+    modoPrueba();
   }
 
   Serial.flush();
-  // Serial.print("");
 
   // MenuPrincipal
   Serial.print("{");
