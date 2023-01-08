@@ -41,7 +41,7 @@ double Promedio(double *data, int size){
  */
 double* Promedios(double **data, int i, int j){
     double *resultado;
-    resultado = malloc( i * sizeof(int) );
+    resultado = malloc( i * sizeof(double) );
     for (int index = 0; index < i; index++)
         resultado[index] = Promedio(data[index], j);
     return resultado;
@@ -143,6 +143,21 @@ double F_Value(double **datos, int size){
 }
 
 /**
+ * @brief Realiza el análisis de varianzas y determina si existe al menos una media diferente a las demás.
+ * @test Revisar que su funcionamiento sea el adecuado, probar con datos reales de los sensores.
+ * @attention El resultado de salida no es el definitivo. El test ANOVA determina **si EXISTE una media diferente a las demás** , sin embargo, dentro de esta función no está implementado un método para conocer cual media es la diferente.
+ * 
+ * @param datos arreglo bidimensional
+ * @param size tamaño del arreglo
+ * @return bool devuelve un true si la media es diferente o false si no lo es.
+ * 
+*/
+bool ANOVA_test(double **datos, int size){
+    double f_test = F_Value(datos, size);
+    return (f_test > F_CRITICA);
+}
+
+/**
  * @brief Realiza el test de la genuina diferencia de Tukey
  * 
  */
@@ -150,7 +165,7 @@ void TukeyTest() {
     // Todo
 }
 
-void QValue(double *first, double *second, size) {
-    double Xp = Promedio(first, size);
-    double Xq = Promedio(second, size);
-}
+// void QValue(double *first, double *second, size) {
+//     double Xp = Promedio(first, size);
+//     double Xq = Promedio(second, size);
+// }
