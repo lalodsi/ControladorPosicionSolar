@@ -1,9 +1,39 @@
-/**
-Tesis.ino
-Este archivo será el punto de entrada del proyecto, controlará todo el funcionamiento total
-del proyecto.
+/////////////////////////////////////////////
+//       Solar Positioning Controler       //
+//                   for                   //
+//        Solar Radiation Application      //
+//                                         //
+//               Jan 01, 2023              //
+//                                         //
+//   Filename: SPA.C                       //
+//                                         //
+//   Luis Eduardo Rodríguez Ramírez        //
+//   lrodriguezr1302@alumno.ipn.mx         //
+//                                         //
+//   Instituto Politécnico Nacional        //
+/////////////////////////////////////////////
 
-*/
+///////////////////////////////////////////////////////////////////////////////////////////////
+//
+//   ABOUT
+//
+//   This code is the main point of the project and was created to work with the app
+//   "Solar Positioning Controler UI", a desktop app that works with this project
+//
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+//
+//   NOTICE
+//   Copyright (C) 2008-2011 Alliance for Sustainable Energy, LLC, All Rights Reserved
+//
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Revised 08-JAN-2023 Luis Rodríguez
+//         Comments and info about the project
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 #include "sensor.hpp"
 #include "math.h"
@@ -80,6 +110,7 @@ void enviarSensores(){
     if (Serial.available())
     {
       entrada = Serial.readString();
+      entrada.trim();
       if (entrada.equals("salir"))
       {
         break;
