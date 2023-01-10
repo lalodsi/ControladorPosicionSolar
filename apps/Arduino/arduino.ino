@@ -54,7 +54,14 @@ void setup() {
 }
 
 void loop() {
+  delay(500);
+  Serial.println("Working on loop function");
 
+  if (Serial.available())
+  {
+    serialEvent();
+  }
+  
 }
 
 void modoMonitoreo(){
@@ -212,7 +219,7 @@ void serialEvent(){
   Serial.print("\"menu\":\"home\"");
   Serial.println("}");
 
-  digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+  // digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(50);                       // wait for a second
-  digitalWrite(LED_BUILTIN, LOW);
+  // digitalWrite(LED_BUILTIN, LOW);
 }

@@ -1,4 +1,3 @@
-// #include "external.hpp"
 /**
  * @brief clase que se encarga de realizar una lectura analógica
  * 
