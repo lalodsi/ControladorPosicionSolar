@@ -41,7 +41,7 @@ double Promedio(double *data, int size){
  */
 double* Promedios(double **data, int i, int j){
     double *resultado;
-    resultado = malloc( i * sizeof(double) );
+    resultado = (double *) malloc( i * sizeof(double) );
     for (int index = 0; index < i; index++)
         resultado[index] = Promedio(data[index], j);
     return resultado;
@@ -88,7 +88,7 @@ double Varianza(double *datos, int size){
 double* Varianzas(double **datos, int size){
     double *conjuntoVarianzas;
     // Reservando memoria
-    conjuntoVarianzas = malloc( size * sizeof(double) );
+    conjuntoVarianzas = (double *) malloc( size * sizeof(double) );
     for (int i = 0; i < size; i++)
         conjuntoVarianzas[i] = Varianza(datos[i], size);
     return conjuntoVarianzas;
