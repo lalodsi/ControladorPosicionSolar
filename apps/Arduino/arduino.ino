@@ -36,8 +36,16 @@
 
 
 #include "sensor.hpp"
-#include "math.h"
+#include <math.h>
 #include "motor.h"
+#include "anova/anova.h"
+
+// Tamaño de los arreglos a recibir
+#define ANOVA_DATA_SIZE 5
+// Cantidad de sensores a medir
+#define SENSORS 5
+
+double **data; // Variable que contendrá los datos a guardar
 
 // Declaración de sensores externos
 sensor sensor1(A0);
@@ -51,6 +59,10 @@ String serial_info;
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
+
+  data = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+    data[i] = (double *) malloc(ANOVA_DATA_SIZE * sizeof(double));
 }
 
 void loop() {
@@ -97,23 +109,71 @@ void modoMonitoreo(){
   
 }
 
-void SPL_algorithm(){
+void SPL() {
   const float umbral = 30; // Sirve de referencia para la comparación
+  const int delay_time = 500;
+
+  // Comienza proceso de recolección de datos
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+  {
+    *data[i,0] = analogRead(A0);
+    *data[i,1] = analogRead(A1);
+    *data[i,2] = analogRead(A2);
+    *data[i,3] = analogRead(A3);
+    *data[i,4] = analogRead(A4);
+    delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(delay_time);
+    digitalWrite(LED_BUILTIN, LOW);
+  }
+
+  //Comienza impresión de los datos graficados
+  Serial.print("{");
+  for (int i = 0; i < SENSORS; i++)
+  {
+    if (i == 0) {
+      Serial.print("\"sensor");
+      Serial.print((i+1));
+    }
+    else {
+      Serial.print(",\"sensor");
+      Serial.print(i+1);
+    }
+      Serial.print("\": [");
+    for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+    {
+      if (j == 0) Serial.print(*data[j,i]);
+      else {
+        Serial.print(",");
+        Serial.print(*data[j,i]);
+      }
+    }
+    Serial.print("]");
+  }
+  Serial.print("}\n");
+
+  // Analisis ANOVA
+  bool result = ANOVA_test(data, ANOVA_DATA_SIZE);
+  Serial.print("{");
+  Serial.print("\"result\":");
+  if (result) Serial.print("true");
+  else Serial.print("false");
+  Serial.print("}\n");
 
   int diferenciaY = sensor2.getData() - sensor4.getData();
   int diferenciaX = sensor3.getData() - sensor5.getData();
-  
+
   if (sensor1.getData() > umbral)
   {
-    if ( abs(diferenciaY) > umbral ){
+    if ( abs(diferenciaY) > umbral ) {
       moverY(diferenciaY);
     }
 
-    if ( abs(diferenciaX) > umbral ){
+    if ( abs(diferenciaX) > umbral ) {
       moverX(diferenciaX);
     }
   }
-  
+
 }
 
 /**
@@ -209,6 +269,9 @@ void serialEvent(){
   } 
   if(serial_info.equals("probar")){
     modoPrueba();
+  }
+  if(serial_info.equals("anova")){
+    SPL();
   }
 
   Serial.flush();
