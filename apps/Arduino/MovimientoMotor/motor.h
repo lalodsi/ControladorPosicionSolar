@@ -16,21 +16,75 @@
 
 */
 
-long int setAngle(float gradeElevation, float gearRelation){//, float gradoElev){
-  return ceil((gradeElevation) / (1.8 * gearRelation));
+/**
+ * Relación de la caja de engranes del motor de elevacion
+ * Valor: 1/15
+*/
+#define RELATION_GEAR_BOX 0.06666666
+
+/**
+ * Relación del engrane para el movimiento de elevación
+ * Valor: 1/20
+*/
+#define RELATION_ELEVATION_GEARS 0.05
+
+/**
+ * Relación del engrane para el movimiento de elevación
+ * Valor: 12/40
+*/
+#define RELATION_AZIMUTH_GEARS 0.3
+
+// Cantidad de ms que se espera antes de dar otro paso en el motor
+#define ELEVATION_MOTOR_DELAY 1300
+
+// Cantidad de ms que se espera antes de dar otro paso en el motor
+#define AZIMUTH_MOTOR_DELAY 1300
+
+long int getStepsTo(float grades, float gearRelation){//, float gradoElev){
+  return ceil((grades) / (1.8 * gearRelation));
 }
 
-void moveMotor(int pin, unsigned int delay, long int steps){
+/**
+ * Realiza los pasos que necesita el motor con su respectiva velocidad (delay)
+*/
+void setMotorSteps(long int steps, int stepPin, unsigned int delay){
   for(int i = 0; i < steps; i++){
-    digitalWrite(pin, HIGH);
+    digitalWrite(stepPin, HIGH);
     delayMicroseconds(delay);
-    digitalWrite(pin, LOW);
+    digitalWrite(stepPin, LOW);
     delayMicroseconds(delay);
   }
 }
 
+/**
+ * Define la dirección en la cual se moverá el motor
+*/
+void setMotorDirection(long int steps, int dirPin){
+  long int realSteps = 0;
+  if (steps < 0){
+      realSteps = (steps * (- 1) + 1);
+      digitalWrite(dirPin, LOW);
+    }
+    else{
+      digitalWrite(dirPin, HIGH);
+    }
+}
 
-// long int transvaloresenteros(float pasos1){
-//   pasos_enteros = ceil(pasos1);
-// }
+/**
+ * Establece el ángulo en el que se moverá el motor a pasos de elevación
+*/
+void setElevationAngle(float angle, int dirPin, int stepsPin) {
+  long int stepsNeeded = getStepsTo(angle, RELATION_GEAR_BOX * RELATION_ELEVATION_GEARS);
+  setMotorDirection(stepsNeeded, dirPin);
+  setMotorSteps(stepsNeeded, stepsPin, ELEVATION_MOTOR_DELAY);
+};
+
+/**
+ * Establece el ángulo en el que se moverá el motor a pasos de rotación
+*/
+void setAzimutAngle(float angle, int dirPin, int stepsPin) {
+  long int stepsNeeded = getStepsTo(angle, RELATION_AZIMUTH_GEARS);
+  setMotorDirection(stepsNeeded, dirPin);
+  setMotorSteps(stepsNeeded, stepsPin, ELEVATION_MOTOR_DELAY);
+};
 
