@@ -35,7 +35,7 @@
 #define RELATION_AZIMUTH_GEARS 0.3
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
-#define ELEVATION_MOTOR_DELAY 1500
+#define ELEVATION_MOTOR_DELAY 1300
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
 #define AZIMUTH_MOTOR_DELAY 1300
