@@ -3,7 +3,8 @@
 //------------Movimiento motor----------
 const int steppin = 3;
 const int dirpin = 2;
-const unsigned int dlay = 3000; //1250
+// const unsigned int dlay = 1300; //1250
+const unsigned int dlay = 1300; //1250
 
 //-------------Pasos a dar--------------
 float pasos = 0.0;

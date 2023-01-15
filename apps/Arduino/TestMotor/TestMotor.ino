@@ -6,6 +6,8 @@ const int dirpin = 2;
 void setup(){
     pinMode(steppin, OUTPUT);
     pinMode(dirpin, OUTPUT);
+
+    Serial.begin(9600);
 }
 
 void loop(){

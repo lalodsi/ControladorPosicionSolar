@@ -35,7 +35,7 @@
 #define RELATION_AZIMUTH_GEARS 0.3
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
-#define ELEVATION_MOTOR_DELAY 1300
+#define ELEVATION_MOTOR_DELAY 1500
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
 #define AZIMUTH_MOTOR_DELAY 1300
@@ -44,7 +44,10 @@
  * Obtiene los pasos necesarios para moverse a un determinado ángulo
 */
 long int getStepsTo(float grades, float gearRelation){//, float gradoElev){
-  return ceil((grades) / (1.8 * gearRelation));
+  long int steps = ceil((grades) / (1.8 * gearRelation));
+  if (steps < 0) steps *= (- 1) ;
+  Serial.print(steps);
+  return steps;
 }
 
 /**
@@ -62,10 +65,8 @@ void setMotorSteps(long int steps, int stepPin, unsigned int delay){
 /**
  * Define la dirección en la cual se moverá el motor
 */
-void setMotorDirection(long int steps, int dirPin){
-  long int realSteps = 0;
-  if (steps < 0){
-      realSteps = (steps * (- 1) + 1);
+void setMotorDirection(float angle, int dirPin){
+  if (angle < 0){
       digitalWrite(dirPin, LOW);
     }
     else{
@@ -78,7 +79,7 @@ void setMotorDirection(long int steps, int dirPin){
 */
 void setElevationAngle(float angle, int dirPin, int stepsPin) {
   long int stepsNeeded = getStepsTo(angle, RELATION_GEAR_BOX * RELATION_ELEVATION_GEARS);
-  setMotorDirection(stepsNeeded, dirPin);
+  setMotorDirection(angle, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, ELEVATION_MOTOR_DELAY);
 };
 
