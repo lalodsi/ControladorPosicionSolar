@@ -17,15 +17,27 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
+// Tamaño de los arreglos a recibir
+#define ANOVA_DATA_SIZE 5
+// Cantidad de sensores a medir
+#define SENSORS 5
+
 int option = 0;
+double **data; // Variable que contendrá los datos a guardar
 
 String entrada;
 
 void setup() {
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
-  // pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
   // testProject();
+
+  // Reservar memoria dinámica para el análisis ANOVA
+
+  data = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+    data[i] = (double *) malloc(ANOVA_DATA_SIZE * sizeof(double));
 }
 
 void loop() {
@@ -85,6 +97,13 @@ void serialEvent() {
     Serial.println("}");
     enviarSensores();
   }
+  if (entrada.equals("spl")) {
+    // Serial.print("{");
+    // Serial.print("\"accion\":\"changeMenu\",");
+    // Serial.print("\"menu\":\"Solar Position Algorithm\"");
+    // Serial.println("}");
+    SPL_algorithm();
+  }
   if (entrada.equals("probar")) {
     testProject();
   }
@@ -132,27 +151,75 @@ void enviarSensores() {
     }
 
     delay(50);
-    SPL_algorithm();
+    //SPL_algorithm();
   }
 
 }
 
 void SPL_algorithm() {
   const float umbral = 30; // Sirve de referencia para la comparación
+  const int delay_time = 500;
 
-  int diferenciaY = sensor2.getData() - sensor4.getData();
-  int diferenciaX = sensor3.getData() - sensor5.getData();
-
-  if (sensor1.getData() > umbral)
+  // Comienza proceso de recolección de datos
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
   {
-    if ( abs(diferenciaY) > umbral ) {
-      moverY(diferenciaY);
-    }
-
-    if ( abs(diferenciaX) > umbral ) {
-      moverX(diferenciaX);
-    }
+    *data[i,0] = analogRead(A0);
+    *data[i,1] = analogRead(A1);
+    *data[i,2] = analogRead(A2);
+    *data[i,3] = analogRead(A3);
+    *data[i,4] = analogRead(A4);
+    delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(delay_time);
+    digitalWrite(LED_BUILTIN, LOW);
   }
+
+  //Comienza impresión de los datos graficados
+  Serial.print("{");
+  for (int i = 0; i < SENSORS; i++)
+  {
+    if (i == 0) {
+      Serial.print("\"sensor");
+      Serial.print((i+1));
+    }
+    else {
+      Serial.print(",\"sensor");
+      Serial.print(i+1);
+    }
+      Serial.print("\": [");
+    for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+    {
+      if (j == 0) Serial.print(*data[j,i]);
+      else {
+        Serial.print(",");
+        Serial.print(*data[j,i]);
+      }
+    }
+    Serial.print("]");
+  }
+  Serial.print("}\n");
+
+  // Analisis ANOVA
+  bool result = ANOVA_test(data, ANOVA_DATA_SIZE);
+  Serial.print("{");
+  Serial.print("\"result\":");
+  if (result) Serial.print("true");
+  else Serial.print("false");
+  Serial.print("}\n");
+
+  // int diferenciaY = sensor2.getData() - sensor4.getData();
+  // int diferenciaX = sensor3.getData() - sensor5.getData();
+
+  // if (sensor1.getData() > umbral)
+  // {
+  //   if ( abs(diferenciaY) > umbral ) {
+  //     moverY(diferenciaY);
+  //   }
+
+  //   if ( abs(diferenciaX) > umbral ) {
+  //     moverX(diferenciaX);
+  //   }
+  // }
 
 }
 
