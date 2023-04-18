@@ -40,34 +40,43 @@
 #include "./MovimientoMotor/motor.h"
 #include "anova/anova.h"
 
-// Puertos de entrada y salida
 
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Input and Output ports
+///////////////////////////////////////////////////////////////////////////////////////////////
+//
 // Demux
-#define DEMUX_DIGITAL_PIN_1     6
-#define DEMUX_DIGITAL_PIN_2     7
-#define DEMUX_ANALOG_PIN_2      8
+  #define PIN_DEMUX_DIGITAL_1     6
+  #define PIN_DEMUX_DIGITAL_2     7
+  #define PIN_DEMUX_ANALOG_2      8
 // Entradas analogicas
-#define ANALOG_LIGHT_SENSOR_1   A0
-#define ANALOG_LIGHT_SENSOR_2   A1
-#define ANALOG_LIGHT_SENSOR_3   A2
-#define ANALOG_LIGHT_SENSOR_4   A3
-#define ANALOG_LIGHT_SENSOR_5   A6
+  #define PIN_ANALOG_LIGHT_SENSOR_1   A0
+  #define PIN_ANALOG_LIGHT_SENSOR_2   A1
+  #define PIN_ANALOG_LIGHT_SENSOR_3   A2
+  #define PIN_ANALOG_LIGHT_SENSOR_4   A3
+  #define PIN_ANALOG_LIGHT_SENSOR_5   A6
 // Motores
-#define MOTOR_ELEVATION_DIR     2
-#define MOTOR_ELEVATION_STEP    3
-#define MOTOR_AZIMUT_DIR        4
-#define MOTOR_AZIMUT_STEP       5
+  #define PIN_MOTOR_ELEVATION_DIR     2
+  #define PIN_MOTOR_ELEVATION_STEP    3
+  #define PIN_MOTOR_AZIMUT_DIR        4
+  #define PIN_MOTOR_AZIMUT_STEP       5
 // Encoder Mecánico
-#define ENCODER_DT              9
-#define ENCODER_CLK             10
-#define ENCODER_SWITCH          11
+  #define PIN_ENCODER_DT              9
+  #define PIN_ENCODER_CLK             10
+  #define PIN_ENCODER_SWITCH          11
+//
+///////////////////////////////////////////////////////////////////////////////////////////////
+
 
 // Tamaño de los arreglos a recibir
-#define ANOVA_DATA_SIZE         5
+  #define ANOVA_DATA_SIZE         5
 // Cantidad de sensores a medir
-#define SENSORS                 5
-
-double **data; // Variable que contendrá los datos a guardar
+  #define SENSORS                 5
+// Variable que contendrá los datos a guardar
+double **data;
+// Posición del panel
+double posAzimut = 0.0f;
+double posIncidence = 0.0f;
 
 // Declaración de sensores externos
 sensor sensor1(A0);
@@ -76,14 +85,15 @@ sensor sensor3(A2);
 sensor sensor4(A3);
 sensor sensor5(A4);
 
+// Temporal variable to save data from serial port
 String serial_info;
 
 void setup() {
   //Motores de movimiento
-  pinMode(MOTOR_ELEVATION_DIR, OUTPUT);
-  pinMode(MOTOR_ELEVATION_STEP, OUTPUT);
-  pinMode(MOTOR_AZIMUT_DIR, OUTPUT);
-  pinMode(MOTOR_AZIMUT_STEP, OUTPUT);
+  // pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
+  // pinMode(PIN_MOTOR_ELEVATION_STEP, OUTPUT);
+  // pinMode(PIN_MOTOR_AZIMUT_DIR, OUTPUT);
+  // pinMode(PIN_MOTOR_AZIMUT_STEP, OUTPUT);
 
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
@@ -97,18 +107,21 @@ void setup() {
 void loop() {
   delay(50);
 
-  setElevationAngle(5, MOTOR_ELEVATION_DIR, MOTOR_ELEVATION_STEP);
-  setElevationAngle(5, MOTOR_AZIMUT_DIR, MOTOR_AZIMUT_STEP);
-  setElevationAngle(-5, MOTOR_ELEVATION_DIR, MOTOR_ELEVATION_STEP);
-  setElevationAngle(-5, MOTOR_AZIMUT_DIR, MOTOR_AZIMUT_STEP);
+  // setElevationAngle(5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP);
+  // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
+  // setElevationAngle(-5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP);
+  // setElevationAngle(-5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
 
   if (Serial.available())
   {
     serialEvent();
   }
-  
 }
 
+/**
+ * @brief Lee la información de los sensores y la envía hacia el puerto serie en
+ * formato JSON
+*/
 void modoMonitoreo(){
 
   while (true)
@@ -246,28 +259,23 @@ void modoCalibracion(){
 }
 
 void modoControlManual(){
-  // while (true){
-  //   waitForSerial();
-  //   serial_info = Serial.readString();
-  //   if (serial_info.equals("salir"))
-  //     break;
-  //   int n = serial_info.indexOf(","); // Separador para el valor de X y de Y
-  //   String rotacionTexto = serial_info.substring(0, n);
-  //   String elevacionTexto = serial_info.substring(n + 1);
-  //   Movimiento
-  //   int rotacion = rotacionTexto.toInt();
-  //   int elevacion = elevacionTexto.toInt();
-  //   Si faltan más pasos, realizarlos
-  //   int pasosRestantesRotacion = abs(rotacion - pasosRotacion);
-  //   int pasosRestantesElevacion = abs(elevacion - pasosElevacion);
-  //   while (pasosRestantesElevacion > 0 || pasosRestantesRotacion > 0)
-  //   {
-  //     moverX(rotacion - pasosRotacion);
-  //     moverY(elevacion - pasosElevacion);
-  //   }
-  //   delay(100);
-  //   Serial.println("La serial_info es " + x + "," + y);
-  // }
+  while (true){
+    waitForSerial();
+    serial_info = Serial.readString();
+    if (serial_info.equals("salir"))
+      break;
+    int n = serial_info.indexOf(","); // Separador para el valor de X y de Y
+    String rotacionTexto = serial_info.substring(0, n);
+    String elevacionTexto = serial_info.substring(n + 1);
+    // Movimiento
+    float rotacion = rotacionTexto.toFloat();
+    float elevacion = elevacionTexto.toFloat();
+    // Si faltan más pasos, realizarlos
+    setElevationAngle(elevacion, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+    setElevationAngle(rotacion, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+    delay(100);
+    // Serial.println("La serial_info es " + x + "," + y);
+  }
   
 }
 
