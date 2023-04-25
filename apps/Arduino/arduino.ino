@@ -5,7 +5,7 @@
 //                                         //
 //               Jan 01, 2023              //
 //                                         //
-//   Filename: SPA.C                       //
+//   Filename: arduino.ino                       //
 //                                         //
 //   Luis Eduardo Rodríguez Ramírez        //
 //   lrodriguezr1302@alumno.ipn.mx         //
@@ -39,6 +39,8 @@
 #include <math.h>
 #include "./MovimientoMotor/motor.h"
 #include "anova/anova.h"
+#include <LiquidCrystal_I2C.h>
+#include "./display/MenuLCD.h"
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,7 +90,29 @@ sensor sensor5(A4);
 // Temporal variable to save data from serial port
 String serial_info;
 
+//////////////////////////
+// Display LCD
+//////////////////////////
+
+// Variables para el encoder mecánico
+bool edoBoton = false;
+// Nivel del LCD que estará mostrando, prevNivel ayuda a registrar un cambio de nivel
+int nivel = 0;
+int prevNivel = 0;
+// Contador para saber la posicion del encoder según su número
+unsigned int contadorEncoder = 0;
+
 void setup() {
+
+  // Start the display LCD
+  lcd.init();
+  lcd.backlight();
+  pinMode(PIN_ENCODER_DT, INPUT);
+  pinMode(PIN_ENCODER_CLK, INPUT);
+  pinMode(PIN_ENCODER_SWITCH, INPUT);
+  // Create an interruption in order to use the encoder
+  attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT),leerEncoder,RISING);
+
   //Motores de movimiento
   // pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
   // pinMode(PIN_MOTOR_ELEVATION_STEP, OUTPUT);
@@ -106,6 +130,37 @@ void setup() {
 
 void loop() {
   delay(50);
+
+  // Evalúa si el botón del encoder fue presionado y seteará la bandera para pintar el LCD
+  if(debounce(BOTON)){
+		DISPLAY_PAINTED = false;
+		edoBoton = true;
+		// contadorEncoder = 1;
+  	}
+  else edoBoton = false;
+
+  // Evalua si hay un cambio en la interfaz y seteará la bandera para pintar el LCD
+  if (prevNivel != nivel)
+	{
+		DISPLAY_PAINTED = false;
+		prevNivel = nivel;
+	}
+
+  switch (nivel)
+	{
+		case 0:
+			interfazMenuHome(&edoBoton, &nivel);
+			break;
+		case 1:
+			interfazMenuPrincipal(&edoBoton, &nivel, &contadorEncoder);
+			break;
+		case 2:
+			interfazCalibrar(&edoBoton, &nivel);
+			break;
+		case 3:
+			interfazLecturas(&edoBoton, &nivel);
+			break;
+	}
 
   // setElevationAngle(5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP);
   // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
@@ -326,4 +381,31 @@ void serialEvent(){
   // digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
   delay(50);                       // wait for a second
   // digitalWrite(LED_BUILTIN, LOW);
+}
+
+// Funciones para el uso del Display LCD
+
+// Funcion para leer el encoder, funciona sólo para interrupciones
+void readEncoder(){
+	int b = digitalRead(ENCODER_CLK);
+	if(b > 0){
+		contadorEncoder++;
+	}
+	else{
+		contadorEncoder--;
+	}
+	// Actualizar el display
+	DISPLAY_PAINTED = false;
+}
+
+//Función anti-rebote
+bool debounce(byte input){
+	bool state = false;
+	if(! digitalRead(input)){
+		delay(200);
+		while(! digitalRead(input));
+		delay(200);
+		state = true;
+	}      
+	return state;   
 }
