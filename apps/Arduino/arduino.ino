@@ -113,7 +113,7 @@ void setup() {
   // Create an interruption in order to use the encoder
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT),leerEncoder,RISING);
 
-  //Motores de movimiento
+  // Motores de movimiento, pruebas
   // pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
   // pinMode(PIN_MOTOR_ELEVATION_STEP, OUTPUT);
   // pinMode(PIN_MOTOR_AZIMUT_DIR, OUTPUT);

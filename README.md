@@ -7,4 +7,4 @@ En la Ciudad de México, los días duran aproximadamente 13 horas, además de qu
 Este repositorio se divide en dos aplicaciones, las cuales son [monorepos](https://medium.com/tauon/trabajando-con-monorepos-cf941c7d57dc) compatibles uno con el otro de modo que se pueda enviar información de una aplicación a otra. Las aplicaciones son las siguientes:
 
 - **UI**: Se trata de la interfaz de computadora que se estará conectando al hardware.
-- **Arduino**: Es el proyecto que se encargará de controlar la parte de hardware del proyecto.
+- [**Arduino**](https://github.com/lalodsi/ControladorPosicionSolar/tree/master/apps/Arduino): Es el proyecto que se encargará de controlar la parte de hardware del proyecto.
