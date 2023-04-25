@@ -71,6 +71,7 @@ socket.on('data', data => {
     draw2DPlot("sensores", data);
     draw3DPlot("robot3d", data);
     analisisANOVA(data);
+    animacionModuloSensores(data);
 });
 // Informacion de puertos
 socket.on("ports", data => {

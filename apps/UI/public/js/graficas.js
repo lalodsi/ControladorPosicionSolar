@@ -215,4 +215,11 @@ const analisisANOVA = function (data) {
         }
     }
 }
-    
+
+const animacionModuloSensores = (data) => {
+    const sensores = [1, 2, 3, 4, 5]
+        .map(number => document.getElementById(`sensorUbicacion${number}`));
+    data.map((sensorValue, index) => {
+        sensores[index].style.backgroundColor = `rgb(10, ${sensorValue}, ${sensorValue})`
+    })
+}

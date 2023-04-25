@@ -664,3 +664,41 @@ option:hover{
     top: 100px;
     opacity: 0;
 }
+.sensorImageContainer{
+    height: 300px;
+    width: 300px;
+    border: 2px solid white;
+    margin: auto;
+}
+.sensorImage{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    background-color: aqua;
+    /* border: 2px solid white; */
+}
+.sensor1{
+    position: relative;
+    left: 125px;
+    top: 25px;
+}
+.sensor2{
+    position: relative;
+    left: 25px;
+    top: 75px;
+}
+.sensor3{
+    position: relative;
+    left: 125px;
+    top: 25px;
+}
+.sensor4{
+    position: relative;
+    left: 225px;
+    bottom: 25px;
+}
+.sensor5{
+    position: relative;
+    left: 125px;
+    bottom: -25px;
+}
