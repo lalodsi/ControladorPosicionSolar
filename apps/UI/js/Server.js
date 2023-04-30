@@ -63,7 +63,7 @@ function startWindow() {
     const createWindow = (port) => {
         const win = new BrowserWindow({
             width: 1200,
-            height: 700,
+            height: 585,
             frame: false,
             titleBarStyle: 'hidden',
             resizable: false,
