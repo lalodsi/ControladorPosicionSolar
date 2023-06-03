@@ -111,11 +111,11 @@ void setup() {
   pinMode(PIN_ENCODER_CLK, INPUT);
   pinMode(PIN_ENCODER_SWITCH, INPUT);
   // Create an interruption in order to use the encoder
-  attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT),leerEncoder,RISING);
+  attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT), readEncoder,RISING);
 
   // Motores de movimiento, pruebas
-  // pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
-  // pinMode(PIN_MOTOR_ELEVATION_STEP, OUTPUT);
+  pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
+  pinMode(PIN_MOTOR_ELEVATION_STEP, OUTPUT);
   // pinMode(PIN_MOTOR_AZIMUT_DIR, OUTPUT);
   // pinMode(PIN_MOTOR_AZIMUT_STEP, OUTPUT);
 
@@ -132,7 +132,7 @@ void loop() {
   delay(50);
 
   // Evalúa si el botón del encoder fue presionado y seteará la bandera para pintar el LCD
-  if(debounce(BOTON)){
+  if(debounce(PIN_ENCODER_SWITCH)){
 		DISPLAY_PAINTED = false;
 		edoBoton = true;
 		// contadorEncoder = 1;
@@ -162,9 +162,9 @@ void loop() {
 			break;
 	}
 
-  // setElevationAngle(5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP);
+  setElevationAngle(5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
   // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
-  // setElevationAngle(-5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP);
+  setElevationAngle(-5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
   // setElevationAngle(-5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
 
   if (Serial.available())
@@ -210,7 +210,7 @@ void modoMonitoreo(){
   
 }
 
-void SPL() {
+void SPL_Algorithm() {
   const float umbral = 30; // Sirve de referencia para la comparación
   const int delay_time = 500;
 
@@ -367,7 +367,7 @@ void serialEvent(){
     modoPrueba();
   }
   if(serial_info.equals("anova")){
-    SPL();
+    SPL_Algorithm();
   }
 
   Serial.flush();
@@ -387,7 +387,7 @@ void serialEvent(){
 
 // Funcion para leer el encoder, funciona sólo para interrupciones
 void readEncoder(){
-	int b = digitalRead(ENCODER_CLK);
+	int b = digitalRead(PIN_ENCODER_CLK);
 	if(b > 0){
 		contadorEncoder++;
 	}

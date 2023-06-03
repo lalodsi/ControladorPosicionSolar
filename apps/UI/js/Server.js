@@ -1,7 +1,7 @@
 const socketIo = require("socket.io")
 const express = require('express');
 const routerApi = require("./routes");
-const { BrowserWindow, app, ipcMain } = require('electron');
+const { BrowserWindow, app, ipcMain, screen } = require('electron');
 const path = require("path");
 const windowApp = require('electron').app;
 
@@ -61,9 +61,15 @@ class Server{
 
 function startWindow() {
     const createWindow = (port) => {
+        const primaryDisplay = screen.getPrimaryDisplay();
+        const factor = {
+            vertical: primaryDisplay.size.height / primaryDisplay.workAreaSize.height,
+            horizontal: primaryDisplay.size.width / primaryDisplay.workAreaSize.width
+        };
+        console.log(factor);
         const win = new BrowserWindow({
-            width: 1200,
-            height: 585,
+            width: 1200 / factor.horizontal,
+            height: 700 / factor.vertical,
             frame: false,
             titleBarStyle: 'hidden',
             resizable: false,
@@ -71,7 +77,7 @@ function startWindow() {
                 preload: path.join(__dirname, '../public/preload.js'),
                 nodeIntegration: true, 
                 contextIsolation: true,
-                devTools: true,
+                devTools: true
             }
         })
         ipcMain.on('closeApp', ()=> {

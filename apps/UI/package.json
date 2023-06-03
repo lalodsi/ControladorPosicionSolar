@@ -9,7 +9,8 @@
     "start": "electron-forge start",
     "prueba": "node ./js/pruebaServer",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "electron-forge make",
+    "dev": "nodemon electron-forge start"
   },
   "keywords": [],
   "author": "Luis Eduardo Rodriguez Ramirez",
