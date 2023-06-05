@@ -69,7 +69,7 @@ function startWindow() {
         console.log(factor);
         const win = new BrowserWindow({
             width: 1200 / factor.horizontal,
-            height: 700 / factor.vertical,
+            height: 800 / factor.vertical,
             frame: false,
             titleBarStyle: 'hidden',
             resizable: false,
@@ -86,7 +86,6 @@ function startWindow() {
         ipcMain.on('minimizeApp', ()=> {
             win.minimize();
         })
-        
         win.loadURL(`http://localhost:${port}`);
     };
 

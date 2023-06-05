@@ -162,9 +162,9 @@ void loop() {
 			break;
 	}
 
-  setElevationAngle(5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
+  setElevationAngle(5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
   // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
-  setElevationAngle(-5, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
+  setElevationAngle(-5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
   // setElevationAngle(-5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
 
   if (Serial.available())
@@ -317,6 +317,7 @@ void modoControlManual(){
   while (true){
     waitForSerial();
     serial_info = Serial.readString();
+    serial_info.trim();
     if (serial_info.equals("salir"))
       break;
     int n = serial_info.indexOf(","); // Separador para el valor de X y de Y
@@ -326,10 +327,11 @@ void modoControlManual(){
     float rotacion = rotacionTexto.toFloat();
     float elevacion = elevacionTexto.toFloat();
     // Si faltan más pasos, realizarlos
-    setElevationAngle(elevacion, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
-    setElevationAngle(rotacion, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+    setAzimutAngle(elevacion, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+    setAzimutAngle(rotacion, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
     delay(100);
-    // Serial.println("La serial_info es " + x + "," + y);
+    Serial.println("Posicion actual: " + String(posIncidence) + ", valor de elevacion: " + elevacionTexto + ", " + String(elevacion,4));
+    Serial.println("Posicion actual: " + String(posAzimut) + ", valor de rotacion: " + rotacionTexto + ", " + String(rotacion,4));
   }
   
 }

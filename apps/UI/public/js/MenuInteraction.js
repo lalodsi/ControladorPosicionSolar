@@ -93,18 +93,21 @@ const getControlManualSection = function () {
             message: "Se envio la palabra controlar"
         }
     );
-    interactuarInputConRuedaDelMouse( ()=>{
-        const azimut = document.getElementById("azimut").value;
-        const elevacion = document.getElementById("elevacion").value;
-        socket.emit(
-            eventos.enviarPalabra,
-            {
-                word: `${azimut},${elevacion}`,
-                message: "Se envio la informacion"
-            }
-        );
-    } );
-    bloquearBotones(0,1,2,3);
+    setTimeout(() => {
+        interactuarInputConRuedaDelMouse( ()=>{
+            const azimut = document.getElementById("azimut").value;
+            const elevacion = document.getElementById("elevacion").value;
+            console.log(`Enviando: ${azimut} y ${elevacion}`);
+            socket.emit(
+                eventos.enviarPalabra,
+                { 
+                    word: `${azimut},${elevacion}`,
+                    message: "Se envio la informacion"
+                }
+            );
+        } );
+        bloquearBotones(0,1,2,3);
+    },5000);
 }
 
 const getPanelDeControlSection = function () {

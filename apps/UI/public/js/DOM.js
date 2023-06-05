@@ -58,6 +58,7 @@ const interactuarInputConRuedaDelMouse = function ( callback ) {
     entradas.forEach( (entrada) => {
         entrada.addEventListener('wheel', ()=>{
             if (callback) {
+                console.log("Activando callback");
                 callback();
             }
         });

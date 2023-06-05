@@ -48,6 +48,7 @@ const formCalibrarReloj = function () {
 const formCalibrarPosicion = function () {
     setForm("formSetPosition", (form)=> {
         // TypeError: Cannot read properties of undefined (reading 'value')
+        console.log(form);
         const latitud = form.children[2].children[1].value;
         const longitud = form.children[2].children[3].value;
         
