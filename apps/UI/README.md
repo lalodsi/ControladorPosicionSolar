@@ -16,6 +16,8 @@ Versión socket.io: 4.4.1
 
 Versión Plotly: 2.9.0
 
+## Descripción
+
 Se trata de una interfaz web con nodejs y express en el servidor que establece una conexión serial con arduino
 
 <p>
