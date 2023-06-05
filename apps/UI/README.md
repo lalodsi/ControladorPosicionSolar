@@ -3,12 +3,17 @@
 ## Información General
 
 Versión Node: 18.12.1
+
 Versión NPM: 8.19.2
 
 ## Librerías internas
+
 Versión Electron: 19.0.8
+
 Versión SerialPort: 10.4.0
+
 Versión socket.io: 4.4.1
+
 Versión Plotly: 2.9.0
 
 Se trata de una interfaz web con nodejs y express en el servidor que establece una conexión serial con arduino
