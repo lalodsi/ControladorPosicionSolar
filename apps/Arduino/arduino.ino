@@ -35,7 +35,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#include "sensor.hpp"
+#include "./sensor.hpp"
 #include <math.h>
 #include "./MovimientoMotor/motor.h"
 #include "anova/anova.h"
@@ -85,7 +85,7 @@ sensor sensor1(A0);
 sensor sensor2(A1);
 sensor sensor3(A2);
 sensor sensor4(A3);
-sensor sensor5(A4);
+sensor sensor5(A6);
 
 // Temporal variable to save data from serial port
 String serial_info;
