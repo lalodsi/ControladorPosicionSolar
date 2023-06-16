@@ -157,7 +157,7 @@ const traerContenidoALaSeccion = async function (menu) {
             case "Informacion Monitoreo":
                 seccionPrincipal.innerHTML = await requestMenu(1);
                 break;
-    
+     
             case "Graficas":
                 seccionPrincipal.innerHTML = await requestMenu(2);                
                 break;
