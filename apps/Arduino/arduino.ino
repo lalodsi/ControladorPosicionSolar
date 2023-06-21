@@ -193,6 +193,14 @@ void modoMonitoreo(){
     Serial.print(sensor4.getData());
     Serial.print(",\"sensor5\":");
     Serial.print(sensor5.getData());
+    Serial.print(",\"voltaje_gen\":");
+    Serial.print("0");
+    Serial.print(",\"voltaje_sal\":");
+    Serial.print("0");
+    Serial.print(",\"corriente_gen\":");
+    Serial.print("0");
+    Serial.print(",\"corriente_sal\":");
+    Serial.print("0");
     Serial.println("}");
 
     if (Serial.available())

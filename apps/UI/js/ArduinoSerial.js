@@ -2,7 +2,7 @@ const {SerialPort} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
-const 
+
 
 class ArduinoSerial{
     mensajes = {
