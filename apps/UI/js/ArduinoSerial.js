@@ -2,6 +2,7 @@ const {SerialPort} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
+const 
 
 class ArduinoSerial{
     mensajes = {
@@ -21,6 +22,13 @@ class ArduinoSerial{
         this.isConnected = false;
         this.isApproved = false;
         this.monitorSerialConnected = false;
+        this.client = new Client({
+            host: 'localhost',
+            port: 5432,
+            user: 'luis',
+            password: 'admin123',
+            database: 'my_sensors'
+        });
     }
 
     /**
@@ -29,13 +37,14 @@ class ArduinoSerial{
      * @param {number} port puerto serie en el que se estará estableciendo la conexión
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
-    init = async function (port, socket, server) {
+    init = async function (port, socket, server, db) {
         await this.wait(500, this.mensajes.connecting);
         this.server = server;
         this.port = this.establishConnection(port, socket);
         this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
         this.receiveData(socket);
+        this.client.connect();
     }
 
     /**
