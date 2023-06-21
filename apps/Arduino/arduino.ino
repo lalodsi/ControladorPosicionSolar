@@ -35,7 +35,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#include "sensor.hpp"
+#include "./sensor.hpp"
 #include <math.h>
 #include "./MovimientoMotor/motor.h"
 #include "anova/anova.h"
