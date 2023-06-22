@@ -1,7 +1,6 @@
 const ArduinoSerial = require('./js/ArduinoSerial.js');
 const {Server, startWindow} = require('./js/Server.js');
 const electron = require('electron');
-const { utils, writeFile, readFile, read} = require('xlsx');
 const fs = require('fs');
 
 console.clear();

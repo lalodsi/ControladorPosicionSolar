@@ -4,7 +4,6 @@ const routerApi = require("./routes");
 const { BrowserWindow, app, ipcMain, screen } = require('electron');
 const path = require("path");
 const windowApp = require('electron').app;
-const { Client } = require('pg');
 
 class Server{
     sockets = {
