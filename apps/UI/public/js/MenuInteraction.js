@@ -130,19 +130,34 @@ const bloquearBotones = function (...arr) {
         });
     }
 }
+
+const exportarDatos = function () {
+    console.log('click');
+    socket.emit(
+        eventos.exportData,
+        {
+            accion: "exportar"
+        }
+    );
+}
 /**
  * Agrega funcionalidad a los botones para mostrar las diferentes vistas de la sección para información principal
  * Los botones realizarán una consulta GET a través de la ruta 'api/v1/menu/contenido/:id' para recibir el menu correspondiente y añadirlo a la aplicación
  */
 const btnShowContent = function() {
-    const botones = document.querySelectorAll(".boton");
-    const arrBotones = devolverArrayHTML(botones);
-    
-    arrBotones[0].addEventListener('click', activarModoMonitoreo);
-    arrBotones[1].addEventListener('click', activarModoMonitoreo);
-    arrBotones[2].addEventListener('click', getControlManualSection);
-    arrBotones[3].addEventListener('click', getPanelDeControlSection);
-    arrBotones[4].addEventListener('click', botonRegresar);
+    const monitoreoButton = document.getElementById("monitoreoButton");
+    const graficasButton = document.getElementById("graficasButton");
+    const manualButton = document.getElementById("manualButton");
+    const calibracionButton = document.getElementById("calibracionButton");
+    const regresarButton = document.getElementById("regresarButton");
+    const exportButton = document.getElementById("exportButton");
+
+    monitoreoButton.addEventListener('click', activarModoMonitoreo);
+    graficasButton.addEventListener('click', activarModoMonitoreo);
+    manualButton.addEventListener('click', getControlManualSection);
+    calibracionButton.addEventListener('click', getPanelDeControlSection);
+    regresarButton.addEventListener('click', botonRegresar);
+    exportButton.addEventListener('click', exportarDatos)
 };
 
 const traerContenidoALaSeccion = async function (menu) {

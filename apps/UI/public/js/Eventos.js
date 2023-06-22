@@ -5,6 +5,7 @@ eventos = {
     calibrarOrientacion: "setOrientation",
     controlarMotores: "setMotores",
     controlarAlgoritmo: "setAlgoritmo",
+    exportData: "exportData",
     closeApp: "closeApp",
     minimizeApp: "minimizeApp",
 }

@@ -2,6 +2,7 @@ const ArduinoSerial = require('./js/ArduinoSerial.js');
 const {Server, startWindow} = require('./js/Server.js');
 const electron = require('electron');
 const { utils, writeFile, readFile, read} = require('xlsx');
+const fs = require('fs');
 
 console.clear();
 
@@ -37,6 +38,17 @@ function sockets(socket) {
     socket.on( servidor.sockets.enviarPalabra, data => {
         console.log(data.message);
         arduino.sendData(data.word);
+    })
+    // Socket para exportación de información
+    socket.on( servidor.sockets.exportData, NoData => {
+        const data = arduino.data;
+        console.log("Datos que tiene guardado el arduino");
+        console.log(data);
+
+        const stringified = JSON.stringify(data);
+        const now = new Date();
+        const fileName = `${now.getFullYear()}${now.getMonth() + 1}${now.getDate()}-Data.json`;
+        fs.writeFileSync('./dataSaved/' + fileName, stringified);
     })
     /**
      * Sockets para actualización de datos

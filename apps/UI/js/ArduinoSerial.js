@@ -2,6 +2,7 @@ const {SerialPort} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
+const fs = require('fs');
 
 class ArduinoSerial{
     mensajes = {
@@ -139,6 +140,31 @@ class ArduinoSerial{
                 if (datos.accion === "monitoreo") 
                 {
                     this.analizaDatosDeEntrada(datos, socket, this.server);
+
+                    // Preparando datos de salida
+                    const {
+                        sensor1,
+                        sensor2,
+                        sensor3,
+                        sensor4,
+                        sensor5,
+                        voltaje_gen,
+                        voltaje_sal,
+                        corriente_gen,
+                        corriente_sal,
+                    } = datos;
+                    const dataOut = {
+                        sensor1,
+                        sensor2,
+                        sensor3,
+                        sensor4,
+                        sensor5,
+                        voltaje_gen,
+                        voltaje_sal,
+                        corriente_gen,
+                        corriente_sal,
+                    };
+                    this.data.push(dataOut);
                 }
                 if (datos.accion === "mensaje") {
                     console.log(datos.message);
@@ -193,8 +219,7 @@ class ArduinoSerial{
         arrayFinal.push(datos.sensor3);
         arrayFinal.push(datos.sensor4);
         arrayFinal.push(datos.sensor5);
-        console.log(datos);
-        console.log(arrayFinal);
+
         // console.log(arrayFinal);
         // Enviar datos al servidor por web sockets
         socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
