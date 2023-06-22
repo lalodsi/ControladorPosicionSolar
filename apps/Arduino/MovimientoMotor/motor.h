@@ -31,15 +31,16 @@
 
 /**
  * Relación del engrane para el movimiento de elevación
- * Valor: 1/19
+ * Valor: 1/19 * 15/39
 */
-#define RELATION_AZIMUTH_GEARS 0.05263
+// #define RELATION_AZIMUTH_CHAIN 0.05263
+#define RELATION_AZIMUTH_CHAIN 0.020243
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
 #define ELEVATION_MOTOR_DELAY 1300
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
-#define AZIMUTH_MOTOR_DELAY 50000
+#define AZIMUTH_MOTOR_DELAY 1300
 
 /**
  * Obtiene los pasos necesarios para moverse a un determinado ángulo
@@ -96,7 +97,7 @@ void setElevationAngle(float angle, int dirPin, int stepsPin, double* currentAng
  * Establece el ángulo en el que se moverá el motor a pasos de rotación
 */
 void setAzimutAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
-  long int stepsNeeded = getStepsTo(angle, RELATION_AZIMUTH_GEARS);
+  long int stepsNeeded = getStepsTo(angle, RELATION_AZIMUTH_CHAIN);
   setMotorDirection(angle, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, AZIMUTH_MOTOR_DELAY);
   *currentAngle += angle;
