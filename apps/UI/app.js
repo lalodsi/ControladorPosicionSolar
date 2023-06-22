@@ -1,22 +1,9 @@
 const ArduinoSerial = require('./js/ArduinoSerial.js');
 const {Server, startWindow} = require('./js/Server.js');
 const electron = require('electron');
-const { Client } = require('pg');
+const { utils, writeFile, readFile, read} = require('xlsx');
 
 console.clear();
-
-async function getConnection() {
-    const client = new Client({
-        host: 'localhost',
-        port: 5432,
-        user: 'luis',
-        password: 'admin123',
-        database: 'my_sensors'
-    });
-
-    await client.connect();
-    return client;
-};
 
 // Requerir child_process
 var exec = require('child_process').exec;

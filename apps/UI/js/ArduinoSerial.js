@@ -3,7 +3,6 @@ const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
 
-
 class ArduinoSerial{
     mensajes = {
         arduinoRequest: "Se pidió una conexión con el arduino en el puerto ",
@@ -22,13 +21,7 @@ class ArduinoSerial{
         this.isConnected = false;
         this.isApproved = false;
         this.monitorSerialConnected = false;
-        this.client = new Client({
-            host: 'localhost',
-            port: 5432,
-            user: 'luis',
-            password: 'admin123',
-            database: 'my_sensors'
-        });
+        this.data=[]
     }
 
     /**
@@ -44,7 +37,7 @@ class ArduinoSerial{
         this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
         this.receiveData(socket);
-        this.client.connect();
+        
     }
 
     /**
@@ -200,6 +193,8 @@ class ArduinoSerial{
         arrayFinal.push(datos.sensor3);
         arrayFinal.push(datos.sensor4);
         arrayFinal.push(datos.sensor5);
+        console.log(datos);
+        console.log(arrayFinal);
         // console.log(arrayFinal);
         // Enviar datos al servidor por web sockets
         socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
