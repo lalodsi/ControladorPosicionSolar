@@ -33,7 +33,6 @@
  * Relación del engrane para el movimiento de elevación
  * Valor: 1/19 * 15/39
 */
-// #define RELATION_AZIMUTH_CHAIN 0.05263
 #define RELATION_AZIMUTH_CHAIN 0.020243
 
 // Cantidad de ms que se espera antes de dar otro paso en el motor
