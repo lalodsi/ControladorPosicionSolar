@@ -50,7 +50,12 @@
 // Demux
   #define PIN_DEMUX_SELECT_0          6
   #define PIN_DEMUX_SELECT_1          7
-  #define PIN_DEMUX_ANALOG_2          A7
+  #define PIN_DEMUX_ANALOG            A7
+  #define PIN_DEMUX_VOLTAJE_PANEL       101
+  #define PIN_DEMUX_VOLTAJE_CIRCUITO    102
+  #define PIN_DEMUX_CORRIENTE_PANEL     103
+  #define PIN_DEMUX_CORRIENTE_CIRCUITO  104
+  
 // Entradas analogicas
   #define PIN_ANALOG_LIGHT_SENSOR_1   A0
   #define PIN_ANALOG_LIGHT_SENSOR_2   A1
@@ -81,11 +86,14 @@ double posAzimut = 0.0f;
 double posIncidence = 0.0f;
 
 // Declaración de sensores externos
-sensor sensor1(A0);
-sensor sensor2(A1);
-sensor sensor3(A2);
-sensor sensor4(A3);
-sensor sensor5(A6);
+sensor sensor1(PIN_ANALOG_LIGHT_SENSOR_1);
+sensor sensor2(PIN_ANALOG_LIGHT_SENSOR_2);
+sensor sensor3(PIN_ANALOG_LIGHT_SENSOR_3);
+sensor sensor4(PIN_ANALOG_LIGHT_SENSOR_4);
+sensor sensor5(PIN_ANALOG_LIGHT_SENSOR_5);
+
+sensor1
+
 
 // Temporal variable to save data from serial port
 String serial_info;
@@ -194,13 +202,13 @@ void modoMonitoreo(){
     Serial.print(",\"sensor5\":");
     Serial.print(sensor5.getData());
     Serial.print(",\"voltaje_gen\":");
-    Serial.print("0");
+    Serial.print(sensor.getDemuxData(PIN_DEMUX_VOLTAJE_PANEL));
     Serial.print(",\"voltaje_sal\":");
-    Serial.print("0");
+    Serial.print(sensor.getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO));
     Serial.print(",\"corriente_gen\":");
-    Serial.print("0");
+    Serial.print(sensor.getDemuxData(PIN_DEMUX_CORRIENTE_PANEL));
     Serial.print(",\"corriente_sal\":");
-    Serial.print("0");
+    Serial.print(sensor.getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO));
     Serial.println("}");
 
     if (Serial.available())
