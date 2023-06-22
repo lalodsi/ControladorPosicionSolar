@@ -34,6 +34,14 @@
 //         Comments and info about the project
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+// Demux
+  #define PIN_DEMUX_SELECT_0          6
+  #define PIN_DEMUX_SELECT_1          7
+  #define PIN_DEMUX_ANALOG            A7
+  #define PIN_DEMUX_VOLTAJE_PANEL       101
+  #define PIN_DEMUX_VOLTAJE_CIRCUITO    102
+  #define PIN_DEMUX_CORRIENTE_PANEL     103
+  #define PIN_DEMUX_CORRIENTE_CIRCUITO  104
 
 #include "./sensor.hpp"
 #include <math.h>
@@ -47,14 +55,6 @@
 // Input and Output ports
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //
-// Demux
-  #define PIN_DEMUX_SELECT_0          6
-  #define PIN_DEMUX_SELECT_1          7
-  #define PIN_DEMUX_ANALOG            A7
-  #define PIN_DEMUX_VOLTAJE_PANEL       101
-  #define PIN_DEMUX_VOLTAJE_CIRCUITO    102
-  #define PIN_DEMUX_CORRIENTE_PANEL     103
-  #define PIN_DEMUX_CORRIENTE_CIRCUITO  104
   
 // Entradas analogicas
   #define PIN_ANALOG_LIGHT_SENSOR_1   A0
@@ -91,8 +91,6 @@ sensor sensor2(PIN_ANALOG_LIGHT_SENSOR_2);
 sensor sensor3(PIN_ANALOG_LIGHT_SENSOR_3);
 sensor sensor4(PIN_ANALOG_LIGHT_SENSOR_4);
 sensor sensor5(PIN_ANALOG_LIGHT_SENSOR_5);
-
-sensor1
 
 
 // Temporal variable to save data from serial port
@@ -202,13 +200,13 @@ void modoMonitoreo(){
     Serial.print(",\"sensor5\":");
     Serial.print(sensor5.getData());
     Serial.print(",\"voltaje_gen\":");
-    Serial.print(sensor.getDemuxData(PIN_DEMUX_VOLTAJE_PANEL));
+    Serial.print(sensor::getDemuxData(PIN_DEMUX_VOLTAJE_PANEL));
     Serial.print(",\"voltaje_sal\":");
-    Serial.print(sensor.getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO));
+    Serial.print(sensor::getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO));
     Serial.print(",\"corriente_gen\":");
-    Serial.print(sensor.getDemuxData(PIN_DEMUX_CORRIENTE_PANEL));
+    Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_PANEL));
     Serial.print(",\"corriente_sal\":");
-    Serial.print(sensor.getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO));
+    Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO));
     Serial.println("}");
 
     if (Serial.available())

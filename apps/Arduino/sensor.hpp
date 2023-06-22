@@ -17,7 +17,7 @@ public:
         return analogRead(this->pins);
     };
 
-    static double getDemuxData(pin){
+    static double getDemuxData(int pin){
         switch (pin)
         {
         case PIN_DEMUX_VOLTAJE_PANEL:
