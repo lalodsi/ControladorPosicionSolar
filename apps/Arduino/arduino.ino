@@ -48,9 +48,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////
 //
 // Demux
-  #define PIN_DEMUX_DIGITAL_1     6
-  #define PIN_DEMUX_DIGITAL_2     7
-  #define PIN_DEMUX_ANALOG_2      8
+  #define PIN_DEMUX_SELECT_0          6
+  #define PIN_DEMUX_SELECT_1          7
+  #define PIN_DEMUX_ANALOG_2          A7
 // Entradas analogicas
   #define PIN_ANALOG_LIGHT_SENSOR_1   A0
   #define PIN_ANALOG_LIGHT_SENSOR_2   A1
@@ -58,14 +58,14 @@
   #define PIN_ANALOG_LIGHT_SENSOR_4   A3
   #define PIN_ANALOG_LIGHT_SENSOR_5   A6
 // Motores
-  #define PIN_MOTOR_ELEVATION_DIR     2
-  #define PIN_MOTOR_ELEVATION_STEP    3
-  #define PIN_MOTOR_AZIMUT_DIR        4
-  #define PIN_MOTOR_AZIMUT_STEP       5
+  #define PIN_MOTOR_ELEVATION_DIR     3
+  #define PIN_MOTOR_ELEVATION_STEP    2
+  #define PIN_MOTOR_AZIMUT_DIR        5
+  #define PIN_MOTOR_AZIMUT_STEP       4
 // Encoder Mecánico
   #define PIN_ENCODER_DT              9
-  #define PIN_ENCODER_CLK             10
-  #define PIN_ENCODER_SWITCH          11
+  #define PIN_ENCODER_CLK             8
+  #define PIN_ENCODER_SWITCH          10
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -162,9 +162,10 @@ void loop() {
 			break;
 	}
 
-  setElevationAngle(5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
+  setElevationAngle(5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+  setAzimutAngle(20, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut)
   // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
-  setElevationAngle(-5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posAzimut);
+  setElevationAngle(-5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   // setElevationAngle(-5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
 
   if (Serial.available())
