@@ -219,6 +219,10 @@ class ArduinoSerial{
         arrayFinal.push(datos.sensor3);
         arrayFinal.push(datos.sensor4);
         arrayFinal.push(datos.sensor5);
+        arrayFinal.push(datos.voltaje_gen);
+        arrayFinal.push(datos.voltaje_sal);
+        arrayFinal.push(datos.corriente_gen);
+        arrayFinal.push(datos.corriente_sal);
 
         // console.log(arrayFinal);
         // Enviar datos al servidor por web sockets
