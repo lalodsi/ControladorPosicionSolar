@@ -60,7 +60,7 @@ class ArduinoSerial{
                         message: "El dispositivo no tiene el software adecuado"
                     });    
                 console.log(this.mensajes.checkingFailed);
-                this.disconnect(socket, this.server);
+                this.disconnect(socket, this.server, false, "");
             }
         }, 3000);
 
@@ -193,7 +193,7 @@ class ArduinoSerial{
             }
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);
-                this.disconnect(socket, this.server);
+                this.disconnect(socket, this.server, true, err.message);
             }
         });
     }
@@ -205,7 +205,7 @@ class ArduinoSerial{
     /**
      * Desconecta el arduino del puerto serie
      */
-    disconnect = async function (socket, servidor) {
+    disconnect = async function (socket, servidor, error, message) {
         await this.wait(500, this.mensajes.disconnecting);
         if (this.port.isOpen) {
             await this.port.close();
@@ -219,8 +219,8 @@ class ArduinoSerial{
         socket.emit(servidor.sockets.estadoArduino, 
             {
                 isConnected: false, 
-                error: false,
-                message: ""
+                error,
+                message
             });
     }
 

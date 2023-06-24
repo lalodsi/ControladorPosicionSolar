@@ -58,6 +58,9 @@ socket.on('arduinoConnectionState', data => {
         if (data.error) {
             ocultarTodoExcepto(0, ".Contenido_Estado");
             errorAlIntentarConectar(data.message);
+            reaparecerFondo();
+            const botonIntroduccion = document.getElementsByClassName("botonIntroduccion")[0];
+            botonIntroduccion.className = "botonIntroduccion visible";
         }
         else{
             ocultarTodoExcepto(0, ".Contenido_Estado");

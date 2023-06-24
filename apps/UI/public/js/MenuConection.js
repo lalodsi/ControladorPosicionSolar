@@ -113,8 +113,8 @@ const errorAlIntentarConectar = function (message) {
     mensaje.innerHTML = `Error: ${message}`;
     // Colocar la alerta
     fondo.insertBefore(mensaje, botonIntroduccion);
-    setTimeout( () => mensaje.className = "subsection errorMessageBye", 1500);
-    setTimeout( () => mensaje.parentNode.removeChild(mensaje), 2000);
+    setTimeout( () => mensaje.className = "subsection errorMessageBye", 4500);
+    setTimeout( () => mensaje.parentNode.removeChild(mensaje), 5000);
 }
 
 const activarBotonActualizar = function () {
