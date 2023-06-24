@@ -346,11 +346,26 @@ void modoControlManual(){
     float rotacion = rotacionTexto.toFloat();
     float elevacion = elevacionTexto.toFloat();
     // Si faltan más pasos, realizarlos
-    setAzimutAngle(elevacion, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+    setElevationAngle(elevacion, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
     setAzimutAngle(rotacion, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
     delay(100);
-    Serial.println("Posicion actual: " + String(posIncidence) + ", valor de elevacion: " + elevacionTexto + ", " + String(elevacion,4));
-    Serial.println("Posicion actual: " + String(posAzimut) + ", valor de rotacion: " + rotacionTexto + ", " + String(rotacion,4));
+    Serial.print("{\"accion\":\"controlMotors\",");
+    Serial.print("\"state\": {");
+    Serial.print("\"azimutText\":\"");
+    Serial.print(rotacionTexto);
+    Serial.print("\",");
+    Serial.print("\"incidenceText\":\"");
+    Serial.print(elevacionTexto);
+    Serial.print("\",");
+    Serial.print("\"posIncidence\":");
+    Serial.print(String(posIncidence));
+    Serial.print(",");
+    Serial.print("\"posAzimut\":");
+    Serial.print(String(posIncidence));
+    Serial.print("}");
+    Serial.println("}");
+    // Serial.println("Posicion actual: " + String(posIncidence) + ", valor de elevacion: " + elevacionTexto + ", " + String(elevacion,4));
+    // Serial.println("Posicion actual: " + String(posAzimut) + ", valor de rotacion: " + rotacionTexto + ", " + String(rotacion,4));
   }
   
 }

@@ -96,7 +96,7 @@ void setElevationAngle(float angle, int dirPin, int stepsPin, double* currentAng
  * Establece el ángulo en el que se moverá el motor a pasos de rotación
 */
 void setAzimutAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
-  long int stepsNeeded = getStepsTo(angle, RELATION_AZIMUTH_CHAIN);
+  long int stepsNeeded = getStepsFromTo(*currentAngle, angle, RELATION_AZIMUTH_CHAIN);
   setMotorDirection(angle, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, AZIMUTH_MOTOR_DELAY);
   *currentAngle += angle;

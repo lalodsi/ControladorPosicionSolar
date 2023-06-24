@@ -166,6 +166,18 @@ class ArduinoSerial{
                     };
                     this.data.push(dataOut);
                 }
+                if (datos.accion === "controlMotors") {
+                    const {
+                        azimutText,
+                        incidenceText,
+                        posIncidence,
+                        posAzimut
+                    } = datos.state;
+                    console.log(`Texto Azimut: ${azimutText}`);
+                    console.log(`Texto Incidencia: ${incidenceText}`);
+                    console.log(`Posicion Actual de Incidencia: ${posIncidence}`);
+                    console.log(`Posicion Actual de Azimut: ${posAzimut}`);
+                }
                 if (datos.accion === "mensaje") {
                     console.log(datos.message);
                 }
