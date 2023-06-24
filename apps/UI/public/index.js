@@ -69,7 +69,7 @@ socket.on('arduinoConnectionState', data => {
 socket.on('data', data => {
     asignaDatosSensores(data);
     draw2DPlot("sensores", data);
-    draw3DPlot("robot3d", data);
+    // draw3DPlot("robot3d", data);
     analisisANOVA(data);
     animacionModuloSensores(data);
 });
