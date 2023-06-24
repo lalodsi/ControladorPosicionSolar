@@ -94,20 +94,21 @@ const getControlManualSection = function () {
         }
     );
     setTimeout(() => {
+        
         interactuarInputConRuedaDelMouse( ()=>{
             const azimut = document.getElementById("azimut").value;
             const elevacion = document.getElementById("elevacion").value;
             console.log(`Enviando: ${azimut} y ${elevacion}`);
             socket.emit(
                 eventos.enviarPalabra,
-                { 
+                {
                     word: `${azimut},${elevacion}`,
                     message: "Se envio la informacion"
                 }
             );
         } );
         bloquearBotones(0,1,2,3);
-    },5000);
+    },1000);
 }
 
 const getPanelDeControlSection = function () {
@@ -172,15 +173,28 @@ const traerContenidoALaSeccion = async function (menu) {
             case "Informacion Monitoreo":
                 seccionPrincipal.innerHTML = await requestMenu(1);
                 break;
-     
+
             case "Graficas":
-                seccionPrincipal.innerHTML = await requestMenu(2);                
+                seccionPrincipal.innerHTML = await requestMenu(2);
                 break;
         }
     }
     if (menu === "controlar" && contenidoSection === "Modo de Control Manual"){
         seccionPrincipal.innerHTML = await requestMenu(3);
-        interactuarInputConRuedaDelMouse();
+        // interactuarInputConRuedaDelMouse();
+        const button = document.getElementById("CM_botonIngresar");
+        button.addEventListener('click', () => {
+            const azimut = document.getElementById("azimut").value;
+            const elevacion = document.getElementById("elevacion").value;
+            socket.emit(
+                eventos.enviarPalabra,
+                {
+                    word: `${azimut},${elevacion}`,
+                    message: `Se envio la siguiente posición: azimut= ${azimut}, elevacion= ${elevacion}`
+                }
+            );
+        })
+        bloquearBotones(0,1,2,3);
     }
 
     if (menu === "calibrar" && contenidoSection === "Modo de Calibración"){

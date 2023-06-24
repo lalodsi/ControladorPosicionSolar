@@ -348,7 +348,7 @@ void modoControlManual(){
     // Si faltan más pasos, realizarlos
     setElevationAngle(elevacion, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
     setAzimutAngle(rotacion, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
-    delay(100);
+    // Mostrar la información al puerto
     Serial.print("{\"accion\":\"controlMotors\",");
     Serial.print("\"state\": {");
     Serial.print("\"azimutText\":\"");
@@ -364,8 +364,8 @@ void modoControlManual(){
     Serial.print(String(posIncidence));
     Serial.print("}");
     Serial.println("}");
-    // Serial.println("Posicion actual: " + String(posIncidence) + ", valor de elevacion: " + elevacionTexto + ", " + String(elevacion,4));
-    // Serial.println("Posicion actual: " + String(posAzimut) + ", valor de rotacion: " + rotacionTexto + ", " + String(rotacion,4));
+    // Limpiar la informacion que se haya quedado
+    Serial.flush();
   }
   
 }

@@ -55,6 +55,11 @@ long int getStepsTo(float grades, float gearRelation){//, float gradoElev){
  * una posición inicial
 */
 long int getStepsFromTo(float current, float next, float gearRelation){
+  long int nextPosition = getStepsTo(next, gearRelation) - getStepsTo(current, gearRelation);
+  if (nextPosition < 0)
+  {
+    return -nextPosition;
+  }
   return getStepsTo(next, gearRelation) - getStepsTo(current, gearRelation);
 }
 
@@ -86,19 +91,21 @@ void setMotorDirection(float angle, int dirPin){
  * Establece el ángulo en el que se moverá el motor a pasos de elevación
 */
 void setElevationAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
+  double diff = angle - *currentAngle;
   long int stepsNeeded = getStepsFromTo(*currentAngle, angle, RELATION_GEAR_BOX * RELATION_ELEVATION_GEARS);
-  setMotorDirection(angle, dirPin);
+  setMotorDirection(diff, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, ELEVATION_MOTOR_DELAY);
-  *currentAngle += angle;
+  *currentAngle = angle;
 };
 
 /**
  * Establece el ángulo en el que se moverá el motor a pasos de rotación
 */
 void setAzimutAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
+  double diff = angle - *currentAngle;
   long int stepsNeeded = getStepsFromTo(*currentAngle, angle, RELATION_AZIMUTH_CHAIN);
-  setMotorDirection(angle, dirPin);
+  setMotorDirection(diff, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, AZIMUTH_MOTOR_DELAY);
-  *currentAngle += angle;
+  *currentAngle = angle;
 };
 
