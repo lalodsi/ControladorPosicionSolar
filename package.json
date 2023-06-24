@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "lerna run start",
-    "set-database": "docker-compose up -d postgres && docker-compose up -d pgadmin"
+    "watch": "lerna exec --scope controladorposicionsolar-ui -- npm run watch"
   },
   "repository": {
     "type": "git",

@@ -5,12 +5,12 @@
   "description": "Interfaz física para el seguidor solar construido",
   "main": "./app.js",
   "scripts": {
-    "update": "git pull origin master; npm run dev",
+    "update": "git pull origin master; npm run watch",
     "start": "electron-forge start",
     "prueba": "node ./js/pruebaServer",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "dev": "nodemon --exec electron-forge start"
+    "watch": "nodemon --exec electron-forge start"
   },
   "keywords": [],
   "author": "Luis Eduardo Rodriguez Ramirez",
