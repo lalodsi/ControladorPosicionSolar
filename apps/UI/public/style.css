@@ -17,7 +17,7 @@
     --fondoBotonHover: #959595;
     --displayHeight: 700px;
     --topBarHeight: 40px;
-    --displayContent: 700px;
+    --displayContent: 800px;
     --displayWidth: 1200px;
     --scaleFactorY: 1.20857;
     --scaleFactorX: 1.20857;
@@ -36,8 +36,8 @@ body{
 
 .appContent{
     margin-top: 44px;
-    /* height: 654px; */
-    height: calc(var(--displayHeight) * var(--scaleFactorY));
+    /* height: calc(var(--displayHeight) / var(--scaleFactorY)); */
+    height: 670px;
     justify-content: space-around;
     display: flex;
     flex-wrap: wrap;
@@ -387,11 +387,13 @@ input{
     position: fixed;
     top: 0;
     left: 0;
-    height: calc((var(--displayHeight) - 6px) * var(--scaleFactorY));
-    width: calc((var(--displayWidth) - 6px) * var(--scaleFactorX));
+    /* height: calc((var(--displayHeight) - 6px) * var(--scaleFactorY));
+    width: calc((var(--displayWidth) - 6px) * var(--scaleFactorX)); */
     transition: all 500ms ease;
 }
 .oscurecido{
+    height: 714px;
+    width: 1434px;
     background-color: rgba(0,0,0,1);
     border: 3px solid var(--verdeOscuro);
 }
@@ -578,7 +580,7 @@ option:hover{
     border-top-right-radius: 30px;
 }
 .monitorSerial.abajo{
-    transform: translateY(510px);
+    transform: translateY(550px);
     
 }
 .contenedorSerial{
