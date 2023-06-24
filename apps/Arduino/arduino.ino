@@ -95,6 +95,7 @@ sensor sensor5(PIN_ANALOG_LIGHT_SENSOR_5);
 
 // Temporal variable to save data from serial port
 String serial_info;
+int monitoringCounter = 0;
 
 //////////////////////////
 // Display LCD
@@ -187,28 +188,32 @@ void modoMonitoreo(){
 
   while (true)
   {
-    Serial.print("{");
-    Serial.print("\"accion\":\"monitoreo\",");
-    Serial.print("\"sensor1\":");
-    Serial.print(sensor1.getData());
-    Serial.print(",\"sensor2\":");
-    Serial.print(sensor2.getData());
-    Serial.print(",\"sensor3\":");
-    Serial.print(sensor3.getData());
-    Serial.print(",\"sensor4\":");
-    Serial.print(sensor4.getData());
-    Serial.print(",\"sensor5\":");
-    Serial.print(sensor5.getData());
-    Serial.print(",\"voltaje_gen\":");
-    Serial.print(sensor::getDemuxData(PIN_DEMUX_VOLTAJE_PANEL));
-    Serial.print(",\"voltaje_sal\":");
-    Serial.print(sensor::getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO));
-    Serial.print(",\"corriente_gen\":");
-    Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_PANEL));
-    Serial.print(",\"corriente_sal\":");
-    Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO));
-    Serial.println("}");
+    if (monitoringCounter % 1 == 0)
+    {
+      Serial.print("{");
+      Serial.print("\"accion\":\"monitoreo\",");
+      Serial.print("\"sensor1\":");
+      Serial.print(sensor1.getData());
+      Serial.print(",\"sensor2\":");
+      Serial.print(sensor2.getData());
+      Serial.print(",\"sensor3\":");
+      Serial.print(sensor3.getData());
+      Serial.print(",\"sensor4\":");
+      Serial.print(sensor4.getData());
+      Serial.print(",\"sensor5\":");
+      Serial.print(sensor5.getData());
+      Serial.print(",\"voltaje_gen\":");
+      Serial.print(sensor::getDemuxData(PIN_DEMUX_VOLTAJE_PANEL));
+      Serial.print(",\"voltaje_sal\":");
+      Serial.print(sensor::getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO));
+      Serial.print(",\"corriente_gen\":");
+      Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_PANEL));
+      Serial.print(",\"corriente_sal\":");
+      Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO));
+      Serial.println("}");
+    }
 
+    monitoringCounter++;
     if (Serial.available())
     {
       serial_info = Serial.readString();
