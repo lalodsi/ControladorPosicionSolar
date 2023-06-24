@@ -88,13 +88,16 @@ const botonConectarConArduino = function () {
     // Desconección
     const botonDesconectar = document.getElementById('botonDesconectar')
     botonDesconectar.addEventListener('click', ()=>{
-        socket.emit(eventosSockets.requestConnection, {connect: false})
-        reaparecerFondo();
-        // Reaparecer el boton introduccion
-        const botonIntroduccion = document.getElementsByClassName("botonIntroduccion")[0];
-        botonIntroduccion.className = "botonIntroduccion visible";
+        botonRegresar()
+        setTimeout(() => {
+            socket.emit(eventosSockets.requestConnection, {connect: false})
+            reaparecerFondo();
+            // Reaparecer el boton introduccion
+            const botonIntroduccion = document.getElementsByClassName("botonIntroduccion")[0];
+            botonIntroduccion.className = "botonIntroduccion visible";
 
-        setTimeout( ()=> ocultarTodoExcepto(0, ".Contenido_Estado"), 500 );
+            setTimeout( ()=> ocultarTodoExcepto(0, ".Contenido_Estado"), 500 );
+        }, 1000)
     })
 }
 
