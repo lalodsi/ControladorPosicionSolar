@@ -681,6 +681,12 @@ option:hover{
     border: 2px solid white;
     margin: auto;
 }
+.sensorImageContainer.green{
+    border: 2px solid rgb(13, 255, 0);
+}
+.sensorImageContainer.red{
+    border: 2px solid red;
+}
 .sensorImage{
     height: 50px;
     width: 50px;

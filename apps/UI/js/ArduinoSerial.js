@@ -166,6 +166,19 @@ class ArduinoSerial{
                     };
                     this.data.push(dataOut);
                 }
+                if(datos.accion === "anova"){
+                    //
+                    const {
+                        sensor1,
+                        sensor2,
+                        sensor3,
+                        sensor4,
+                        sensor5,
+                        AnovaResult
+                    } = datos;
+
+                    socket.emit(this.server.sockets.resultadosAnova, {result: AnovaResult});
+                }
                 if (datos.accion === "controlMotors") {
                     const {
                         azimutText,

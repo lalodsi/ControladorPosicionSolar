@@ -12,6 +12,7 @@ eventos = {
 eventosSockets = {
     requestConnection: "connect-to-arduino",
     comenzarRecepcionDeDatos: "startSendingData",
-    testearSoftware: "arduinoSoftwareTest"
+    testearSoftware: "arduinoSoftwareTest",
+    intercambiaDatos: "data"
 
 }

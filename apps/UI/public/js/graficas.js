@@ -217,9 +217,22 @@ const analisisANOVA = function (data) {
 }
 
 const animacionModuloSensores = (data) => {
-    const sensores = [1, 2, 3, 4, 5]
-        .map(number => document.getElementById(`sensorUbicacion${number}`));
-    data.map((sensorValue, index) => {
-        sensores[index].style.backgroundColor = `rgb(10, ${sensorValue}, ${sensorValue})`
-    })
+    const valorSensores = [];
+
+    for (let i = 0; i < 5; i++) {
+        valorSensores.push(data[i]);
+    }
+
+    const sensor1 = document.getElementById(`sensorUbicacion1`);
+    const sensor2 = document.getElementById(`sensorUbicacion2`);
+    const sensor3 = document.getElementById(`sensorUbicacion3`);
+    const sensor4 = document.getElementById(`sensorUbicacion4`);
+    const sensor5 = document.getElementById(`sensorUbicacion5`);
+
+    sensor1.style.backgroundColor = `rgb(10, ${valorSensores[0]}, ${valorSensores[0]})`;
+    sensor2.style.backgroundColor = `rgb(10, ${valorSensores[1]}, ${valorSensores[1]})`;
+    sensor3.style.backgroundColor = `rgb(10, ${valorSensores[2]}, ${valorSensores[2]})`;
+    sensor4.style.backgroundColor = `rgb(10, ${valorSensores[3]}, ${valorSensores[3]})`;
+    sensor5.style.backgroundColor = `rgb(10, ${valorSensores[4]}, ${valorSensores[4]})`;
+
 }

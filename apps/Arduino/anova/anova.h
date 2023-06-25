@@ -145,7 +145,9 @@ double F_Value(double **datos, int size){
 /**
  * @brief Realiza el análisis de varianzas y determina si existe al menos una media diferente a las demás.
  * @test Revisar que su funcionamiento sea el adecuado, probar con datos reales de los sensores.
- * @attention El resultado de salida no es el definitivo. El test ANOVA determina **si EXISTE una media diferente a las demás** , sin embargo, dentro de esta función no está implementado un método para conocer cual media es la diferente.
+ * @attention El resultado de salida no es el definitivo. El test ANOVA determina **si EXISTE una media
+ * diferente a las demás** , sin embargo, dentro de esta función no está implementado un método para
+ * conocer cual media es la diferente.
  * 
  * @param datos arreglo bidimensional
  * @param size tamaño del arreglo
