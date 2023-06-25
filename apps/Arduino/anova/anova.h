@@ -154,7 +154,8 @@ double F_Value(double **datos, int size){
 */
 bool ANOVA_test(double **datos, int size){
     double f_test = F_Value(datos, size);
-    return (f_test > F_CRITICA);
+    if(f_test > F_CRITICA) return true;
+    return false;
 }
 
 /**

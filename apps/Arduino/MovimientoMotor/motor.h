@@ -19,9 +19,9 @@
 
 /**
  * Relación de la caja de engranes del motor de elevacion
- * Valor: 1/15
+ * Valor: 1/30
 */
-#define RELATION_GEAR_BOX 0.06666666
+#define RELATION_GEAR_BOX 0.03333
 
 /**
  * Relación del engrane para el movimiento de elevación

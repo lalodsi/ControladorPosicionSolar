@@ -168,6 +168,8 @@ void loop() {
 			break;
 	}
 
+  SPL_Algorithm();
+
   // setElevationAngle(5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   // setAzimutAngle(20, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut)
   // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
@@ -223,24 +225,25 @@ void modoMonitoreo(){
         break;
       }
     }
-
-    delay(50);
+    SPL_Algorithm();
+    // delay(50);
   }
   
 }
 
 void SPL_Algorithm() {
+  // const float umbral = 30; // Sirve de referencia para la comparación
   const float umbral = 30; // Sirve de referencia para la comparación
-  const int delay_time = 500;
+  const int delay_time = 5;
 
   // Comienza proceso de recolección de datos
   for (int i = 0; i < ANOVA_DATA_SIZE; i++)
   {
-    *data[i,0] = analogRead(A0);
-    *data[i,1] = analogRead(A1);
-    *data[i,2] = analogRead(A2);
-    *data[i,3] = analogRead(A3);
-    *data[i,4] = analogRead(A4);
+    *data[i,0] = sensor1.getData();
+    *data[i,1] = sensor2.getData();
+    *data[i,2] = sensor3.getData();
+    *data[i,3] = sensor4.getData();
+    *data[i,4] = sensor5.getData();
     delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
     digitalWrite(LED_BUILTIN, HIGH);
     delay(delay_time);
@@ -248,52 +251,66 @@ void SPL_Algorithm() {
   }
 
   //Comienza impresión de los datos graficados
-  Serial.print("{");
-  for (int i = 0; i < SENSORS; i++)
-  {
-    if (i == 0) {
-      Serial.print("\"sensor");
-      Serial.print((i+1));
-    }
-    else {
-      Serial.print(",\"sensor");
-      Serial.print(i+1);
-    }
-      Serial.print("\": [");
-    for (int j = 0; j < ANOVA_DATA_SIZE; j++)
-    {
-      if (j == 0) Serial.print(*data[j,i]);
-      else {
-        Serial.print(",");
-        Serial.print(*data[j,i]);
-      }
-    }
-    Serial.print("]");
-  }
-  Serial.print("}\n");
+  // Serial.print("{");
+  // for (int i = 0; i < SENSORS; i++)
+  // {
+  //   if (i == 0) {
+  //     Serial.print("\"sensor");
+  //     Serial.print((i+1));
+  //   }
+  //   else {
+  //     Serial.print(",\"sensor");
+  //     Serial.print(i+1);
+  //   }
+  //     Serial.print("\": [");
+  //   for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+  //   {
+  //     if (j == 0) Serial.print(*data[j,i]);
+  //     else {
+  //       Serial.print(",");
+  //       Serial.print(*data[j,i]);
+  //     }
+  //   }
+  //   Serial.print("]");
+  // }
+  // Serial.print("}\n");
 
   // Analisis ANOVA
   bool result = ANOVA_test(data, ANOVA_DATA_SIZE);
-  Serial.print("{");
-  Serial.print("\"result\":");
-  if (result) Serial.print("true");
-  else Serial.print("false");
-  Serial.print("}\n");
+  // Serial.print("{");
+  // Serial.print("\"result\":");
+  // if (result) Serial.print("true");
+  // else Serial.print("false");
+  // Serial.print("}\n");
 
-  int diferenciaY = sensor2.getData() - sensor4.getData();
-  int diferenciaX = sensor3.getData() - sensor5.getData();
-
-  if (sensor1.getData() > umbral)
+  if (result == false)
   {
-    if ( abs(diferenciaY) > umbral ) {
-      //moverY(diferenciaY);
-    }
+    int diferenciaY = sensor5.getData() - sensor1.getData();
+    int diferenciaX = sensor2.getData() - sensor4.getData();
 
-    if ( abs(diferenciaX) > umbral ) {
-      //moverX(diferenciaX);
+    if (sensor3.getData() > umbral)
+    {
+      if ( abs(diferenciaY) > umbral ) {
+        if (diferenciaY > 0)
+        {
+          setElevationAngle((float)(posIncidence - 0.5), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+        }
+        else {
+          setElevationAngle((float)(posIncidence + 0.5), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+        }
+      }
+
+      if ( abs(diferenciaX) > umbral ) {
+        if (diferenciaX > 0)
+        {
+          setAzimutAngle((float)(posAzimut + 1), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+        }
+        else {
+          setAzimutAngle((float)(posAzimut - 1), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+        }
+      }
     }
   }
-
 }
 
 /**
