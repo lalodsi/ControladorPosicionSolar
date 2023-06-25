@@ -1,4 +1,4 @@
-#include <stdio.h>
+// #include <stdio.h>
 
 /**
  * @brief Imprime una matriz
@@ -10,8 +10,8 @@ void printMatrix(double **data,int size){
     // Imprimiendo valores
     for (int i = 0; i < size; i++){
         for (int j = 0; j < size; j++)
-            printf("%0.1f \t", data[i][j]);
-        printf("\n");
+            Serial.print("%0.1f \t", data[i][j]);
+        Serial.print("\n");
     }
 }
 
@@ -24,9 +24,9 @@ void printMatrix(double **data,int size){
 void printArray(double *data,int size){
     // Imprimiendo valores
     for (int i = 0; i < size; i++){
-        printf("%0.1f \t", data[i]);
+        Serial.print("%0.1f \t", data[i]);
     }
-    printf("\n");
+    Serial.print("\n");
 }
 
 /**

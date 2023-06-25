@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <math.h>
 
 /**
  * @brief Valor tabulado de la distribución F del área 0.05 a la derecha
@@ -39,7 +39,7 @@ double Promedio(double *data, int size){
  * La función dará el resultado siguiente:
  * int *resultado = { 2 2 2 2 2 }
  */
-double* Promedios(double **data, int i, int j){
+double* Promedios(double data[5][5], int i, int j){
     double *resultado;
     resultado = (double *) malloc( i * sizeof(double) );
     for (int index = 0; index < i; index++)
@@ -85,7 +85,7 @@ double Varianza(double *datos, int size){
  * int *resultado = { 11.2	9.8	4.3	6.8	8.2 }
  * Lo cual es el equivalente a obtener la varianza de cada matriz
  */
-double* Varianzas(double **datos, int size){
+double* Varianzas(double datos[5][5], int size){
     double *conjuntoVarianzas;
     // Reservando memoria
     conjuntoVarianzas = (double *) malloc( size * sizeof(double) );
@@ -104,8 +104,10 @@ double* Varianzas(double **datos, int size){
  * @param size tamaño de la matriz N x N
  * @return double resultado
  */
-double S2PE(double **datos, int size){
+double S2PE(double datos[5][5], int size){
     double *varianzas = Varianzas(datos, size);
+    varianzas = (double *) malloc( size * sizeof(double) );
+    varianzas = Varianzas(datos, size);
     return Promedio(varianzas, size);
 }
 
@@ -117,7 +119,7 @@ double S2PE(double **datos, int size){
  * @param size tamaño del arreglo N x N
  * @return double resultado
  */
-double S2Factor(double **datos, int size){
+double S2Factor(double datos[5][5], int size){
     // Calcular promedios
     double *promedios = Promedios(datos, size, size);
     double promedioTotal = Promedio(promedios, size);
@@ -136,10 +138,25 @@ double S2Factor(double **datos, int size){
  * @param size tamaño del arreglo
  * @return double resultado de la operación
  */
-double F_Value(double **datos, int size){
+double F_Value(double datos[5][5], int size){
     double s2pe_value = S2PE(datos, size);
     double s2factor_value = S2Factor(datos, size);
     return s2factor_value / s2pe_value;
+}
+
+double anovaTest2(double data[5][5]){
+    // double *varianzas = Varianzas(data, 5);
+    // double S2PE_value = Promedio(varianzas, 5);
+
+    // double promedios = Promedios(data);
+    // double promedioGeneral = Promedio(promedios);
+    // double diff_to_square = 0;
+    // for (int i = 0; i < 5; i++)
+    //     diff_to_square += pow(promedios[i] - promedioGeneral, 2);
+    // double gdl = (double)5 - 1;
+    // double s2factor_value = diff_to_square * size / gdl;
+    // return s2factor_value / S2PE_value;
+    return 0;
 }
 
 /**
@@ -154,7 +171,7 @@ double F_Value(double **datos, int size){
  * @return bool devuelve un true si la media es diferente o false si no lo es.
  * 
 */
-bool ANOVA_test(double **datos, int size){
+bool ANOVA_test(double datos[5][5], int size){
     double f_test = F_Value(datos, size);
     if(f_test > F_CRITICA) return true;
     return false;
