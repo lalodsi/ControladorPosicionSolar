@@ -76,6 +76,16 @@ socket.on('data', data => {
     analisisANOVA(data);
     animacionModuloSensores(data);
 });
+socket.on('anova', data => {
+    // Resultado del anova
+    const resultado = data.result;
+    const sensorContainer = document.getElementById("contenedorSensores");
+    if (resultado) {
+        sensorContainer.className = "sensorImageContainer green"
+    }else {
+        sensorContainer.className = "sensorImageContainer red"
+    }
+})
 // Informacion de puertos
 socket.on("ports", data => {
     console.log(data);

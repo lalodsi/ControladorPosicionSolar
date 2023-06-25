@@ -12,6 +12,7 @@ class Server{
         iniciarConexion: 'connect-to-arduino',
         monitorear: "startSendingData",
         intercambiarDatos: "data",
+        resultadosAnova: "anova",
         enviarPalabra: "sendString",
         cambiarFechaYHora: "setDate",
         cambiarPosicion: "setPosition",
