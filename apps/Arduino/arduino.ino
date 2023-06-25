@@ -123,8 +123,8 @@ void setup() {
   // Motores de movimiento, pruebas
   pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
   pinMode(PIN_MOTOR_ELEVATION_STEP, OUTPUT);
-  // pinMode(PIN_MOTOR_AZIMUT_DIR, OUTPUT);
-  // pinMode(PIN_MOTOR_AZIMUT_STEP, OUTPUT);
+  pinMode(PIN_MOTOR_AZIMUT_DIR, OUTPUT);
+  pinMode(PIN_MOTOR_AZIMUT_STEP, OUTPUT);
 
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
@@ -168,7 +168,7 @@ void loop() {
 			break;
 	}
 
-  SPL_Algorithm();
+  SPL_Algorithm(false);
 
   // setElevationAngle(5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   // setAzimutAngle(20, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut)
@@ -225,13 +225,12 @@ void modoMonitoreo(){
         break;
       }
     }
-    SPL_Algorithm();
+    SPL_Algorithm(true);
     // delay(50);
   }
-  
 }
 
-void SPL_Algorithm() {
+void SPL_Algorithm(bool showData) {
   // const float umbral = 30; // Sirve de referencia para la comparación
   const float umbral = 30; // Sirve de referencia para la comparación
   const int delay_time = 5;
@@ -254,34 +253,37 @@ void SPL_Algorithm() {
   bool result = ANOVA_test(data, ANOVA_DATA_SIZE);
 
   //Comienza impresión de los datos graficados
-  Serial.print("{");
-  Serial.print("\"accion\":\"anova\",");
-  for (int i = 0; i < SENSORS; i++)
+  if (showData)
   {
-    if (i == 0) {
-      Serial.print("\"sensor");
-      Serial.print((i+1));
-    }
-    else {
-      Serial.print(",\"sensor");
-      Serial.print(i+1);
-    }
-      Serial.print("\": [");
-    for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+    Serial.print("{");
+    Serial.print("\"accion\":\"anova\",");
+    for (int i = 0; i < SENSORS; i++)
     {
-      if (j == 0) Serial.print(*data[j,i]);
-      else {
-        Serial.print(",");
-        Serial.print(*data[j,i]);
+      if (i == 0) {
+        Serial.print("\"sensor");
+        Serial.print((i+1));
       }
+      else {
+        Serial.print(",\"sensor");
+        Serial.print(i+1);
+      }
+        Serial.print("\": [");
+      for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+      {
+        if (j == 0) Serial.print(*data[j,i]);
+        else {
+          Serial.print(",");
+          Serial.print(*data[j,i]);
+        }
+      }
+      Serial.print("]");
     }
-    Serial.print("]");
+    Serial.print(",");
+    Serial.print("\"AnovaResult\":");
+    if (result) Serial.print("true");
+    else Serial.print("false");
+    Serial.println("}");
   }
-  Serial.print(",");
-  Serial.print("\"AnovaResult\":");
-  if (result) Serial.print("true");
-  else Serial.print("false");
-  Serial.println("}");
 
   if (result)
   {
@@ -420,7 +422,7 @@ void serialEvent(){
     modoPrueba();
   }
   if(serial_info.equals("anova")){
-    SPL_Algorithm();
+    SPL_Algorithm(true);
   }
 
   Serial.flush();
