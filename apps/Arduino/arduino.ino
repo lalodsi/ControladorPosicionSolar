@@ -80,7 +80,13 @@
 // Cantidad de sensores a medir
   #define SENSORS                 5
 // Variable que contendrá los datos a guardar
-double **data;
+double datos[ANOVA_DATA_SIZE][ANOVA_DATA_SIZE] = {
+        { 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0},
+    };
 // Posición del panel
 double posAzimut = 0.0f;
 double posIncidence = 0.0f;
@@ -130,9 +136,9 @@ void setup() {
   Serial.begin(9600);
 
   // Matriz dinámica para el manejo de informacion
-  data = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
-  for (int i = 0; i < ANOVA_DATA_SIZE; i++)
-    data[i] = (double *) malloc(ANOVA_DATA_SIZE * sizeof(double));
+  // datos = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
+  // for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+  //   datos[i] = (double *) malloc(ANOVA_DATA_SIZE * sizeof(double));
 }
 
 void loop() {
@@ -238,46 +244,83 @@ void SPL_Algorithm(bool showData) {
   // Comienza proceso de recolección de datos
   for (int i = 0; i < ANOVA_DATA_SIZE; i++)
   {
-    *data[i,0] = sensor1.getData();
-    *data[i,1] = sensor2.getData();
-    *data[i,2] = sensor3.getData();
-    *data[i,3] = sensor4.getData();
-    *data[i,4] = sensor5.getData();
+    datos[i][0] = sensor1.getData();
+    datos[i][1] = sensor2.getData();
+    datos[i][2] = sensor3.getData();
+    datos[i][3] = sensor4.getData();
+    datos[i][4] = sensor5.getData();
     delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
     digitalWrite(LED_BUILTIN, HIGH);
     delay(delay_time);
     digitalWrite(LED_BUILTIN, LOW);
   }
 
+  // Transpuesta
+   double aux = 0;
+
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++){
+      for (int j = 0; j < ANOVA_DATA_SIZE; j++){
+          if (j > i)
+          {
+              aux = datos[i][j];
+              datos[i][j] = datos[j][i];
+              datos[j][i] = aux;
+          }
+      }
+  }
+
   // Analisis ANOVA
-  bool result = ANOVA_test(data, ANOVA_DATA_SIZE);
+  double s2pe_value = S2PE(datos, ANOVA_DATA_SIZE);
+  double S2Factor_value = S2Factor(datos, ANOVA_DATA_SIZE);
+  double valorF = F_Value(datos, ANOVA_DATA_SIZE);
+  bool result = ANOVA_test(datos, ANOVA_DATA_SIZE);
+
+  for (int i = 0; i < ANOVA_DATA_SIZE; i++){
+      for (int j = 0; j < ANOVA_DATA_SIZE; j++){
+          if (j > i)
+          {
+              aux = datos[i][j];
+              datos[i][j] = datos[j][i];
+              datos[j][i] = aux;
+          }
+      }
+  }
 
   //Comienza impresión de los datos graficados
   if (showData)
   {
     Serial.print("{");
     Serial.print("\"accion\":\"anova\",");
-    for (int i = 0; i < SENSORS; i++)
-    {
-      if (i == 0) {
-        Serial.print("\"sensor");
-        Serial.print((i+1));
-      }
-      else {
-        Serial.print(",\"sensor");
-        Serial.print(i+1);
-      }
-        Serial.print("\": [");
-      for (int j = 0; j < ANOVA_DATA_SIZE; j++)
-      {
-        if (j == 0) Serial.print(*data[j,i]);
-        else {
-          Serial.print(",");
-          Serial.print(*data[j,i]);
-        }
-      }
-      Serial.print("]");
-    }
+    // for (int i = 0; i < SENSORS; i++)
+    // {
+    //   if (i == 0) {
+    //     Serial.print("\"sensor");
+    //     Serial.print((i+1));
+    //   }
+    //   else {
+    //     Serial.print(",\"sensor");
+    //     Serial.print(i+1);
+    //   }
+    //     Serial.print("\": [");
+    //   for (int j = 0; j < ANOVA_DATA_SIZE; j++)
+    //   {
+    //     if (j == 0) Serial.print(datos[j][i]);
+    //     else {
+    //       Serial.print(",");
+    //       Serial.print(datos[j][i]);
+    //     }
+    //   }
+    //   Serial.print("]");
+    // }
+    // Serial.print(",");
+    Serial.print("\"S2PE\":");
+    Serial.print(s2pe_value);
+    Serial.print(",");
+    Serial.print("\"S2_factor\":");
+    Serial.print(S2Factor_value);
+    Serial.print(",");
+    Serial.print("\"AnovaValue\":");
+    Serial.print(valorF);
     Serial.print(",");
     Serial.print("\"AnovaResult\":");
     if (result) Serial.print("true");
@@ -285,7 +328,7 @@ void SPL_Algorithm(bool showData) {
     Serial.println("}");
   }
 
-  if (result)
+  if (true)
   {
     int diferenciaY = sensor5.getData() - sensor1.getData();
     int diferenciaX = sensor2.getData() - sensor4.getData();

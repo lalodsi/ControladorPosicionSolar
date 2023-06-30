@@ -41,19 +41,19 @@ void loop(){
     const float umbral = 30; // Sirve de referencia para la comparación
     const int delay_time = 100;
     // Comienza proceso de recolección de datos
-    // for (int i = 0; i < ANOVA_DATA_SIZE; i++)
-    // {
-    //     datos[i][0] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_1);
-    //     datos[i][1] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_2);
-    //     datos[i][2] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_3);
-    //     datos[i][3] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_4);
-    //     datos[i][4] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_5);
+    for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+    {
+        datos[i][0] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_1);
+        datos[i][1] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_2);
+        datos[i][2] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_3);
+        datos[i][3] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_4);
+        datos[i][4] = (double)analogRead(PIN_ANALOG_LIGHT_SENSOR_5);
 
-    //     delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
-    //     digitalWrite(LED_BUILTIN, HIGH);
-    //     delay(delay_time);
-    //     digitalWrite(LED_BUILTIN, LOW);
-    // }
+        delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(delay_time);
+        digitalWrite(LED_BUILTIN, LOW);
+    }
     delay(delay_time * 10);
     // Print Matrix
     Serial.print("Mediciones\n");

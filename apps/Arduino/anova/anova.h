@@ -105,10 +105,12 @@ double* Varianzas(double datos[5][5], int size){
  * @return double resultado
  */
 double S2PE(double datos[5][5], int size){
-    double *varianzas = Varianzas(datos, size);
+    double *varianzas;
     varianzas = (double *) malloc( size * sizeof(double) );
     varianzas = Varianzas(datos, size);
-    return Promedio(varianzas, size);
+    double promedioVarianzas = Promedio(varianzas, size);
+    delete varianzas;
+    return promedioVarianzas;
 }
 
 /**
@@ -122,12 +124,15 @@ double S2PE(double datos[5][5], int size){
 double S2Factor(double datos[5][5], int size){
     // Calcular promedios
     double *promedios = Promedios(datos, size, size);
+    promedios = (double *) malloc( size * sizeof(double) );
+    promedios = Promedios(datos, size, size);
     double promedioTotal = Promedio(promedios, size);
     // Diferencia al cuadrado
     double diff_to_square = 0;
     for (int i = 0; i < size; i++)
         diff_to_square += pow(promedios[i] - promedioTotal, 2);
     double gdl = (double)size - 1;
+    delete promedios;
     return diff_to_square * size / gdl;
 }
 
@@ -173,8 +178,7 @@ double anovaTest2(double data[5][5]){
 */
 bool ANOVA_test(double datos[5][5], int size){
     double f_test = F_Value(datos, size);
-    if(f_test > F_CRITICA) return true;
-    return false;
+    return (f_test > F_CRITICA);
 }
 
 /**
