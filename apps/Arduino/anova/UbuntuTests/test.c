@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+// Check https://stackoverflow.com/questions/8671366/undefined-reference-to-pow-and-floor to compile usint math
+//      functions in Ubuntu
 #include <math.h>
 #include <stdbool.h>
 #include "../anova.h"
