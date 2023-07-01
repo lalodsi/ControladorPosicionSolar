@@ -119,6 +119,7 @@ class ArduinoSerial{
      */
     receiveData = function (socket, sendData) {
         console.log("Activada la recepción de información desde arduino");
+        let Attempts = 0;
         this.parser.on('data', data => {
             try{
                 console.log(data);
@@ -215,7 +216,11 @@ class ArduinoSerial{
             }
             catch(err){
                 console.log("LLegó un dato erroneo: ",err.message);
-                this.disconnect(socket, this.server, true, err.message);
+                Attempts++;
+                if (Attempts > 10) {
+                    console.log("Parece que están ocurriendo demasiados errores, se ha desconectado el arduino ",err.message);
+                    this.disconnect(socket, this.server, true, err.message);
+                }
             }
         });
     }
