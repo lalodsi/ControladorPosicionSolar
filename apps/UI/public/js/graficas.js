@@ -229,10 +229,12 @@ const animacionModuloSensores = (data) => {
     const sensor4 = document.getElementById(`sensorUbicacion4`);
     const sensor5 = document.getElementById(`sensorUbicacion5`);
 
-    sensor1.style.backgroundColor = `rgb(10, ${valorSensores[0]}, ${valorSensores[0]})`;
-    sensor2.style.backgroundColor = `rgb(10, ${valorSensores[1]}, ${valorSensores[1]})`;
-    sensor3.style.backgroundColor = `rgb(10, ${valorSensores[2]}, ${valorSensores[2]})`;
-    sensor4.style.backgroundColor = `rgb(10, ${valorSensores[3]}, ${valorSensores[3]})`;
-    sensor5.style.backgroundColor = `rgb(10, ${valorSensores[4]}, ${valorSensores[4]})`;
+    const valorSensoresMapeado = valorSensores.map(value => mapeo(value, 0, 1024, 0, 255));
+
+    sensor1.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[0]}, ${valorSensoresMapeado[0]})`;
+    sensor2.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[1]}, ${valorSensoresMapeado[1]})`;
+    sensor3.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[2]}, ${valorSensoresMapeado[2]})`;
+    sensor4.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[3]}, ${valorSensoresMapeado[3]})`;
+    sensor5.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[4]}, ${valorSensoresMapeado[4]})`;
 
 }

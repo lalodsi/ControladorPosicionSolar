@@ -76,3 +76,7 @@ const makeAviso = (message, type) => {
     const cuerpo = document.getElementsByTagName("body")[0];
     cuerpo.append(aviso);
 }
+
+const mapeo = (x, in_min, in_max, out_min, out_max) => {
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
