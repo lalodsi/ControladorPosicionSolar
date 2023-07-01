@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <math.h>
-#include "anova.h"
-#include "testAnova.h"
+#include "../anova.h"
+#include "../testAnova.h"
 
 
 

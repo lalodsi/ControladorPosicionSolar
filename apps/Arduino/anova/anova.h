@@ -91,6 +91,7 @@ double* Varianzas(double datos[5][5], int size){
     conjuntoVarianzas = (double *) malloc( size * sizeof(double) );
     for (int i = 0; i < size; i++)
         conjuntoVarianzas[i] = Varianza(datos[i], size);
+    // free(conjuntoVarianzas);
     return conjuntoVarianzas;
 }
 
@@ -106,10 +107,10 @@ double* Varianzas(double datos[5][5], int size){
  */
 double S2PE(double datos[5][5], int size){
     double *varianzas;
-    varianzas = (double *) malloc( size * sizeof(double) );
+    // varianzas = (double *) malloc( size * sizeof(double) );
     varianzas = Varianzas(datos, size);
     double promedioVarianzas = Promedio(varianzas, size);
-    delete varianzas;
+    free(varianzas);
     return promedioVarianzas;
 }
 
@@ -124,7 +125,7 @@ double S2PE(double datos[5][5], int size){
 double S2Factor(double datos[5][5], int size){
     // Calcular promedios
     double *promedios = Promedios(datos, size, size);
-    promedios = (double *) malloc( size * sizeof(double) );
+    // promedios = (double *) malloc( size * sizeof(double) );
     promedios = Promedios(datos, size, size);
     double promedioTotal = Promedio(promedios, size);
     // Diferencia al cuadrado
@@ -132,7 +133,7 @@ double S2Factor(double datos[5][5], int size){
     for (int i = 0; i < size; i++)
         diff_to_square += pow(promedios[i] - promedioTotal, 2);
     double gdl = (double)size - 1;
-    delete promedios;
+    free(promedios);
     return diff_to_square * size / gdl;
 }
 
