@@ -32,6 +32,17 @@ function sockets(socket) {
         if (data.testing) {
             setTimeout(()=> arduino.sendData("probar"), 1000 );
         }
+        setTimeout(()=>{
+            if (!arduino.isApproved && arduino.isConnected) {
+                socket.emit(servidor.sockets.versionSoftwareArduino, 
+                    {
+                        hasTheProgram: false,
+                        message: "El dispositivo no tiene el software adecuado"
+                    });    
+                console.log(arduino.mensajes.checkingFailed);
+                arduino.disconnect(socket, servidor, false, "");
+            }
+        }, 5000);
     })
     // Socket para envío de palabras al arduino
     socket.on( servidor.sockets.enviarPalabra, data => {

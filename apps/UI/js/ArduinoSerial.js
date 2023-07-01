@@ -52,17 +52,17 @@ class ArduinoSerial{
         const messages = this.mensajes
         const servidor = this.server;
         // Verificar que el arduino traiga el software
-        setTimeout(()=>{
-            if (!this.isApproved && this.isConnected) {
-                socket.emit(this.server.sockets.versionSoftwareArduino, 
-                    {
-                        hasTheProgram: false,
-                        message: "El dispositivo no tiene el software adecuado"
-                    });    
-                console.log(this.mensajes.checkingFailed);
-                this.disconnect(socket, this.server, false, "");
-            }
-        }, 3000);
+        // setTimeout(()=>{
+        //     if (!this.isApproved && this.isConnected) {
+        //         socket.emit(this.server.sockets.versionSoftwareArduino, 
+        //             {
+        //                 hasTheProgram: false,
+        //                 message: "El dispositivo no tiene el software adecuado"
+        //             });    
+        //         console.log(this.mensajes.checkingFailed);
+        //         this.disconnect(socket, this.server, false, "");
+        //     }
+        // }, 3000);
 
         // return new Promise( function (resolve, reject) {
             console.log(messages.arduinoRequest + port);
