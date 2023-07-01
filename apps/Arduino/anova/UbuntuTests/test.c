@@ -37,44 +37,35 @@ int main(int argc, char const *argv[])
     //traspuesta(datos, ARRAY_SIZE);
 
     printf("Arreglo original \n");
-    // printMatrix(datos, ARRAY_SIZE);
+    printMatrix(datos, ARRAY_SIZE);
 
     //traspuesta(datos, ARRAY_SIZE);
 
+    double *promedios;
+    promedios = Promedios(datos, ARRAY_SIZE, ARRAY_SIZE);
+    printf("Promedio de cada tabla \n");
+    printArray(promedios, ARRAY_SIZE);
 
-    printf("Reservando memoria y liberando \n");
-    while (true)
-    {
-        double **memoria;
-        memoria = (double **) malloc( 100 * sizeof(double) );
-        free(memoria);
-    }
-        double *promedios;
-        promedios = Promedios(datos, ARRAY_SIZE, ARRAY_SIZE);
-        printf("Promedio de cada tabla \n");
-        printArray(promedios, ARRAY_SIZE);
+    // double *varianzas;
+    double *varianzas;
+    varianzas = Varianzas(datos, ARRAY_SIZE);
+    printf("Varianza de cada tabla \n");
+    printArray(varianzas, ARRAY_SIZE);
 
-        // double *varianzas;
-        double *varianzas;
-        varianzas = Varianzas(datos, ARRAY_SIZE);
-        printf("Varianza de cada tabla \n");
-        printArray(varianzas, ARRAY_SIZE);
+    double valorS2PE = S2PE(datos, ARRAY_SIZE);
+    printf("Valor de S2PE: %0.01f \n", valorS2PE);
 
-        double valorS2PE = S2PE(datos, ARRAY_SIZE);
-        printf("Valor de S2PE: %0.01f \n", valorS2PE);
+    double valorS2Factor = S2Factor(datos, ARRAY_SIZE);
+    printf("Valor de S2 Factor: %0.01f \n", valorS2Factor);
 
-        double valorS2Factor = S2Factor(datos, ARRAY_SIZE);
-        printf("Valor de S2 Factor: %0.01f \n", valorS2Factor);
+    double valorF = F_Value(datos, ARRAY_SIZE);
+    printf("Valor F: %0.01f \n", valorF);
 
-        double valorF = F_Value(datos, ARRAY_SIZE);
-        printf("Valor F: %0.01f \n", valorF);
-
-        bool es_diferente = ANOVA_test(datos, ARRAY_SIZE);
-        // free(promedios);
-        // free(varianzas);
-        if (es_diferente) printf("Hay al menos una media diferente");
-        else printf("No hay medias diferentes, se rechaza el tests");
-    
+    bool es_diferente = ANOVA_test(datos, ARRAY_SIZE);
+    free(promedios);
+    free(varianzas);
+    if (es_diferente) printf("Hay al menos una media diferente");
+    else printf("No hay medias diferentes, se rechaza el tests");
 
     return 0;
 }
