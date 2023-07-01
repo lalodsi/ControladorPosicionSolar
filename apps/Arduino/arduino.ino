@@ -34,28 +34,10 @@
 //         Comments and info about the project
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-// Demux
-  #define PIN_DEMUX_SELECT_0          6
-  #define PIN_DEMUX_SELECT_1          7
-  #define PIN_DEMUX_ANALOG            A7
-  #define PIN_DEMUX_VOLTAJE_PANEL       101
-  #define PIN_DEMUX_VOLTAJE_CIRCUITO    102
-  #define PIN_DEMUX_CORRIENTE_PANEL     103
-  #define PIN_DEMUX_CORRIENTE_CIRCUITO  104
-
-#include "./sensor.hpp"
-#include <math.h>
-#include "./MovimientoMotor/motor.h"
-#include "anova/anova.h"
-#include <LiquidCrystal_I2C.h>
-#include "./display/MenuLCD.h"
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Input and Output ports
 ///////////////////////////////////////////////////////////////////////////////////////////////
-//
-  
 // Entradas analogicas
   #define PIN_ANALOG_LIGHT_SENSOR_1   A0
   #define PIN_ANALOG_LIGHT_SENSOR_2   A1
@@ -71,9 +53,23 @@
   #define PIN_ENCODER_DT              9
   #define PIN_ENCODER_CLK             8
   #define PIN_ENCODER_SWITCH          10
-//
+// Demux
+  #define PIN_DEMUX_SELECT_0          6
+  #define PIN_DEMUX_SELECT_1          7
+  #define PIN_DEMUX_ANALOG            A7
+  #define PIN_DEMUX_VOLTAJE_PANEL       101
+  #define PIN_DEMUX_VOLTAJE_CIRCUITO    102
+  #define PIN_DEMUX_CORRIENTE_PANEL     103
+  #define PIN_DEMUX_CORRIENTE_CIRCUITO  104
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
+
+#include "./sensor.hpp"
+#include <math.h>
+#include "./MovimientoMotor/motor.h"
+#include "anova/anova.h"
+#include <LiquidCrystal_I2C.h> // To been installed in Arduino
+#include "./display/MenuLCD.h"
 
 // Tamaño de los arreglos a recibir
   #define ANOVA_DATA_SIZE         5
