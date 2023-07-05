@@ -38,7 +38,6 @@ class ArduinoSerial{
         this.parser = new ReadlineParser();
         this.port.pipe(this.parser);
         this.receiveData(socket);
-        
     }
 
     /**

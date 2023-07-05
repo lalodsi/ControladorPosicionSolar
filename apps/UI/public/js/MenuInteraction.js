@@ -20,7 +20,7 @@
 
 let contenidoSection = "home";
 
-const ponerIconoCargandoEnSeccionPrincipal = function (message) {
+const ponerAnimacionDeEspera = function (message) {
     const contenedor = document.getElementsByClassName("principal")[0];
     contenedor.innerHTML = "";
     contenedor.className = "section principal centrado";
@@ -29,7 +29,7 @@ const ponerIconoCargandoEnSeccionPrincipal = function (message) {
 
 const activarModoMonitoreo = async function (event) {
     if (actualState === "home") {
-        ponerIconoCargandoEnSeccionPrincipal("Activando modo monitoreo");
+        ponerAnimacionDeEspera("Activando modo monitoreo");
         socket.emit(
             eventos.enviarPalabra,
             {
@@ -60,8 +60,8 @@ const activarModoMonitoreo = async function (event) {
     }
 }
 
-const botonRegresar = function () {
-    ponerIconoCargandoEnSeccionPrincipal("Regresando al menu Home");
+const botonRegresarAlMenuHome = function () {
+    ponerAnimacionDeEspera("Regresando al menu Home");
     socket.emit(
         eventos.enviarPalabra,
         {
@@ -85,7 +85,7 @@ const getGraficasSection = function () {
 
 const getControlManualSection = function () {
     contenidoSection = "Modo de Control Manual"
-    ponerIconoCargandoEnSeccionPrincipal("Activando el control manual");
+    ponerAnimacionDeEspera("Activando el control manual");
     socket.emit(
         eventos.enviarPalabra,
         {
@@ -113,7 +113,7 @@ const getControlManualSection = function () {
 
 const getPanelDeControlSection = function () {
     contenidoSection = "Modo de Calibración"
-    ponerIconoCargandoEnSeccionPrincipal("Activando el modo calibración");
+    ponerAnimacionDeEspera("Activando el modo calibración");
     activarCalibracion();
     bloquearBotones(0,1,2,3);
 }
@@ -157,7 +157,7 @@ const btnShowContent = function() {
     graficasButton.addEventListener('click', activarModoMonitoreo);
     manualButton.addEventListener('click', getControlManualSection);
     calibracionButton.addEventListener('click', getPanelDeControlSection);
-    regresarButton.addEventListener('click', botonRegresar);
+    regresarButton.addEventListener('click', botonRegresarAlMenuHome);
     exportButton.addEventListener('click', exportarDatos)
 };
 

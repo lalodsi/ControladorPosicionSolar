@@ -33,6 +33,7 @@ const reaparecerFondo = function () {
      * Además se tiene el detalle de mostrar una sección donde vienen los nombres de los creadores del proyecto
      */
 const introduccion = async function () {
+    // Aparecer la introduccion del inicio
     const fondo = document.getElementById("fondoIntroduccion");
     const estadoConexion = await getMenuConexion();
     const botonContinuar = document.getElementsByClassName("contenedorIntroduccion")[0];

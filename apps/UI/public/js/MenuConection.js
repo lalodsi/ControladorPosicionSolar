@@ -88,7 +88,7 @@ const botonConectarConArduino = function () {
     // Desconección
     const botonDesconectar = document.getElementById('botonDesconectar')
     botonDesconectar.addEventListener('click', ()=>{
-        botonRegresar()
+        botonRegresarAlMenuHome()
         setTimeout(() => {
             socket.emit(eventosSockets.requestConnection, {connect: false})
             reaparecerFondo();
