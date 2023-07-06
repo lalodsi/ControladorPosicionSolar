@@ -1,4 +1,4 @@
-const {SerialPort} = require('serialport');
+const {SerialPort, SerialPortMock} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
@@ -32,12 +32,22 @@ class ArduinoSerial{
      * @param {io.socket} socket objeto websocket necesario en la funcion establishConnection()
      */
     init = async function (port, socket, server, db) {
+        console.log("Showing environment variables");
         await this.wait(500, this.mensajes.connecting);
         this.server = server;
-        this.port = this.establishConnection(port, socket);
-        this.parser = new ReadlineParser();
-        this.port.pipe(this.parser);
-        this.receiveData(socket);
+        try {
+            this.port = this.establishConnection(port, socket);
+        } catch (error) {
+            console.log(error);
+        }
+        this.port.on('open', () => {
+            // Opening port
+            console.log("The port is opened");
+            this.parser = new ReadlineParser();
+            this.port.pipe(this.parser);
+            this.receiveData(socket);
+
+        })
     }
 
     /**
@@ -50,25 +60,15 @@ class ArduinoSerial{
     establishConnection = function (port, socket) {
         const messages = this.mensajes
         const servidor = this.server;
-        // Verificar que el arduino traiga el software
-        // setTimeout(()=>{
-        //     if (!this.isApproved && this.isConnected) {
-        //         socket.emit(this.server.sockets.versionSoftwareArduino, 
-        //             {
-        //                 hasTheProgram: false,
-        //                 message: "El dispositivo no tiene el software adecuado"
-        //             });    
-        //         console.log(this.mensajes.checkingFailed);
-        //         this.disconnect(socket, this.server, false, "");
-        //     }
-        // }, 3000);
+
 
         // return new Promise( function (resolve, reject) {
             console.log(messages.arduinoRequest + port);
-            const serial = new SerialPort({
-                path: port,
-                baudRate: 9600
-            }, function (err) {
+            SerialPortMock.binding.createPort(port);
+            const serial = new SerialPortMock({
+                    path: port,
+                    baudRate: 9600
+                }, function (err) {
                 if (err) {
                     console.log(messages.errorConnecting, err);
                     socket.emit(servidor.sockets.estadoArduino, 
@@ -91,6 +91,7 @@ class ArduinoSerial{
                     this.isApproved = false;
                 }
             });
+            // console.log(serial);
             // resolve(serial)
         // })
         return serial;
