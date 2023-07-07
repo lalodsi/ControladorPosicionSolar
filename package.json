@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/lalodsi/ControladorPosicionSolar#readme",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "lerna": "^6.0.1"
   }
 }

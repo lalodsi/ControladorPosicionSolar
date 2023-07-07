@@ -1,4 +1,4 @@
-const {SerialPort} = require('serialport');
+const {SerialPort, SerialPortMock} = require('serialport');
 const {ReadlineParser} = require('@serialport/parser-readline');
 const { autoDetect } = require('@serialport/bindings-cpp');
 const isOdd = require("is-odd");
@@ -66,10 +66,12 @@ class ArduinoSerial{
 
         // return new Promise( function (resolve, reject) {
             console.log(messages.arduinoRequest + port);
-            const serial = new SerialPort({
+            const mode = process.env.NODE_ENV;
+            const serialOptions = {
                 path: port,
                 baudRate: 9600
-            }, function (err) {
+            };
+            const errorFunction = function (err) {
                 if (err) {
                     console.log(messages.errorConnecting, err);
                     socket.emit(servidor.sockets.estadoArduino, 
@@ -91,7 +93,16 @@ class ArduinoSerial{
                     this.isConnected = true;
                     this.isApproved = false;
                 }
-            });
+            }
+            let serial;
+            if ('PRODUCTION' === mode) {
+                serial = new SerialPort(serialOptions, errorFunction);
+            }
+            if ('DEVELOPMENT' === mode) {
+                SerialPortMock.binding.createPort(port)
+                serial = new SerialPortMock(serialOptions, errorFunction);
+            }
+            
             // resolve(serial)
         // })
         return serial;
