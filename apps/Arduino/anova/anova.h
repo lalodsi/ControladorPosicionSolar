@@ -190,6 +190,21 @@ void TukeyTest() {
     // Todo
 }
 
+// Modify an array to turn it into its transpose
+void transpose(double data[ARRAY_SIZE][ARRAY_SIZE]){
+  double aux = 0;
+  for (int i = 0; i < ARRAY_SIZE; i++){
+    for (int j = 0; j < ARRAY_SIZE; j++){
+      if (j > i)
+      {
+          aux = data[i][j];
+          data[i][j] = data[j][i];
+          data[j][i] = aux;
+      }
+    }
+  }
+}
+
 // void QValue(double *first, double *second, size) {
 //     double Xp = Promedio(first, size);
 //     double Xq = Promedio(second, size);

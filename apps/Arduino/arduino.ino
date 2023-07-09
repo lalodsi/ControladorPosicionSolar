@@ -102,7 +102,6 @@ double temporalSensor2Data = 0;
 double temporalSensor3Data = 0;
 double temporalSensor4Data = 0;
 double temporalSensor5Data = 0;
-double temporalSensor5Data = 0;
 double temporalSensorPanelCurrent = 0;
 double temporalSensorPanelVoltaje = 0;
 double temporalSensorCircuitCurrent = 0;
@@ -303,12 +302,12 @@ void SPL_Algorithm(bool showData) {
     if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
   }
 
-  transpose(&datos);
+  transpose(datos);
 
   // ANOVA analisis, getting only the result
   bool result = ANOVA_test(datos, ANOVA_DATA_SIZE);
 
-  transpose(&datos);
+  transpose(datos);
 
   // Comienza impresión de los datos graficados
   if (showData)
@@ -381,7 +380,7 @@ void SPL_Algorithm(bool showData) {
     }
   }
 
-
+  SPL_Counter++;
 }
 
 void SPA_Algorithm(){
@@ -404,21 +403,6 @@ void getSensorsData(){
     temporalSensorPanelVoltaje = sensor::getDemuxData(PIN_DEMUX_VOLTAJE_PANEL);
     temporalSensorCircuitCurrent = sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO);
     temporalSensorCircuitVoltaje = sensor::getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO);
-}
-
-// Modify an array to turn it into its transpose
-void transpose(*data[ANOVA_DATA_SIZE][ANOVA_DATA_SIZE]){
-  double aux = 0;
-  for (int i = 0; i < ANOVA_DATA_SIZE; i++){
-    for (int j = 0; j < ANOVA_DATA_SIZE; j++){
-      if (j > i)
-      {
-          aux = data[i][j];
-          data[i][j] = data[j][i];
-          data[j][i] = aux;
-      }
-    }
-  }
 }
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
