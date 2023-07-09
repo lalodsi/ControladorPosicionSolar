@@ -6,7 +6,8 @@
   "main": "./app.js",
   "scripts": {
     "update": "git pull origin master; npm run watch",
-    "start": "electron-forge start",
+    "start": "cross-env NODE_ENV=PRODUCTION electron-forge start",
+    "start-dev": "cross-env NODE_ENV=DEVELOPMENT electron-forge start",
     "prueba": "node ./js/pruebaServer",
     "package": "electron-forge package",
     "make": "electron-forge make",
