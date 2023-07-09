@@ -97,7 +97,27 @@ sensor sensor5(PIN_ANALOG_LIGHT_SENSOR_5);
 
 // Temporal variable to save data from serial port
 String serial_info;
+
+////////////////////////
+// Time constants
+////////////////////////
+
+// Default time between each loop function iteration
+#define TIME_MONITORING 50
+// Time delay to take a measurement considerin loops of 50ms
+// Example: If you want to take a second, you have to use a value of 1000ms / 50ms  = 20
+#define TIME_TO_MEASURE 20
+// Counter that has as a limit the TIME_TO_MEASURE
 int monitoringCounter = 0;
+// Time delay between each measurement considering loops of 50ms
+// 50ms x 1 for testing
+// 15s = 1500ms = 50ms x 20 for real data measurement
+// In monitoring mode you have to add the TIME_TO_MEASURE
+#define SPL_TIME_MEASUREMENT 1
+// Counter to define the time between each measugement made by the hardware
+// It considers a 
+int SPL_Counter = 0;       // Contador para el algoritmo SPL
+
 
 //////////////////////////
 // Display LCD
@@ -172,16 +192,12 @@ void loop() {
 
   SPL_Algorithm(false);
 
-  // setElevationAngle(5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
-  // setAzimutAngle(20, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut)
-  // setElevationAngle(5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
-  // setElevationAngle(-5.0, PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
-  // setElevationAngle(-5, PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP);
-
+  // For arduino nano 33 ble
   if (Serial.available())
   {
     serialEvent();
   }
+  delay(TIME_MONITORING);
 }
 
 /**
@@ -192,7 +208,7 @@ void modoMonitoreo(){
 
   while (true)
   {
-    if (monitoringCounter % 1 == 0)
+    if (monitoringCounter % TIME_TO_MEASURE == 0)
     {
       Serial.print("{");
       Serial.print("\"accion\":\"monitoreo\",");
@@ -227,32 +243,29 @@ void modoMonitoreo(){
         break;
       }
     }
-    SPL_Algorithm(true);
-    // delay(50);
+    SPL_Algorithm(false);
+    delay(TIME_MONITORING);
   }
 }
 
 void SPL_Algorithm(bool showData) {
-  // const float umbral = 30; // Sirve de referencia para la comparación
   const float umbral = 30; // Sirve de referencia para la comparación
-  const int delay_time = 5;
-
+  int SPLDataArrayIndex = 0;
   // Comienza proceso de recolección de datos
   for (int i = 0; i < ANOVA_DATA_SIZE; i++)
+  if (SPL_Counter % SPL_TIME_MEASUREMENT == 0)
   {
     datos[i][0] = sensor1.getData();
     datos[i][1] = sensor2.getData();
     datos[i][2] = sensor3.getData();
     datos[i][3] = sensor4.getData();
     datos[i][4] = sensor5.getData();
-    delay(delay_time); // Tiempo de espera antes de la siguiente etapa de medicion
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(delay_time);
-    digitalWrite(LED_BUILTIN, LOW);
+    SPLDataArrayIndex++;
+    if (SPLDataArrayIndex >= ANOVA_DATA_SIZE) SPLDataArrayIndex = 0;
   }
 
   // Transpuesta
-   double aux = 0;
+  double aux = 0;
 
   for (int i = 0; i < ANOVA_DATA_SIZE; i++){
       for (int j = 0; j < ANOVA_DATA_SIZE; j++){
@@ -265,10 +278,7 @@ void SPL_Algorithm(bool showData) {
       }
   }
 
-  // Analisis ANOVA
-  double s2pe_value = S2PE(datos, ANOVA_DATA_SIZE);
-  double S2Factor_value = S2Factor(datos, ANOVA_DATA_SIZE);
-  double valorF = F_Value(datos, ANOVA_DATA_SIZE);
+  // ANOVA analisis, getting only the result
   bool result = ANOVA_test(datos, ANOVA_DATA_SIZE);
 
   for (int i = 0; i < ANOVA_DATA_SIZE; i++){
@@ -282,7 +292,7 @@ void SPL_Algorithm(bool showData) {
       }
   }
 
-  //Comienza impresión de los datos graficados
+  // Comienza impresión de los datos graficados
   if (showData)
   {
     Serial.print("{");
@@ -309,22 +319,22 @@ void SPL_Algorithm(bool showData) {
     //   Serial.print("]");
     // }
     // Serial.print(",");
-    Serial.print("\"S2PE\":");
-    Serial.print(s2pe_value);
-    Serial.print(",");
-    Serial.print("\"S2_factor\":");
-    Serial.print(S2Factor_value);
-    Serial.print(",");
-    Serial.print("\"AnovaValue\":");
-    Serial.print(valorF);
-    Serial.print(",");
+    // Serial.print("\"S2PE\":");
+    // Serial.print(s2pe_value);
+    // Serial.print(",");
+    // Serial.print("\"S2_factor\":");
+    // Serial.print(S2Factor_value);
+    // Serial.print(",");
+    // Serial.print("\"AnovaValue\":");
+    // Serial.print(valorF);
+    // Serial.print(",");
     Serial.print("\"AnovaResult\":");
     if (result) Serial.print("true");
     else Serial.print("false");
     Serial.println("}");
   }
 
-  if (true)
+  if (result)
   {
     int diferenciaY = sensor5.getData() - sensor1.getData();
     int diferenciaX = sensor2.getData() - sensor4.getData();
@@ -352,6 +362,8 @@ void SPL_Algorithm(bool showData) {
       }
     }
   }
+
+
 }
 
 /**
@@ -471,10 +483,6 @@ void serialEvent(){
   Serial.print("\"accion\":\"changeMenu\",");
   Serial.print("\"menu\":\"home\"");
   Serial.println("}");
-
-  // digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-  delay(50);                       // wait for a second
-  // digitalWrite(LED_BUILTIN, LOW);
 }
 
 // Funciones para el uso del Display LCD
@@ -496,9 +504,9 @@ void readEncoder(){
 bool debounce(byte input){
 	bool state = false;
 	if(! digitalRead(input)){
-		delay(200);
+		delay(20);
 		while(! digitalRead(input));
-		delay(200);
+		delay(20);
 		state = true;
 	}      
 	return state;   
