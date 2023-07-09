@@ -70,6 +70,7 @@
 #include "anova/anova.h"
 #include <LiquidCrystal_I2C.h> // To been installed in Arduino
 #include "./display/MenuLCD.h"
+#include "./spa/spa.c"
 
 // Tamaño de los arreglos a recibir
   #define ANOVA_DATA_SIZE         5
@@ -131,7 +132,34 @@ int prevNivel = 0;
 // Contador para saber la posicion del encoder según su número
 unsigned int contadorEncoder = 0;
 
+
+// Inicializar algoritmo SPA
+spa_data spa;
+int spa_result;
+
 void setup() {
+
+  spa.year          = 2022;
+  spa.month         = 3;
+  spa.day           = 13;
+  spa.hour          = 13;
+  spa.minute        = 00;
+  spa.second        = 00;
+  
+  spa.timezone      = -5.0;
+  spa.delta_ut1     = 0;
+  spa.delta_t       = 67;
+  spa.longitude     = -99.21278;
+  spa.latitude      = 19.37861;
+  spa.elevation     = 2330.0;
+  spa.pressure      = 580;
+  spa.temperature   = 11;
+  spa.slope         = 0;
+  spa.azm_rotation  = 208;
+  spa.atmos_refract = 0.5667;
+  spa.function      = SPA_ALL;
+
+  spa_result = spa_calculate(&spa);
 
   // Start the display LCD
   lcd.init();
@@ -366,6 +394,9 @@ void SPL_Algorithm(bool showData) {
 
 }
 
+void SPA_Algorithm(){
+  // Defining
+}
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
  * 
