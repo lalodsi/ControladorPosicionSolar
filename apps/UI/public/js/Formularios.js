@@ -5,10 +5,10 @@ const activarForms = function () {
     formCalibrarRelojManual();
     formCalibrarRelojAuto();
     formCalibrarPosicionManual();
-    formCalibrarPosicionAuto();
+    // formCalibrarPosicionAuto();
     formCalibrarOrientacion();
 };
-    
+
 /**
  * Programa un envío para la información de la fecha y hora ingresados hacia el arduino
  */
@@ -97,14 +97,14 @@ const formCalibrarPosicionAuto = function () {
  * Programa un envío de la información de la orientación hacia el arduino
  */
 const formCalibrarOrientacion = function () {
-    const formulario = document.getElementById("");
-    setForm("formSetOrientation", (form) => {
-        const orientacion = form.children[2].children[1].value;
-        console.log(orientacion);
+    const button = document.getElementById("setOrientation");
 
+    button.addEventListener('click', () => {
+        const orientacion = document.getElementById("orientation").value;
         const data = {
             orientacion: orientacion
         };
+        console.log(data);
         socket.emit(eventos.calibrarOrientacion, data);
     })
 }
