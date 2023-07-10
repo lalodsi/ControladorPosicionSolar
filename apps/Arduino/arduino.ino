@@ -423,6 +423,15 @@ void modoCalibracion(){
   if (serial_info.equals("position")){
     waitForSerial();
     serial_info = Serial.readString();
+    serial_info.trim();
+
+    int n = serial_info.indexOf(",");
+    String latitudTexto = serial_info.substring(0, n);
+    String longitudTexto = serial_info.substring(n +1);
+    // Conversion
+    spa.longitude = longitudTexto.toFloat();
+    spa.latitude = latitudTexto.toFloat();
+
     Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
   }
   if (serial_info.equals("date")){
