@@ -190,6 +190,7 @@ void setup() {
 
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
+  Serial.setTimeout(300);
 
   // Matriz dinámica para el manejo de informacion
   // datos = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
@@ -417,36 +418,87 @@ void waitForSerial(){
 
 void modoCalibracion(){
   Serial.println("{\"accion\":\"mensaje\",\"message\":\"Calibracion activada\"}");
-  waitForSerial();
 
-  serial_info = Serial.readString();
-  if (serial_info.equals("position")){
+  while (true)
+  {
     waitForSerial();
     serial_info = Serial.readString();
     serial_info.trim();
+    if (serial_info.equals("salir"))
+      break;
 
-    int n = serial_info.indexOf(",");
-    String latitudTexto = serial_info.substring(0, n);
-    String longitudTexto = serial_info.substring(n +1);
-    // Conversion
-    spa.longitude = longitudTexto.toFloat();
-    spa.latitude = latitudTexto.toFloat();
+    if (serial_info.equals("position")){
+      waitForSerial();
+      serial_info = Serial.readString();
+      serial_info.trim();
 
-    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion\"}");
-  }
-  if (serial_info.equals("date")){
-    waitForSerial();
-    serial_info = Serial.readString();
-    // Actualizar la info en el modulo de reloj
-    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora\"}");
-  }
-  if (serial_info.equals("orientation")){
-    waitForSerial();
-    serial_info = Serial.readString();
-    Serial.println("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion\"}");
-  }
+      int n = serial_info.indexOf(",");
+      String latitudTexto = serial_info.substring(0, n);
+      String longitudTexto = serial_info.substring(n +1);
+      // Conversion
+      spa.longitude = longitudTexto.toFloat();
+      spa.latitude = latitudTexto.toFloat();
 
-  Serial.flush();
+      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion a ");
+      Serial.print("latitud: ");
+      Serial.print(latitudTexto);
+      Serial.print(", longitud: ");
+      Serial.print(longitudTexto);
+      Serial.println("\"}");
+    }
+    if (serial_info.equals("date")){
+      waitForSerial();
+      serial_info = Serial.readString();
+      serial_info.trim();
+      // Splitting string
+      int indexStart = 0;
+      int indexEnd = serial_info.indexOf("-");
+      String yearText = serial_info.substring(0, indexEnd);
+      indexStart = indexEnd + 1;
+      indexEnd = serial_info.indexOf("-", indexStart);
+      String monthText = serial_info.substring(indexStart, indexEnd);
+      indexStart = indexEnd + 1;
+      indexEnd = serial_info.indexOf("-", indexStart);
+      String dayText = serial_info.substring(indexStart, indexEnd);
+      indexStart = indexEnd + 1;
+      indexEnd = serial_info.indexOf("-", indexStart);
+      String hourText = serial_info.substring(indexStart, indexEnd);
+      indexStart = indexEnd + 1;
+      indexEnd = serial_info.indexOf("-", indexStart);
+      String minutesText = serial_info.substring(indexStart, indexEnd);
+      String secondsText = serial_info.substring(indexEnd+1);
+      // Converting string
+      // Actualizar la info en el modulo de reloj
+      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora a ");
+      Serial.print(yearText);
+      Serial.print("-");
+      Serial.print(monthText);
+      Serial.print("-");
+      Serial.print(dayText);
+      Serial.print(", ");
+      Serial.print(hourText);
+      Serial.print(":");
+      Serial.print(minutesText);
+      Serial.print(":");
+      Serial.print(secondsText);
+      Serial.println("\"}");
+    }
+    if (serial_info.equals("orientation")){
+      waitForSerial();
+      serial_info = Serial.readString();
+      serial_info.trim();
+
+      spa.azm_rotation = serial_info.toFloat();
+      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion a ");
+      Serial.print(serial_info);
+      Serial.print(" grados");
+      Serial.println("\"}");
+    }
+
+    Serial.flush();
+  }
+  
+
 }
 
 void modoControlManual(){
@@ -523,6 +575,7 @@ void serialEvent(){
     SPL_Algorithm(true);
   }
 
+  Serial.readString();
   Serial.flush();
 
   // MenuPrincipal

@@ -73,7 +73,7 @@ function sockets(socket) {
         console.log(data);
         console.log(`Se cambiará la fecha y hora a ${data.fecha}, ${data.hora}`);
         arduino.sendData("date");
-        setTimeout(() => arduino.sendData(`${data.fecha},${data.hora}`), 1000);
+        setTimeout(() => arduino.sendData(`${data.fecha}-${data.hora}`), 1000);
     } );
     socket.on( servidor.sockets.cambiarPosicion, data =>{
         console.log(`Se cambiará la posición a ${data.latitud}, ${data.longitud}`);
