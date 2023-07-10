@@ -4,22 +4,11 @@
 const activarForms = function () {
     formCalibrarRelojManual();
     formCalibrarRelojAuto();
-    formCalibrarPosicion();
+    formCalibrarPosicionManual();
+    formCalibrarPosicionAuto();
     formCalibrarOrientacion();
 };
     
-/**
- * # setForm
- * Escucha el evento "submit" de todos los forms, evita la recarga y ejecuta
- * la función de callback.
- * Esta función es base para las funciones siguientes:
- * - formCalibrarReloj
- * - formCalibrarPosicion
- * - formCalibrarOrientacion
- * @param {string} id del formulario a evaluar
- * @param {function} callback accion a realizar al ocurrir el evento submit
- */
-
 /**
  * Programa un envío para la información de la fecha y hora ingresados hacia el arduino
  */
@@ -68,18 +57,38 @@ const formCalibrarRelojAuto = function () {
 /**
  * Programa un envío de la información ingresada de latitud y longitud hacia el arduino
  */
-const formCalibrarPosicion = function () {
-    const formulario = document.getElementById("");
-    setForm("formSetPosition", (form)=> {
-        // TypeError: Cannot read properties of undefined (reading 'value')
-        console.log(form);
-        const latitud = form.children[2].children[1].value;
-        const longitud = form.children[2].children[3].value;
-        
+const formCalibrarPosicionManual = function () {
+    const button = document.getElementById("setLocationManual");
+    button.addEventListener('click', () => {
+        const latitud = document.getElementById("latitud").value;
+        const longitud = document.getElementById("longitud").value;
         const dato = {
-            latitud: latitud,
-            longitud: longitud
+            latitud,
+            longitud
         };
+        console.log(dato);
+
+        socket.emit(eventos.calibrarPosicion, dato);
+    })
+}
+const formCalibrarPosicionAuto = function () {
+    const button = document.getElementById("setLocationAuto");
+    button.addEventListener('click', () => {
+        let latitud = 0;
+        let longitud = 0;
+        navigator.geolocation.getCurrentPosition((position) => {
+            const coordenadas = position.coords;
+            latitud = coordenadas.latitude;
+            longitud = coordenadas.longitude;
+        }, (error) => {
+            console.log(error.message);
+        })
+        const dato = {
+            latitud,
+            longitud
+        };
+        console.log(dato);
+
         socket.emit(eventos.calibrarPosicion, dato);
     })
 }

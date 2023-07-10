@@ -20,11 +20,12 @@
         <p class="info">Esta información deberá de estar en formato decimal</p>
         <div class="dosColumnas">
             <label for="latitud">Latitud</label>
-            <input name="latitud" type="number" value="0">
+            <input name="latitud" type="number" value="0" id="latitud">
             <label for="longitud">Longitud</label>
-            <input name="longitud" type="number" value="0">
+            <input name="longitud" type="number" value="0" id="longitud">
         </div>
-        <button class="botonContenido" type="submit">Ingresar posición</button>
+        <button class="botonContenido" type="button" id="setLocationManual">Ingresar posición</button>
+        <!-- <button class="botonContenido" type="button" id="setLocationAuto">Obtener Ubicación Automática</button> -->
     </form>
     <p class="header">Orientación del sistema</p>
     <form id="formSetOrientation">
