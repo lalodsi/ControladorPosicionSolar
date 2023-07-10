@@ -69,6 +69,8 @@ function sockets(socket) {
         setTimeout(() => arduino.sendData(`${data.orientacion}\n`), 1000);
     } );
     socket.on( servidor.sockets.cambiarFechaYHora, data =>{
+        console.log("Mostrar datos desde Server");
+        console.log(data);
         console.log(`Se cambiará la fecha y hora a ${data.fecha}, ${data.hora}`);
         arduino.sendData("date");
         setTimeout(() => arduino.sendData(`${data.fecha},${data.hora}`), 1000);

@@ -8,10 +8,11 @@
         <form id="formSetTime">
             <p class="info">Ingresa la fecha y hora exactas de la zona horaria GMT-5</p>
             <p class="info">Esta información será actualizada en el arduino para el correcto funcionamiento del algoritmo</p>
-            <input name="arduinoDate" type="date">
-            <input name="arduinoTime" type="time">
+            <input name="arduinoDate" id="arduinoDate" type="date">
+            <input name="arduinoTime" id="arduinoTime" type="time">
             <br>
-            <button class="botonContenido" type="submit">Calibrar</button>
+            <button class="botonContenido" type="button" id="setTimeManual">Calibrar</button>
+            <button class="botonContenido" type="button" id="setTimeAuto">Auto Calibración</button>
         </form>
     <p class="header">Posición del sistema</p>
     <form id="formSetPosition">
