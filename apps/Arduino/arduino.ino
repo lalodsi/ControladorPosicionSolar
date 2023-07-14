@@ -190,7 +190,7 @@ void setup() {
 
   // initialize serial communications at 9600 bps:
   Serial.begin(9600);
-  Serial.setTimeout(300);
+  Serial.setTimeout(100);
 
   // Matriz dinámica para el manejo de informacion
   // datos = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
@@ -271,6 +271,10 @@ void modoMonitoreo(){
       Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_PANEL));
       Serial.print(",\"corriente_sal\":");
       Serial.print(sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO));
+      Serial.print(",\"pos_azimut\":");
+      Serial.print(posAzimut);
+      Serial.print(",\"pos_elevation\":");
+      Serial.print(posIncidence);
       Serial.println("}");
     }
 

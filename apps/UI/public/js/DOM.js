@@ -21,7 +21,17 @@ const asignaDatos = function (dataArray, id) {
 };
 
 const asignaDatosSensores = function (dataArray) {
-    asignaDatos(dataArray, "#showSensores");
+    let arrayToAssign = [];
+    arrayToAssign.push(dataArray.sensor1);
+    arrayToAssign.push(dataArray.sensor2);
+    arrayToAssign.push(dataArray.sensor3);
+    arrayToAssign.push(dataArray.sensor4);
+    arrayToAssign.push(dataArray.sensor5);
+    arrayToAssign.push(dataArray.voltaje_gen);
+    arrayToAssign.push(dataArray.voltaje_sal);
+    arrayToAssign.push(dataArray.corriente_gen);
+    arrayToAssign.push(dataArray.corriente_sal);
+    asignaDatos(arrayToAssign, "#showSensores");
 };
 
 const asignaDatosPromediosSensores = function (dataArray) {

@@ -161,6 +161,8 @@ const modificaLimites = function (data) {
 }
 
 const analisisANOVA = function (data) {
+    console.log("Haciendo un analisis ANOVA");
+    console.log(data);
     function promedio(conjunto) {
         const suma = conjunto.reduce( (acc, curr) => acc + curr );
         return suma / conjunto.length;
@@ -211,7 +213,11 @@ const analisisANOVA = function (data) {
             conjuntoDeDatos.forEach( datos => datos.shift() );
         }
         if (conjuntoDeDatos[0].length < CANTIDAD_MAXIMA_DE_MEDICIONES){
-            conjuntoDeDatos.forEach( (datos, i) => datos.push(data[i]) );
+            conjuntoDeDatos[0].push(data.sensor1);
+            conjuntoDeDatos[1].push(data.sensor2);
+            conjuntoDeDatos[2].push(data.sensor3);
+            conjuntoDeDatos[3].push(data.sensor4);
+            conjuntoDeDatos[4].push(data.sensor5);
         }
     }
 }
@@ -231,10 +237,11 @@ const animacionModuloSensores = (data) => {
 
     const valorSensoresMapeado = valorSensores.map(value => mapeo(value, 0, 1024, 0, 255));
 
-    sensor1.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[0]}, ${valorSensoresMapeado[0]})`;
-    sensor2.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[1]}, ${valorSensoresMapeado[1]})`;
-    sensor3.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[2]}, ${valorSensoresMapeado[2]})`;
-    sensor4.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[3]}, ${valorSensoresMapeado[3]})`;
-    sensor5.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[4]}, ${valorSensoresMapeado[4]})`;
-
+    if (sensor1) {
+        sensor1.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[0]}, ${valorSensoresMapeado[0]})`;
+        sensor2.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[1]}, ${valorSensoresMapeado[1]})`;
+        sensor3.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[2]}, ${valorSensoresMapeado[2]})`;
+        sensor4.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[3]}, ${valorSensoresMapeado[3]})`;
+        sensor5.style.backgroundColor = `rgb(10, ${valorSensoresMapeado[4]}, ${valorSensoresMapeado[4]})`;
+    }
 }

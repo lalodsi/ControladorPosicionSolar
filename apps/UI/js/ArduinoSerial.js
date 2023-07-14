@@ -128,10 +128,11 @@ class ArduinoSerial{
      */
     receiveData = function (socket, sendData) {
         console.log("Activada la recepción de información desde arduino");
+        console.clear()
         let Attempts = 0;
         this.parser.on('data', data => {
             try{
-                console.log(data);
+                // console.log(data);
                 const datos = JSON.parse(data);
                 // Cambiar Menu
                 if (datos.accion === "changeMenu") {
@@ -274,7 +275,7 @@ class ArduinoSerial{
 
         // console.log(arrayFinal);
         // Enviar datos al servidor por web sockets
-        socket.emit(servidor.sockets.intercambiarDatos, arrayFinal);
+        socket.emit(servidor.sockets.intercambiarDatos, datos);
     }
 
     enviarPuertosDisponibles = async function (socket, servidor) {
