@@ -230,9 +230,22 @@ void loop() {
 			break;
 	}
 
+  // Algoritmo Mixto
   getSensorsData();
+  spa_result = spa_calculate(&spa);
+  bool ANOVAresult = ANOVA_test(datos, ANOVA_DATA_SIZE);
 
-  SPL_Algorithm(false);
+  if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
+    // Using SPA results
+    setAzimutAngle((float)(spa.azm_rotation), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+    setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+  }
+  else{
+    // Applying SPL
+    SPL_Algorithm(false);
+  }
+
+  if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
 
   // For arduino nano 33 ble
   if (Serial.available())
@@ -397,7 +410,7 @@ void SPA_Algorithm(){
   // Defining the algorithm
   if (ANOVA_test(datos, ANOVA_DATA_SIZE))
   {
-    //
+    spa_result = spa_calculate(&spa)
   }
 }
 
@@ -422,7 +435,7 @@ void getSensorsData(){
     datos[dataMeasurementIndex][3] = temporalSensor4Data;
     datos[dataMeasurementIndex][4] = temporalSensor5Data;
     dataMeasurementIndex++;
-    if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
+    // if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
   }
 
   DataMeasureCounter++;
