@@ -71,6 +71,7 @@ socket.on('arduinoConnectionState', data => {
 // Tratamiento de datos en modo monitoreo
 socket.on('data', data => {
     asignaDatosSensores(data);
+    asigmaDatosMediciones(data);
     draw2DPlot("sensores", data);
     // draw3DPlot("robot3d", data);
     analisisANOVA(data);

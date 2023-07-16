@@ -126,9 +126,9 @@ int monitoringCounter = 0;
 // 50ms x 1 for testing
 // 15s = 1500ms = 50ms x 20 for real data measurement
 // In monitoring mode you have to add the TIME_TO_MEASURE
-#define SPL_TIME_MEASUREMENT 1
+#define TIME_FOR_MEASUREMENT 1
 // Counter to define the time between each measugement made by the hardware
-int SPL_Counter = 0;       // Contador para el algoritmo SPL
+int DataMeasureCounter = 0;       // Contador para el algoritmo SPL
 
 
 //////////////////////////
@@ -155,9 +155,8 @@ void setup() {
   spa.month         = 7;
   spa.day           = 9;
   spa.hour          = 10;
-  spa.minute        = 00;
-  spa.second        = 00;
-  
+  spa.minute        = 0;
+  spa.second        = 0;
   spa.timezone      = -5.0;
   spa.delta_ut1     = 0;
   spa.delta_t       = 67;
@@ -231,6 +230,8 @@ void loop() {
 			break;
 	}
 
+  getSensorsData();
+
   SPL_Algorithm(false);
 
   // For arduino nano 33 ble
@@ -275,6 +276,10 @@ void modoMonitoreo(){
       Serial.print(posAzimut);
       Serial.print(",\"pos_elevation\":");
       Serial.print(posIncidence);
+      Serial.print(",\"spa_azimut\":");
+      Serial.print(spa.azm_rotation);
+      Serial.print(",\"spa_elevation\":");
+      Serial.print(spa.incidence);
       Serial.println("}");
     }
 
@@ -296,16 +301,16 @@ void modoMonitoreo(){
 void SPL_Algorithm(bool showData) {
   const float umbral = 30; // Sirve de referencia para la comparación
   // Comienza proceso de recolección de datos
-  if (SPL_Counter % SPL_TIME_MEASUREMENT == 0)
-  {
-    datos[dataMeasurementIndex][0] = sensor1.getData();
-    datos[dataMeasurementIndex][1] = sensor2.getData();
-    datos[dataMeasurementIndex][2] = sensor3.getData();
-    datos[dataMeasurementIndex][3] = sensor4.getData();
-    datos[dataMeasurementIndex][4] = sensor5.getData();
-    dataMeasurementIndex++;
-    if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
-  }
+  // if (DataMeasureCounter % TIME_FOR_MEASUREMENT == 0)
+  // {
+  //   datos[dataMeasurementIndex][0] = temporalSensor1Data;
+  //   datos[dataMeasurementIndex][1] = temporalSensor2Data;
+  //   datos[dataMeasurementIndex][2] = temporalSensor3Data;
+  //   datos[dataMeasurementIndex][3] = temporalSensor4Data;
+  //   datos[dataMeasurementIndex][4] = temporalSensor5Data;
+  //   dataMeasurementIndex++;
+  //   if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
+  // }
 
   transpose(datos);
 
@@ -385,16 +390,15 @@ void SPL_Algorithm(bool showData) {
     }
   }
 
-  SPL_Counter++;
+  DataMeasureCounter++;
 }
 
 void SPA_Algorithm(){
   // Defining the algorithm
-  if (ANOVA_test)
+  if (ANOVA_test(datos, ANOVA_DATA_SIZE))
   {
     //
   }
-  
 }
 
 void getSensorsData(){
@@ -408,6 +412,20 @@ void getSensorsData(){
     temporalSensorPanelVoltaje = sensor::getDemuxData(PIN_DEMUX_VOLTAJE_PANEL);
     temporalSensorCircuitCurrent = sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO);
     temporalSensorCircuitVoltaje = sensor::getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO);
+
+  // Guardar 
+  if (DataMeasureCounter % TIME_FOR_MEASUREMENT == 0)
+  {
+    datos[dataMeasurementIndex][0] = temporalSensor1Data;
+    datos[dataMeasurementIndex][1] = temporalSensor2Data;
+    datos[dataMeasurementIndex][2] = temporalSensor3Data;
+    datos[dataMeasurementIndex][3] = temporalSensor4Data;
+    datos[dataMeasurementIndex][4] = temporalSensor5Data;
+    dataMeasurementIndex++;
+    if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
+  }
+
+  DataMeasureCounter++;
 }
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución

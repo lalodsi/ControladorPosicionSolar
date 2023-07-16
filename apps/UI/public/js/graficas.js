@@ -79,7 +79,14 @@ const conjuntoDeDatos = [
 ];
 
 const draw2DPlot = function (id, datos) {
-    const data = sortData(datos);
+    const dataArray = [
+        datos.sensor1,
+        datos.sensor2,
+        datos.sensor3,
+        datos.sensor4,
+        datos.sensor5,
+    ]
+    const data = sortData(dataArray);
     if (document.getElementById(id)) {
         if (!isPlotted) {
             
@@ -161,8 +168,8 @@ const modificaLimites = function (data) {
 }
 
 const analisisANOVA = function (data) {
-    console.log("Haciendo un analisis ANOVA");
-    console.log(data);
+    console.log("Datos");
+    console.log(conjuntoDeDatos);
     function promedio(conjunto) {
         const suma = conjunto.reduce( (acc, curr) => acc + curr );
         return suma / conjunto.length;
@@ -172,6 +179,7 @@ const analisisANOVA = function (data) {
 
     // Teniendo la cantidad de muestras adecuadas se hace el procedimiento
     if (cantidadMediciones > CANTIDAD_MAXIMA_DE_MEDICIONES) {
+        console.log("Haciendo ANOVA");
         cantidadMediciones = 1;
 
         //Datos principales
@@ -181,7 +189,7 @@ const analisisANOVA = function (data) {
         const promedios = conjuntoDeDatos.map( promedio );
         // Varianza de cada grupo
         const varianzas = promedios.map( (promX, index) => {
-            const diferenciaAlCuadrado = conjuntoDeDatos[index].reduce( (acc, curr) => acc += Math.pow(curr - promX,2), 0);
+            const diferenciaAlCuadrado = conjuntoDeDatos[index].reduce( (acc, curr) => acc += Math.pow(curr - promX, 2), 0);
             return (diferenciaAlCuadrado / gradosDeLibertad);
         } );
         // Promedio de los promedios de los sensores
@@ -201,7 +209,6 @@ const analisisANOVA = function (data) {
         asignaDatosF(F);
 
         // Borrar
-        conjuntoDeDatos.forEach( data => data = [] );
         conjuntoDeDatos[0] = [];
         conjuntoDeDatos[1] = [];
         conjuntoDeDatos[2] = [];
@@ -209,10 +216,12 @@ const analisisANOVA = function (data) {
         conjuntoDeDatos[4] = [];
     }
     else{
-        if (conjuntoDeDatos[0].length > CANTIDAD_MAXIMA_DE_MEDICIONES) {
+        if (conjuntoDeDatos[0].length >= CANTIDAD_MAXIMA_DE_MEDICIONES) {
             conjuntoDeDatos.forEach( datos => datos.shift() );
+            console.log("Haciendo shift");
         }
         if (conjuntoDeDatos[0].length < CANTIDAD_MAXIMA_DE_MEDICIONES){
+            console.log("Haciendo push");
             conjuntoDeDatos[0].push(data.sensor1);
             conjuntoDeDatos[1].push(data.sensor2);
             conjuntoDeDatos[2].push(data.sensor3);
@@ -225,9 +234,11 @@ const analisisANOVA = function (data) {
 const animacionModuloSensores = (data) => {
     const valorSensores = [];
 
-    for (let i = 0; i < 5; i++) {
-        valorSensores.push(data[i]);
-    }
+    valorSensores.push(data.sensor1);
+    valorSensores.push(data.sensor2);
+    valorSensores.push(data.sensor3);
+    valorSensores.push(data.sensor4);
+    valorSensores.push(data.sensor5);
 
     const sensor1 = document.getElementById(`sensorUbicacion1`);
     const sensor2 = document.getElementById(`sensorUbicacion2`);

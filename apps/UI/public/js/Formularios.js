@@ -42,7 +42,7 @@ const formCalibrarRelojAuto = function () {
             date.getMinutes(),
             date.getSeconds(),
         ];
-        const fecha = `${year}-${month + 1}-${day + 1}`
+        const fecha = `${year}-${month + 1}-${day}`
         const hora = `${hour}-${minutes}-${seconds}`
         const objeto = {
             fecha: fecha,

@@ -34,6 +34,20 @@ const asignaDatosSensores = function (dataArray) {
     asignaDatos(arrayToAssign, "#showSensores");
 };
 
+const asigmaDatosMediciones = function(data) {
+    const valorAzimutSPA = document.getElementById("azimutSPAValue");
+    const valorElevacionSPA = document.getElementById("elevationSPAValue");
+    const valorAzimutMotor = document.getElementById("azimutMotorValue");
+    const valorElevationMotor = document.getElementById("elevationMotorValue");
+    // Assign values
+    if (valorAzimutSPA) {
+        valorAzimutSPA.innerHTML = `${data.spa_azimut}°`;
+        valorElevacionSPA.innerHTML = `${data.spa_elevation}°`;
+        valorAzimutMotor.innerHTML = `${data.pos_azimut}°`;
+        valorElevationMotor.innerHTML = `${data.pos_elevation}°`;
+    }
+}
+
 const asignaDatosPromediosSensores = function (dataArray) {
     asignaDatos(dataArray, "#showPromedios");
 };

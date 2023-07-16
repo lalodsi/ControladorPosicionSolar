@@ -8,11 +8,17 @@
     <div class="dosColumnas">
         <p>Potencia en Watts</p><p class="dato">####</p>
     </div>
+    <p class="header">Resultados Algoritmos</p>
+    <p class="info">Resultados del Algoritmo de Posición Astronómica (SPA) donde sólo se muestra el valor de los grados de azimut y elevación del sistema</p>
+    <div class="dosColumnas">
+        <p>Azimut</p><p id="azimutSPAValue" class="dato">####</p>
+        <p>Elevacion</p><p id="elevationSPAValue" class="dato">####</p>
+    </div>
     <p class="header">Posición de los motores</p>
     <p class="info">Se muestra la posición de los motores del sistema:</p>
     <div class="dosColumnas">
-        <p>Motor Azimut:</p> <p class="dato">####</p>
-        <p>Motor Elevación:</p> <p class="dato">####</p>
+        <p>Motor Azimut:</p> <p id="azimutMotorValue" class="dato">####</p>
+        <p>Motor Elevación:</p> <p id="elevationMotorValue" class="dato">####</p>
     </div>
     <p class="info">Estado de la conexión</p>
     <p class="header">Sensores</p>
@@ -55,12 +61,7 @@
         <p>S2factor:</p> <p class="dato" id="showS2factor">####</p>
         <p>F:</p> <p class="dato" id="showF">####</p>
     </div>
-    <!-- <p class="header">Resultados Algoritmos</p>
-    <p class="info">Algoritmo de Posición Astronómica</p>
-    <div class="dosColumnas">
-        <p>Azimut</p><p class="dato">###</p>
-        <p>Elevacion</p><p class="dato">###</p>
-    </div>
+    <!--
     <p class="info">Algoritmo de Seguimiento de punto luminoso</p>
     <div class="dosColumnas">
         <p>Azimut</p><p class="dato">###</p>
