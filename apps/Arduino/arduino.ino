@@ -117,19 +117,16 @@ String serial_info;
 // Time constants
 ////////////////////////
 
+// Counter of delays of 50ms that the loop function takes.
+int programCounter = 0;
 // Default time between each loop function iteration
 #define DEFAULT_PROGRAM_DELAY 50
 // Time delay to take a measurement in seconds
-#define TIME_BETWEEN_EACH_MEASURE 1
-// Counter of delays of 50ms that the loop function takes.
-int programCounter = 0;
-// Time delay between each measurement considering loops of 50ms
-// 50ms x 1 for testing
-// 15s = 1500ms = 50ms x 20 for real data measurement
-// In monitoring mode you have to add the TIME_BETWEEN_EACH_MEASURE
-#define TIME_FOR_MEASUREMENT 1
+#define TIME_TO_MEASURE_IN_MONITORING 1
+// Time delay between each measurement in seconds
+#define TIME_TO_MEASUREMENT 1
 // Time delay to get data again from SPA algorithm
-// It's defined to 5 minutes
+// It's defined to 300s = 5 minutes
 #define TIME_TO_RECALCULATE_SPA 300
 // Counter to define the time between each measugement made by the hardware
 int DataMeasureCounter = 0;       // Contador para el algoritmo SPL
@@ -250,12 +247,22 @@ void loop() {
 			break;
 	}
 
-  getSensorsData();
+  if (waitUntil(TIME_TO_MEASUREMENT)){
+    getSensorsData();
+  }
 
   mixed_Algorithm();
 
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
+    // Updating internal clock
+    spa.year = rtc.now().year();
+    spa.month = rtc.now().month();
+    spa.day = rtc.now().day();
+    spa.hour = rtc.now().hour();
+    spa.minute = rtc.now().minute();
+    spa.second = rtc.now().second();
+    // Recalculate SPA
     SPA_Algorithm();
   }
   
@@ -269,6 +276,9 @@ void loop() {
   programCounter++;
 }
 
+/**
+ * Make the mixed Algorithm
+*/
 void mixed_Algorithm(){
   spa_result = spa_calculate(&spa);
 
@@ -297,6 +307,9 @@ void mixed_Algorithm(){
   }
 }
 
+/**
+ * Check if the defined time has elapsed
+*/
 bool waitUntil(int delayTime){
   return (programCounter % (20 * delayTime) == 0);
 }
@@ -308,7 +321,7 @@ void modoMonitoreo(){
 
   while (true)
   {
-    if (programCounter % (TIME_BETWEEN_EACH_MEASURE * 20) == 0)
+    if (waitUntil(TIME_TO_MEASURE_IN_MONITORING))
     {
       Serial.print("{");
       Serial.print("\"accion\":\"monitoreo\",");
@@ -444,6 +457,9 @@ int SPA_Algorithm(){
   return spa_calculate(&spa);
 }
 
+/**
+ * Get data from all sensors
+*/
 void getSensorsData(){
   // Proceso de recolección de datos
     temporalSensor1Data = sensor1.getData();
@@ -456,9 +472,7 @@ void getSensorsData(){
     temporalSensorCircuitCurrent = sensor::getDemuxData(PIN_DEMUX_CORRIENTE_CIRCUITO);
     temporalSensorCircuitVoltaje = sensor::getDemuxData(PIN_DEMUX_VOLTAJE_CIRCUITO);
 
-  // Guardar 
-  if (DataMeasureCounter % TIME_FOR_MEASUREMENT == 0)
-  {
+  // Save data in an array
     datos[dataMeasurementIndex][0] = temporalSensor1Data;
     datos[dataMeasurementIndex][1] = temporalSensor2Data;
     datos[dataMeasurementIndex][2] = temporalSensor3Data;
@@ -466,9 +480,6 @@ void getSensorsData(){
     datos[dataMeasurementIndex][4] = temporalSensor5Data;
     dataMeasurementIndex++;
     if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
-  }
-
-  DataMeasureCounter++;
 }
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
