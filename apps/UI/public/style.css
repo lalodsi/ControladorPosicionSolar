@@ -102,6 +102,21 @@ body{
     border-radius: 10px;
     margin-right: 10px;
 }
+.poleResetButton{
+    /*  */
+    background-color: transparent;
+    border: transparent;
+}
+.poleResetButton:hover{
+    /*  */
+    background-color: var(--verdeDiscreto);
+    border: transparent;
+}
+.poleResetButton:active{
+    /*  */
+    background-color: var(--verdeClaro);
+    border: transparent;
+}
 .titleBarBtns > .topBtn:hover {
     background-color: var(--verdeDiscreto);
 }
