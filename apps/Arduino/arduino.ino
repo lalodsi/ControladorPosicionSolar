@@ -118,17 +118,19 @@ String serial_info;
 ////////////////////////
 
 // Default time between each loop function iteration
-#define TIME_MONITORING 50
-// Time delay to take a measurement considerin loops of 50ms
-// Example: If you want to take a second, you have to use a value of 1000ms / 50ms  = 20
-#define TIME_TO_MEASURE 20
-// Counter that has as a limit the TIME_TO_MEASURE
-int monitoringCounter = 0;
+#define DEFAULT_PROGRAM_DELAY 50
+// Time delay to take a measurement in seconds
+#define TIME_BETWEEN_EACH_MEASURE 1
+// Counter of delays of 50ms that the loop function takes.
+int programCounter = 0;
 // Time delay between each measurement considering loops of 50ms
 // 50ms x 1 for testing
 // 15s = 1500ms = 50ms x 20 for real data measurement
-// In monitoring mode you have to add the TIME_TO_MEASURE
+// In monitoring mode you have to add the TIME_BETWEEN_EACH_MEASURE
 #define TIME_FOR_MEASUREMENT 1
+// Time delay to get data again from SPA algorithm
+// It's defined to 5 minutes
+#define TIME_TO_RECALCULATE_SPA 300
 // Counter to define the time between each measugement made by the hardware
 int DataMeasureCounter = 0;       // Contador para el algoritmo SPL
 
@@ -145,6 +147,12 @@ int prevNivel = 0;
 // Contador para saber la posicion del encoder según su número
 unsigned int contadorEncoder = 0;
 
+//////////////////////////
+// Display LCD
+//////////////////////////
+
+// Inicializando el modulo de reloj
+RTC_DS3231 clockModule;
 
 // Inicializar algoritmo SPA
 spa_data spa;
@@ -187,6 +195,11 @@ void setup() {
   pinMode(PIN_ENCODER_SWITCH, INPUT);
   // Create an interruption in order to use the encoder
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT), readEncoder,RISING);
+
+  if (! clockModule.begin()){
+        Serial.println("Modulo RTC no encontrado");
+        while(1);
+    }
 
   // Motores de movimiento, pruebas
   pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
@@ -237,8 +250,26 @@ void loop() {
 			break;
 	}
 
-  // Algoritmo Mixto
   getSensorsData();
+
+  mixed_Algorithm();
+
+  if (waitUntil(TIME_TO_RECALCULATE_SPA))
+  {
+    SPA_Algorithm();
+  }
+  
+
+  // For arduino nano 33 ble
+  if (Serial.available())
+  {
+    serialEvent();
+  }
+  delay(DEFAULT_PROGRAM_DELAY);
+  programCounter++;
+}
+
+void mixed_Algorithm(){
   spa_result = spa_calculate(&spa);
 
   transpose(datos);
@@ -264,15 +295,11 @@ void loop() {
 
     dataMeasurementIndex = 0;
   }
-
-  // For arduino nano 33 ble
-  if (Serial.available())
-  {
-    serialEvent();
-  }
-  delay(TIME_MONITORING);
 }
 
+bool waitUntil(int delayTime){
+  return (programCounter % (20 * delayTime) == 0);
+}
 /**
  * @brief Lee la información de los sensores y la envía hacia el puerto serie en
  * formato JSON
@@ -281,7 +308,7 @@ void modoMonitoreo(){
 
   while (true)
   {
-    if (monitoringCounter % TIME_TO_MEASURE == 0)
+    if (programCounter % (TIME_BETWEEN_EACH_MEASURE * 20) == 0)
     {
       Serial.print("{");
       Serial.print("\"accion\":\"monitoreo\",");
@@ -314,9 +341,10 @@ void modoMonitoreo(){
       Serial.println("}");
     }
 
-    monitoringCounter++;
+    programCounter++;
     if (Serial.available())
     {
+      programCounter = 0;
       serial_info = Serial.readString();
       serial_info.trim();
       if (serial_info.equals("salir"))
@@ -325,29 +353,16 @@ void modoMonitoreo(){
       }
     }
     SPL_Algorithm(false);
-    delay(TIME_MONITORING);
+    delay(DEFAULT_PROGRAM_DELAY);
   }
 }
 
 void SPL_Algorithm(bool showData) {
   const float umbral = 30; // Sirve de referencia para la comparación
-  // Comienza proceso de recolección de datos
-  // if (DataMeasureCounter % TIME_FOR_MEASUREMENT == 0)
-  // {
-  //   datos[dataMeasurementIndex][0] = temporalSensor1Data;
-  //   datos[dataMeasurementIndex][1] = temporalSensor2Data;
-  //   datos[dataMeasurementIndex][2] = temporalSensor3Data;
-  //   datos[dataMeasurementIndex][3] = temporalSensor4Data;
-  //   datos[dataMeasurementIndex][4] = temporalSensor5Data;
-  //   dataMeasurementIndex++;
-  //   if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
-  // }
 
   transpose(datos);
-
   // ANOVA analisis, getting only the result
   bool result = ANOVA_test(datos, ANOVA_DATA_SIZE);
-
   transpose(datos);
 
   // Comienza impresión de los datos graficados
@@ -424,12 +439,9 @@ void SPL_Algorithm(bool showData) {
   DataMeasureCounter++;
 }
 
-void SPA_Algorithm(){
-  // Defining the algorithm
-  if (ANOVA_test(datos, ANOVA_DATA_SIZE))
-  {
-    spa_result = spa_calculate(&spa);
-  }
+int SPA_Algorithm(){
+  // Using the algorithm
+  return spa_calculate(&spa);
 }
 
 void getSensorsData(){
@@ -453,7 +465,7 @@ void getSensorsData(){
     datos[dataMeasurementIndex][3] = temporalSensor4Data;
     datos[dataMeasurementIndex][4] = temporalSensor5Data;
     dataMeasurementIndex++;
-    // if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
+    if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
   }
 
   DataMeasureCounter++;
