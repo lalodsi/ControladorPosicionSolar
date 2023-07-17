@@ -160,13 +160,15 @@ void setup() {
   spa.timezone      = -5.0;
   spa.delta_ut1     = 0;
   spa.delta_t       = 67;
-  spa.longitude     = -99.21278;
-  spa.latitude      = 19.37861;
-  spa.elevation     = 2330.0;
-  spa.pressure      = 580;
-  spa.temperature   = 11;
+  spa.longitude     = -100.2841667;
+  spa.latitude      = 20.54138889;
+  spa.elevation     = 2000.0;
+  spa.pressure      = 1019;
+  // Temperatura media anual
+  // Querétaro: https://cuentame.inegi.org.mx/monografias/informacion/queret/territorio/clima.aspx
+  spa.temperature   = 18;
   spa.slope         = 0;
-  spa.azm_rotation  = 208;
+  spa.azm_rotation  = 0;
   spa.atmos_refract = 0.5667;
   spa.function      = SPA_ALL;
 
