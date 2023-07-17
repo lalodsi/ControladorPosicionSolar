@@ -172,6 +172,9 @@ void setup() {
 
   spa_result = spa_calculate(&spa);
 
+  posAzimut = spa.azimuth;
+  posIncidence = spa.incidence;
+
   // Start the display LCD
   lcd.init();
   lcd.backlight();
