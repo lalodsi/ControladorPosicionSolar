@@ -244,7 +244,7 @@ void loop() {
   transpose(datos);
 
   if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
-    if (ANOVAresult)
+    if (sensor3.getData() > 30)
     {
       float diffAzimut = abs(spa.azimuth - posAzimut);
       float diffIncidence = abs(spa.incidence - posIncidence);
