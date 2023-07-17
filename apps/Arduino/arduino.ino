@@ -153,11 +153,11 @@ void setup() {
   // Check spa.h file to know how to change each variable
   spa.year          = 2023;
   spa.month         = 7;
-  spa.day           = 9;
-  spa.hour          = 10;
+  spa.day           = 17;
+  spa.hour          = 14;
   spa.minute        = 0;
   spa.second        = 0;
-  spa.timezone      = -5.0;
+  spa.timezone      = -6.0;
   spa.delta_ut1     = 0;
   spa.delta_t       = 67;
   spa.longitude     = -100.2841667;
@@ -168,7 +168,7 @@ void setup() {
   // Querétaro: https://cuentame.inegi.org.mx/monografias/informacion/queret/territorio/clima.aspx
   spa.temperature   = 18;
   spa.slope         = 0;
-  spa.azm_rotation  = 0;
+  spa.azm_rotation  = 5;
   spa.atmos_refract = 0.5667;
   spa.function      = SPA_ALL;
 
@@ -241,16 +241,19 @@ void loop() {
   bool ANOVAresult = ANOVA_test(datos, ANOVA_DATA_SIZE);
 
   if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
-    // Using SPA results
-    setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
-    setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
-  }
-  else{
-    // Applying SPL
-    SPL_Algorithm(false);
-  }
+    if (ANOVAresult)
+    {
+      // Applying SPL
+      SPL_Algorithm(false);
+    }
+    else{
+      // Using SPA results
+      setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+      setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+    }
 
-  if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
+    dataMeasurementIndex = 0;
+  }
 
   // For arduino nano 33 ble
   if (Serial.available())
