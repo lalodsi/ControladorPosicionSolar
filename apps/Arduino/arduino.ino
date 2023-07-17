@@ -238,13 +238,21 @@ void loop() {
   // Algoritmo Mixto
   getSensorsData();
   spa_result = spa_calculate(&spa);
+
+  transpose(datos);
   bool ANOVAresult = ANOVA_test(datos, ANOVA_DATA_SIZE);
+  transpose(datos);
 
   if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
     if (ANOVAresult)
     {
+      float diffAzimut = abs(spa.azimuth - posAzimut);
+      float diffIncidence = abs(spa.incidence - posIncidence);
       // Applying SPL
-      SPL_Algorithm(false);
+      if (diffAzimut < 15 || diffIncidence < 15)
+      {
+        SPL_Algorithm(false);
+      }
     }
     else{
       // Using SPA results
