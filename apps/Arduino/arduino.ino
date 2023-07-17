@@ -237,7 +237,7 @@ void loop() {
 
   if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
     // Using SPA results
-    setAzimutAngle((float)(spa.azm_rotation), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+    setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
     setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   }
   else{
@@ -290,7 +290,7 @@ void modoMonitoreo(){
       Serial.print(",\"pos_elevation\":");
       Serial.print(posIncidence);
       Serial.print(",\"spa_azimut\":");
-      Serial.print(spa.azm_rotation);
+      Serial.print(spa.azimuth);
       Serial.print(",\"spa_elevation\":");
       Serial.print(spa.incidence);
       Serial.println("}");
@@ -410,7 +410,7 @@ void SPA_Algorithm(){
   // Defining the algorithm
   if (ANOVA_test(datos, ANOVA_DATA_SIZE))
   {
-    spa_result = spa_calculate(&spa)
+    spa_result = spa_calculate(&spa);
   }
 }
 
@@ -503,6 +503,12 @@ void modoCalibracion(){
       String minutesText = serial_info.substring(indexStart, indexEnd);
       String secondsText = serial_info.substring(indexEnd+1);
       // Converting string
+      spa.year = yearText.toInt();
+      spa.month = monthText.toInt();
+      spa.day = dayText.toInt();
+      spa.hour = hourText.toInt();
+      spa.minute = minutesText.toInt();
+      spa.second = secondsText.toInt();
       // Actualizar la info en el modulo de reloj
       Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora a ");
       Serial.print(yearText);
@@ -523,11 +529,14 @@ void modoCalibracion(){
       serial_info = Serial.readString();
       serial_info.trim();
 
-      spa.azm_rotation = serial_info.toFloat();
+      spa.azimuth = serial_info.toFloat();
       Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la orientacion a ");
       Serial.print(serial_info);
       Serial.print(" grados");
       Serial.println("\"}");
+
+      // Asignar Datos
+      spa.azm_rotation = serial_info.toFloat();
     }
 
     Serial.flush();
@@ -606,6 +615,9 @@ void serialEvent(){
   if(serial_info.equals("probar")){
     modoPrueba();
   }
+  if(serial_info.equals("reset")){
+    resetearPuntoMedio();
+  }
   if(serial_info.equals("anova")){
     SPL_Algorithm(true);
   }
@@ -618,6 +630,12 @@ void serialEvent(){
   Serial.print("\"accion\":\"changeMenu\",");
   Serial.print("\"menu\":\"home\"");
   Serial.println("}");
+}
+
+void resetearPuntoMedio(){
+  // Posición del panel
+  posAzimut = 0.0f;
+  posIncidence = 0.0f;
 }
 
 // Funciones para el uso del Display LCD

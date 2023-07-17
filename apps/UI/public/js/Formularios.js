@@ -16,7 +16,10 @@ const formCalibrarRelojManual = function () {
     const boton = document.getElementById("setTimeManual");
     boton.addEventListener('click', () => {
         const fecha = document.getElementById("arduinoDate").value;
-        const hora = document.getElementById("arduinoTime").value;
+        const horaWithoutFormat = document.getElementById("arduinoTime").value;
+        const horaSplitted = horaWithoutFormat.split(":");
+        const horaJoined = horaSplitted.join("-")
+        const hora = `${horaJoined}-00`;
         const objeto = {
             fecha: fecha,
             hora: hora
