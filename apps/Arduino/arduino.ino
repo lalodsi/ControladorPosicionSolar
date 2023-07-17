@@ -109,6 +109,8 @@ double temporalSensorPanelVoltaje = 0;
 double temporalSensorCircuitCurrent = 0;
 double temporalSensorCircuitVoltaje = 0;
 
+// Check if the data array was fullfilled
+bool isDataReady = false;
 
 // Temporal variable to save data from serial port
 String serial_info;
@@ -248,7 +250,7 @@ void loop() {
 	}
 
   if (waitUntil(TIME_TO_MEASUREMENT)){
-    getSensorsData();
+    isDataReady = getSensorsData();
   }
 
   mixed_Algorithm();
@@ -286,7 +288,8 @@ void mixed_Algorithm(){
   bool ANOVAresult = ANOVA_test(datos, ANOVA_DATA_SIZE);
   transpose(datos);
 
-  if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
+  // if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
+  if (isDataReady){
     if (ANOVAresult)
     {
       float diffAzimut = abs(spa.azimuth - posAzimut);
@@ -460,7 +463,7 @@ int SPA_Algorithm(){
 /**
  * Get data from all sensors
 */
-void getSensorsData(){
+bool getSensorsData(){
   // Proceso de recolección de datos
     temporalSensor1Data = sensor1.getData();
     temporalSensor2Data = sensor2.getData();
@@ -479,7 +482,11 @@ void getSensorsData(){
     datos[dataMeasurementIndex][3] = temporalSensor4Data;
     datos[dataMeasurementIndex][4] = temporalSensor5Data;
     dataMeasurementIndex++;
-    if (dataMeasurementIndex >= ANOVA_DATA_SIZE) dataMeasurementIndex = 0;
+    if (dataMeasurementIndex >= ANOVA_DATA_SIZE) {
+      dataMeasurementIndex = 0;
+      return true;
+    };
+    return false;
 }
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
