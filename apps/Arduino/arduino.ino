@@ -71,6 +71,8 @@
 #include <LiquidCrystal_I2C.h> // To been installed in Arduino
 #include "./display/MenuLCD.h"
 #include "./spa/spa.c"
+#include <Wire.h>
+#include <RTClib.h>
 
 // Tamaño de los arreglos a recibir
   #define ANOVA_DATA_SIZE         5
