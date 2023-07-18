@@ -80,12 +80,12 @@
   #define SENSORS                 5
 // Variable que contendrá los datos a guardar
 double datos[ANOVA_DATA_SIZE][ANOVA_DATA_SIZE] = {
-        { 0, 0, 0, 0, 0},
-        { 0, 0, 0, 0, 0},
-        { 0, 0, 0, 0, 0},
-        { 0, 0, 0, 0, 0},
-        { 0, 0, 0, 0, 0},
-    };
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0},
+};
 // Permite tener guardado el index de los datos de los sensores
 int dataMeasurementIndex = 0;
 // Posición del panel
@@ -195,10 +195,10 @@ void setup() {
   // Create an interruption in order to use the encoder
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT), readEncoder,RISING);
 
-  if (! clockModule.begin()){
-        Serial.println("Modulo RTC no encontrado");
-        while(1);
-    }
+  // if (! clockModule.begin()){
+  //       Serial.println("Modulo RTC no encontrado");
+  //       while(1);
+  //   }
 
   // Motores de movimiento, pruebas
   pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
@@ -210,6 +210,7 @@ void setup() {
   Serial.begin(9600);
   Serial.setTimeout(100);
 
+  Serial.print("Starting Arduino");
   // Matriz dinámica para el manejo de informacion
   // datos = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
   // for (int i = 0; i < ANOVA_DATA_SIZE; i++)
@@ -282,14 +283,11 @@ void loop() {
  * Make the mixed Algorithm
 */
 void mixed_Algorithm(){
-  spa_result = spa_calculate(&spa);
 
+  if (isDataReady){
   transpose(datos);
   bool ANOVAresult = ANOVA_test(datos, ANOVA_DATA_SIZE);
   transpose(datos);
-
-  // if (dataMeasurementIndex >= ANOVA_DATA_SIZE){
-  if (isDataReady){
     if (ANOVAresult)
     {
       float diffAzimut = abs(spa.azimuth - posAzimut);
