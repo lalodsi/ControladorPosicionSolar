@@ -72,7 +72,7 @@
 #include "./display/MenuLCD.h"
 #include "./spa/spa.c"
 // #include <Wire.h>
-// #include <RTClib.h>
+#include <RTClib.h>
 
 // Tamaño de los arreglos a recibir
   #define ANOVA_DATA_SIZE         5
@@ -151,7 +151,7 @@ unsigned int contadorEncoder = 0;
 //////////////////////////
 
 // Inicializando el modulo de reloj
-// RTC_DS3231 clockModule;
+RTC_DS3231 clockModule;
 
 // Inicializar algoritmo SPA
 spa_data spa;
