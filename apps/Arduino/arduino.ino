@@ -528,6 +528,25 @@ void modoCalibracion(){
       Serial.print(longitudTexto);
       Serial.println("\"}");
     }
+    if (serial_info.equals("currentAngle")){
+      waitForSerial();
+      serial_info = Serial.readString();
+      serial_info.trim();
+
+      int n = serial_info.indexOf(",");
+      String azimutTexto = serial_info.substring(0, n);
+      String elevacionTexto = serial_info.substring(n +1);
+      // Conversion
+      posAzimut = azimutTexto.toFloat();
+      posIncidence = elevacionTexto.toFloat();
+
+      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la posicion a ");
+      Serial.print("azimut: ");
+      Serial.print(azimutTexto);
+      Serial.print(", elevacion: ");
+      Serial.print(elevacionTexto);
+      Serial.println("\"}");
+    }
     if (serial_info.equals("date")){
       waitForSerial();
       serial_info = Serial.readString();

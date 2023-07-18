@@ -17,6 +17,7 @@ class Server{
         cambiarFechaYHora: "setDate",
         cambiarPosicion: "setPosition",
         cambiarOrientacion: "setOrientation",
+        calibrarAngulosActuales: "setCurrentAngles",
         menuArduino: "MenuArduino",
         exportData: "exportData"
     }

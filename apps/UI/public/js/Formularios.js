@@ -7,6 +7,7 @@ const activarForms = function () {
     formCalibrarPosicionManual();
     // formCalibrarPosicionAuto();
     formCalibrarOrientacion();
+    formCalibrarAngulosActuales();
 };
 
 /**
@@ -93,6 +94,20 @@ const formCalibrarPosicionAuto = function () {
         console.log(dato);
 
         socket.emit(eventos.calibrarPosicion, dato);
+    })
+}
+const formCalibrarAngulosActuales = function () {
+    const button = document.getElementById("setCurrentPosition");
+    button.addEventListener('click', () => {
+        const azimut = document.getElementById("currentAzimut").value;
+        const elevacion = document.getElementById("currentElevacion").value;
+        const dato = {
+            azimut,
+            elevacion
+        };
+        console.log(dato);
+
+        socket.emit(eventos.calibrarAngulosActuales, dato);
     })
 }
 

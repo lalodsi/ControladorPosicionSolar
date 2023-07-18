@@ -3,6 +3,7 @@ eventos = {
     calibrarFecha: "setDate",
     calibrarPosicion: "setPosition",
     calibrarOrientacion: "setOrientation",
+    calibrarAngulosActuales: "setCurrentAngles",
     controlarMotores: "setMotores",
     controlarAlgoritmo: "setAlgoritmo",
     exportData: "exportData",

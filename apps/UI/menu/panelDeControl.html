@@ -16,6 +16,19 @@
         </form>
     <p class="header">Posición del sistema</p>
     <form id="formSetPosition">
+        <p class="info">Ingresa las posición de los ángulos de azimut y elevación del sistema</p>
+        <p class="info">Esta información deberá de estar en formato decimal</p>
+        <div class="dosColumnas">
+            <label for="latitud">Azimut</label>
+            <input name="latitud" type="number" value="0" id="currentAzimut">
+            <label for="longitud">Elevación</label>
+            <input name="longitud" type="number" value="0" id="currentElevacion">
+        </div>
+        <button class="botonContenido" type="button" id="setCurrentPosition">Ingresar posición</button>
+        <!-- <button class="botonContenido" type="button" id="setLocationAuto">Obtener Ubicación Automática</button> -->
+    </form>
+    <p class="header">Coordenada de ubicación</p>
+    <form id="formSetPosition">
         <p class="info">Ingresa las coordenadas de ubicación del sistema</p>
         <p class="info">Esta información deberá de estar en formato decimal</p>
         <div class="dosColumnas">
