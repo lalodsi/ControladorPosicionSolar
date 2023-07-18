@@ -195,6 +195,7 @@ void setup() {
   // Create an interruption in order to use the encoder
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT), readEncoder,RISING);
 
+  clockModule.begin();
   // if (! clockModule.begin()){
   //       Serial.println("Modulo RTC no encontrado");
   //       while(1);
@@ -259,12 +260,12 @@ void loop() {
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
     // Updating internal clock
-    // spa.year = clockModule.now().year();
-    // spa.month = clockModule.now().month();
-    // spa.day = clockModule.now().day();
-    // spa.hour = clockModule.now().hour();
-    // spa.minute = clockModule.now().minute();
-    // spa.second = clockModule.now().second();
+    spa.year = clockModule.now().year();
+    spa.month = clockModule.now().month();
+    spa.day = clockModule.now().day();
+    spa.hour = clockModule.now().hour();
+    spa.minute = clockModule.now().minute();
+    spa.second = clockModule.now().second();
     // Recalculate SPA
     SPA_Algorithm();
   }
