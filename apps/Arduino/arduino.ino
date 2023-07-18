@@ -71,8 +71,8 @@
 #include <LiquidCrystal_I2C.h> // To been installed in Arduino
 #include "./display/MenuLCD.h"
 #include "./spa/spa.c"
-#include <Wire.h>
-#include <RTClib.h>
+// #include <Wire.h>
+// #include <RTClib.h>
 
 // Tamaño de los arreglos a recibir
   #define ANOVA_DATA_SIZE         5
@@ -151,7 +151,7 @@ unsigned int contadorEncoder = 0;
 //////////////////////////
 
 // Inicializando el modulo de reloj
-RTC_DS3231 clockModule;
+// RTC_DS3231 clockModule;
 
 // Inicializar algoritmo SPA
 spa_data spa;
@@ -259,12 +259,12 @@ void loop() {
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
     // Updating internal clock
-    spa.year = clockModule.now().year();
-    spa.month = clockModule.now().month();
-    spa.day = clockModule.now().day();
-    spa.hour = clockModule.now().hour();
-    spa.minute = clockModule.now().minute();
-    spa.second = clockModule.now().second();
+    // spa.year = clockModule.now().year();
+    // spa.month = clockModule.now().month();
+    // spa.day = clockModule.now().day();
+    // spa.hour = clockModule.now().hour();
+    // spa.minute = clockModule.now().minute();
+    // spa.second = clockModule.now().second();
     // Recalculate SPA
     SPA_Algorithm();
   }
