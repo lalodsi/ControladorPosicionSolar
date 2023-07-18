@@ -258,12 +258,12 @@ void loop() {
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
     // Updating internal clock
-    spa.year = rtc.now().year();
-    spa.month = rtc.now().month();
-    spa.day = rtc.now().day();
-    spa.hour = rtc.now().hour();
-    spa.minute = rtc.now().minute();
-    spa.second = rtc.now().second();
+    spa.year = clockModule.now().year();
+    spa.month = clockModule.now().month();
+    spa.day = clockModule.now().day();
+    spa.hour = clockModule.now().hour();
+    spa.minute = clockModule.now().minute();
+    spa.second = clockModule.now().second();
     // Recalculate SPA
     SPA_Algorithm();
   }
