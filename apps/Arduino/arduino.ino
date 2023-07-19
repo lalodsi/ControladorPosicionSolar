@@ -183,8 +183,8 @@ void setup() {
 
   spa_result = spa_calculate(&spa);
 
-  //posAzimut = spa.azimuth;
-  //posIncidence = spa.incidence;
+  posAzimut = spa.azimuth;
+  posIncidence = spa.incidence;
 
   // Start the display LCD
   lcd.init();
@@ -256,6 +256,10 @@ void loop() {
   }
 
   //mixed_Algorithm();
+
+  // Using SPA results
+  setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+  setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
 
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
