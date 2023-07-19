@@ -183,8 +183,20 @@ void setup() {
 
   spa_result = spa_calculate(&spa);
 
-  posAzimut = spa.azimuth;
-  posIncidence = spa.incidence;
+  if (waitUntil(5))
+  {
+    posAzimut = spa.azimuth;
+    posIncidence = spa.incidence;
+    Serial.print("{\"accion\":\"controlMotors\",");
+    Serial.print("\"state\": {");
+    Serial.print("\"azimutSPA\":\"");
+    Serial.print(spa.azimuth);
+    Serial.print("\",");
+    Serial.print("\"incidenceSPA\":\"");
+    Serial.print(spa.incidence);
+    Serial.print("}");
+    Serial.println("}");
+  }
 
   // Start the display LCD
   lcd.init();
