@@ -183,8 +183,8 @@ void setup() {
 
   spa_result = spa_calculate(&spa);
 
-  posAzimut = spa.azimuth;
-  posIncidence = spa.incidence;
+  //posAzimut = spa.azimuth;
+  //posIncidence = spa.incidence;
 
   // Start the display LCD
   lcd.init();
@@ -255,7 +255,7 @@ void loop() {
     isDataReady = getSensorsData();
   }
 
-  mixed_Algorithm();
+  //mixed_Algorithm();
 
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
