@@ -633,14 +633,20 @@ void modoControlManual(){
     Serial.print("\"azimutText\":\"");
     Serial.print(rotacionTexto);
     Serial.print("\",");
+    Serial.print("\"azimutNumber\":\"");
+    Serial.print(rotacion);
+    Serial.print("\",");
     Serial.print("\"incidenceText\":\"");
     Serial.print(elevacionTexto);
+    Serial.print("\",");
+    Serial.print("\"incidenceNumber\":\"");
+    Serial.print(elevacion);
     Serial.print("\",");
     Serial.print("\"posIncidence\":");
     Serial.print(String(posIncidence));
     Serial.print(",");
     Serial.print("\"posAzimut\":");
-    Serial.print(String(posIncidence));
+    Serial.print(String(posAzimut));
     Serial.print("}");
     Serial.println("}");
     // Limpiar la informacion que se haya quedado
