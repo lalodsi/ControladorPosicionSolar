@@ -203,13 +203,15 @@ class ArduinoSerial{
                     const {
                         azimutText,
                         incidenceText,
+                        azimutNumber,
+                        incidenceNumber,
                         posIncidence,
                         posAzimut
                     } = datos.state;
-                    console.log(`Texto Azimut: ${azimutText}`);
-                    console.log(`Texto Incidencia: ${incidenceText}`);
-                    console.log(`Posicion Actual de Incidencia: ${posIncidence}`);
-                    console.log(`Posicion Actual de Azimut: ${posAzimut}`);
+                    console.log(`Texto Azimut: ${azimutText} Incidencia: ${incidenceText}`);
+                    console.log(`Numeros Azimut: ${azimutNumber} Incidencia: ${incidenceNumber}`);
+                    console.log(`Posicion Actual de Incidencia: ${posIncidence}, Azimut: ${posAzimut}`);
+
                 }
                 if (datos.accion === "mensaje") {
                     console.log(datos.message);
