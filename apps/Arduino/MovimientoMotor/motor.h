@@ -46,7 +46,6 @@
 */
 long int getStepsTo(float grades, float gearRelation){//, float gradoElev){
   long int steps = ceil((grades) / (1.8 * gearRelation));
-  if (steps < 0) steps *= (- 1) ;
   return steps;
 }
 
@@ -60,7 +59,7 @@ long int getStepsFromTo(float current, float next, float gearRelation){
   {
     return -nextPosition;
   }
-  return getStepsTo(next, gearRelation) - getStepsTo(current, gearRelation);
+  return nextPosition;
 }
 
 /**
