@@ -92,7 +92,7 @@ void setMotorDirection(float angle, int dirPin){
 void setElevationAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
   double diff = angle - *currentAngle;
   long int stepsNeeded = getStepsFromTo(*currentAngle, angle, RELATION_GEAR_BOX * RELATION_ELEVATION_GEARS);
-  setMotorDirection(diff, dirPin);
+  setMotorDirection(-diff, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, ELEVATION_MOTOR_DELAY);
   *currentAngle = angle;
 };
