@@ -90,6 +90,8 @@ double datos[ANOVA_DATA_SIZE][ANOVA_DATA_SIZE] = {
 int dataMeasurementIndex = 0;
 // Posición del panel
 double posAzimut = 0.0f;
+// Incidence angle, θ, is the angle between the sun’s rays and the normal on a surface
+// https://www.sciencedirect.com/topics/engineering/solar-incidence-angle
 double posIncidence = 0.0f;
 
 // Declaración de sensores externos
@@ -129,7 +131,7 @@ int programCounter = 0;
 #define TIME_TO_MEASUREMENT 1
 // Time delay to get data again from SPA algorithm
 // It's defined to 300s = 5 minutes
-#define TIME_TO_RECALCULATE_SPA 300
+#define TIME_TO_RECALCULATE_SPA 60
 // Counter to define the time between each measugement made by the hardware
 int DataMeasureCounter = 0;       // Contador para el algoritmo SPL
 
@@ -180,6 +182,9 @@ void setup() {
   spa.azm_rotation  = 5;
   spa.atmos_refract = 0.5667;
   spa.function      = SPA_ALL;
+
+  posAzimut = 71.0f;
+  posIncidence = 77.0f;
 
   spa_result = spa_calculate(&spa);
 
@@ -270,21 +275,55 @@ void loop() {
   //mixed_Algorithm();
 
   // Using SPA results
-  setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
-  setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
-
-  if (waitUntil(TIME_TO_RECALCULATE_SPA))
+  if (waitUntil(5))
   {
-    // Updating internal clock
-    spa.year = clockModule.now().year();
-    spa.month = clockModule.now().month();
-    spa.day = clockModule.now().day();
-    spa.hour = clockModule.now().hour();
-    spa.minute = clockModule.now().minute();
-    spa.second = clockModule.now().second();
-    // Recalculate SPA
+    // Updating Time
+    // spa.year = clockModule.now().year();
+    // spa.month = clockModule.now().month();
+    // spa.day = clockModule.now().day();
+    // spa.hour = clockModule.now().hour();
+    // spa.minute = clockModule.now().minute();
+    // spa.second = clockModule.now().second();
+
     SPA_Algorithm();
+    Serial.print("{\"accion\":\"SPA_Testing\",");
+    Serial.print("\"state\": {");
+    Serial.print("\"azimutCurrent\":\"");
+    Serial.print(posAzimut);
+    Serial.print("\",");
+    Serial.print("\"elevationCurrent\":\"");
+    Serial.print(posIncidence);
+    Serial.print("\",");
+    Serial.print("\"azimutSPA\":\"");
+    Serial.print(spa.azimuth);
+    Serial.print("\",");
+    Serial.print("\"incidenceSPA\":\"");
+    Serial.print(spa.incidence);
+    Serial.print("}");
+    Serial.println("}");
+    setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+    setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   }
+
+  // if (waitUntil(TIME_TO_RECALCULATE_SPA))
+  // {
+  //   // Mostrando Reloj
+  //   Serial.println("\tActualizando Reloj");
+  //   Serial.print("\t\tFecha: ");
+  //   Serial.print(clockModule.now().year());
+  //   Serial.print("-");
+  //   Serial.print(clockModule.now().month());
+  //   Serial.print("-");
+  //   Serial.println(clockModule.now().day());
+  //   Serial.print("\t\tHora: ");
+  //   Serial.print(clockModule.now().hour());
+  //   Serial.print("-");
+  //   Serial.print(clockModule.now().minute());
+  //   Serial.print("-");
+  //   Serial.println(clockModule.now().second());
+  //   // Recalculate SPA
+  //   SPA_Algorithm();
+  // }
   
 
   // For arduino nano 33 ble
@@ -593,17 +632,17 @@ void modoCalibracion(){
       spa.second = secondsText.toInt();
       // Actualizar la info en el modulo de reloj
       Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora a ");
-      Serial.print(yearText);
+      Serial.print(spa.year);
       Serial.print("-");
-      Serial.print(monthText);
+      Serial.print(spa.month);
       Serial.print("-");
-      Serial.print(dayText);
+      Serial.print(spa.day);
       Serial.print(", ");
-      Serial.print(hourText);
+      Serial.print(spa.hour);
       Serial.print(":");
-      Serial.print(minutesText);
+      Serial.print(spa.minute);
       Serial.print(":");
-      Serial.print(secondsText);
+      Serial.print(spa.second);
       Serial.println("\"}");
     }
     if (serial_info.equals("orientation")){
