@@ -269,21 +269,26 @@ void loop() {
 	}
 
   if (waitUntil(TIME_TO_MEASUREMENT)){
+    // Serial.print(" data ");
     isDataReady = getSensorsData();
+    mixed_Algorithm();
+    if (isDataReady)
+    {
+      // Serial.println("\nUtilizando el algoritmo mixto");
+      isDataReady = false;
+    }
   }
 
-  //mixed_Algorithm();
-
   // Using SPA results
-  if (waitUntil(5))
+  if (waitUntil(60))
   {
     // Updating Time
-    // spa.year = clockModule.now().year();
-    // spa.month = clockModule.now().month();
-    // spa.day = clockModule.now().day();
-    // spa.hour = clockModule.now().hour();
-    // spa.minute = clockModule.now().minute();
-    // spa.second = clockModule.now().second();
+    spa.year = clockModule.now().year();
+    spa.month = clockModule.now().month();
+    spa.day = clockModule.now().day();
+    spa.hour = clockModule.now().hour();
+    spa.minute = clockModule.now().minute();
+    spa.second = clockModule.now().second();
 
     SPA_Algorithm();
     Serial.print("{\"accion\":\"SPA_Testing\",");
@@ -341,20 +346,54 @@ void loop() {
 void mixed_Algorithm(){
 
   if (isDataReady){
+  // Serial.println("Printing matrix");
+  // for (int i = 0; i < 5; i++){
+  //   for (int j = 0; j < 5; j++){
+  //     Serial.print(datos[i][j]);
+  //     Serial.print("\t");
+  //   }
+  //   Serial.print("\n");
+  // }
   transpose(datos);
   bool ANOVAresult = ANOVA_test(datos, ANOVA_DATA_SIZE);
   transpose(datos);
     if (ANOVAresult)
     {
+      Serial.print("{\"accion\":\"MixedAlgorithm\",");
+      Serial.print("\"state\": {");
+      Serial.print("\"azimutCurrent\":\"");
+      Serial.print(posAzimut);
+      Serial.print("\",");
+      Serial.print("\"elevationCurrent\":\"");
+      Serial.print(posIncidence);
+      Serial.print("\",");
+      Serial.print("\"azimutSPA\":\"");
+      Serial.print(spa.azimuth);
+      Serial.print("\",");
+      Serial.print("\"incidenceSPA\":\"");
+      Serial.print(spa.incidence);
+      Serial.print("}");
+      Serial.println("}");
+
+      // Serial.print("Anova Aceptado, se utilizará el SPL");
       float diffAzimut = abs(spa.azimuth - posAzimut);
       float diffIncidence = abs(spa.incidence - posIncidence);
       // Applying SPL
       if (diffAzimut < 15 || diffIncidence < 15)
       {
+        // Serial.print(" con una diferencia de ");
+        // Serial.print(" azimut: ");
+        // Serial.print(diffAzimut);
+        // Serial.print(" incidence: ");
+        // Serial.println(diffIncidence);
         SPL_Algorithm(false);
+      }
+      else{
+        // Serial.println(" pero no hay diferencia en los sensores, se conservarán los valores originales");
       }
     }
     else{
+      // Serial.println("\nAnova Rechazado, se utilizará el SPA");
       // Using SPA results
       setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
       setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
@@ -368,7 +407,7 @@ void mixed_Algorithm(){
  * Check if the defined time has elapsed
 */
 bool waitUntil(int delayTime){
-  return (programCounter % (20 * delayTime) == 0);
+  return (programCounter % (10 * delayTime) == 0);
 }
 /**
  * @brief Lee la información de los sensores y la envía hacia el puerto serie en
@@ -422,13 +461,13 @@ void modoMonitoreo(){
         break;
       }
     }
-    SPL_Algorithm(false);
+    // SPL_Algorithm(false);
     delay(DEFAULT_PROGRAM_DELAY);
   }
 }
 
 void SPL_Algorithm(bool showData) {
-  const float umbral = 30; // Sirve de referencia para la comparación
+  const float umbral = 0; // Sirve de referencia para la comparación
 
   transpose(datos);
   // ANOVA analisis, getting only the result
@@ -477,30 +516,34 @@ void SPL_Algorithm(bool showData) {
     Serial.println("}");
   }
 
-  if (result)
+  if (true)
   {
-    int diferenciaY = sensor5.getData() - sensor1.getData();
-    int diferenciaX = sensor2.getData() - sensor4.getData();
+    double diferenciaY = sensor5.getData() - sensor1.getData();
+    double diferenciaX = sensor2.getData() - sensor4.getData();
+    // Serial.print("Diferencia en Y: ");
+    // Serial.print(diferenciaY);
+    // Serial.print(" diferencia en X: ");
+    // Serial.println(diferenciaX);
 
     if (sensor3.getData() > umbral)
     {
       if ( abs(diferenciaY) > umbral ) {
         if (diferenciaY > 0)
         {
-          setElevationAngle((float)(posIncidence - 0.5), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+          setElevationAngle((float)(posIncidence - 2), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
         }
         else {
-          setElevationAngle((float)(posIncidence + 0.5), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+          setElevationAngle((float)(posIncidence + 2), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
         }
       }
 
       if ( abs(diferenciaX) > umbral ) {
         if (diferenciaX > 0)
         {
-          setAzimutAngle((float)(posAzimut + 1), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+          setAzimutAngle((float)(posAzimut + 3), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
         }
         else {
-          setAzimutAngle((float)(posAzimut - 1), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+          setAzimutAngle((float)(posAzimut - 3), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
         }
       }
     }
