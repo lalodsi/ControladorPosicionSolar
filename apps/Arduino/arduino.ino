@@ -114,6 +114,13 @@ double temporalSensorCircuitVoltaje = 0;
 // Check if the data array was fullfilled
 bool isDataReady = false;
 
+// Algorithm
+// for SPA is 1
+// for SPL is 2
+// for Mixed is 3
+int algorithmToUse = 3;
+
+
 // Temporal variable to save data from serial port
 String serial_info;
 
@@ -122,7 +129,7 @@ String serial_info;
 ////////////////////////
 
 // Counter of delays of 50ms that the loop function takes.
-int programCounter = 0;
+int programCounter = 1;
 // Default time between each loop function iteration
 #define DEFAULT_PROGRAM_DELAY 50
 // Time delay to take a measurement in seconds
@@ -164,9 +171,9 @@ void setup() {
   // Check spa.h file to know how to change each variable
   spa.year          = 2023;
   spa.month         = 7;
-  spa.day           = 17;
-  spa.hour          = 14;
-  spa.minute        = 0;
+  spa.day           = 22;
+  spa.hour          = 15;
+  spa.minute        = 30;
   spa.second        = 0;
   spa.timezone      = -6.0;
   spa.delta_ut1     = 0;
@@ -183,26 +190,6 @@ void setup() {
   spa.atmos_refract = 0.5667;
   spa.function      = SPA_ALL;
 
-  posAzimut = 71.0f;
-  posIncidence = 77.0f;
-
-  spa_result = spa_calculate(&spa);
-
-  if (waitUntil(5))
-  {
-    posAzimut = spa.azimuth;
-    posIncidence = spa.incidence;
-    Serial.print("{\"accion\":\"controlMotors\",");
-    Serial.print("\"state\": {");
-    Serial.print("\"azimutSPA\":\"");
-    Serial.print(spa.azimuth);
-    Serial.print("\",");
-    Serial.print("\"incidenceSPA\":\"");
-    Serial.print(spa.incidence);
-    Serial.print("}");
-    Serial.println("}");
-  }
-
   // Start the display LCD
   lcd.init();
   lcd.backlight();
@@ -213,10 +200,6 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT), readEncoder,RISING);
 
   clockModule.begin();
-  // if (! clockModule.begin()){
-  //       Serial.println("Modulo RTC no encontrado");
-  //       while(1);
-  //   }
 
   // Motores de movimiento, pruebas
   pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
@@ -228,6 +211,11 @@ void setup() {
   Serial.begin(9600);
   Serial.setTimeout(100);
 
+  spa_result = spa_calculate(&spa);
+
+  posAzimut = spa.azimuth;
+  posIncidence = spa.incidence;
+
   Serial.print("Starting Arduino");
   // Matriz dinámica para el manejo de informacion
   // datos = (double **) malloc( ANOVA_DATA_SIZE * sizeof(double));
@@ -236,6 +224,7 @@ void setup() {
 }
 
 void loop() {
+  spa_calculate(&spa);
 
   // Evalúa si el botón del encoder fue presionado y seteará la bandera para pintar el LCD
   if(debounce(PIN_ENCODER_SWITCH)){
@@ -269,28 +258,8 @@ void loop() {
 	}
 
   if (waitUntil(TIME_TO_MEASUREMENT)){
-    // Serial.print(" data ");
-    isDataReady = getSensorsData();
-    mixed_Algorithm();
-    if (isDataReady)
-    {
-      // Serial.println("\nUtilizando el algoritmo mixto");
-      isDataReady = false;
-    }
-  }
+    select_Algorithm();
 
-  // Using SPA results
-  if (waitUntil(60))
-  {
-    // Updating Time
-    spa.year = clockModule.now().year();
-    spa.month = clockModule.now().month();
-    spa.day = clockModule.now().day();
-    spa.hour = clockModule.now().hour();
-    spa.minute = clockModule.now().minute();
-    spa.second = clockModule.now().second();
-
-    SPA_Algorithm();
     Serial.print("{\"accion\":\"SPA_Testing\",");
     Serial.print("\"state\": {");
     Serial.print("\"azimutCurrent\":\"");
@@ -304,32 +273,40 @@ void loop() {
     Serial.print("\",");
     Serial.print("\"incidenceSPA\":\"");
     Serial.print(spa.incidence);
-    Serial.print("}");
+    Serial.print("\"}");
     Serial.println("}");
-    setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
-    setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+    // setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+    // setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   }
 
-  // if (waitUntil(TIME_TO_RECALCULATE_SPA))
-  // {
-  //   // Mostrando Reloj
-  //   Serial.println("\tActualizando Reloj");
-  //   Serial.print("\t\tFecha: ");
-  //   Serial.print(clockModule.now().year());
-  //   Serial.print("-");
-  //   Serial.print(clockModule.now().month());
-  //   Serial.print("-");
-  //   Serial.println(clockModule.now().day());
-  //   Serial.print("\t\tHora: ");
-  //   Serial.print(clockModule.now().hour());
-  //   Serial.print("-");
-  //   Serial.print(clockModule.now().minute());
-  //   Serial.print("-");
-  //   Serial.println(clockModule.now().second());
-  //   // Recalculate SPA
-  //   SPA_Algorithm();
-  // }
-  
+  if (waitUntil(TIME_TO_RECALCULATE_SPA))
+  {
+    Serial.println("Recalculating SPA with clock");
+    // Updating Time
+    spa.year = clockModule.now().year();
+    spa.month = clockModule.now().month();
+    spa.day = clockModule.now().day();
+    spa.hour = clockModule.now().hour();
+    spa.minute = clockModule.now().minute();
+    spa.second = clockModule.now().second();
+    // Mostrando Reloj
+    Serial.println("\tActualizando Reloj");
+    Serial.print("\t\tFecha: ");
+    Serial.print(clockModule.now().year());
+    Serial.print("-");
+    Serial.print(clockModule.now().month());
+    Serial.print("-");
+    Serial.println(clockModule.now().day());
+    Serial.print("\t\tHora: ");
+    Serial.print(clockModule.now().hour());
+    Serial.print("-");
+    Serial.print(clockModule.now().minute());
+    Serial.print("-");
+    Serial.println(clockModule.now().second());
+    // Recalculate SPA
+    SPA_Algorithm();
+  }
+
 
   // For arduino nano 33 ble
   if (Serial.available())
@@ -343,7 +320,7 @@ void loop() {
 /**
  * Make the mixed Algorithm
 */
-void mixed_Algorithm(){
+void Mixed_Algorithm(){
 
   if (isDataReady){
   // Serial.println("Printing matrix");
@@ -372,7 +349,7 @@ void mixed_Algorithm(){
       Serial.print("\",");
       Serial.print("\"incidenceSPA\":\"");
       Serial.print(spa.incidence);
-      Serial.print("}");
+      Serial.print("\"}");
       Serial.println("}");
 
       // Serial.print("Anova Aceptado, se utilizará el SPL");
@@ -386,7 +363,7 @@ void mixed_Algorithm(){
         // Serial.print(diffAzimut);
         // Serial.print(" incidence: ");
         // Serial.println(diffIncidence);
-        SPL_Algorithm(false);
+        SPL_Algorithm(false, false);
       }
       else{
         // Serial.println(" pero no hay diferencia en los sensores, se conservarán los valores originales");
@@ -407,14 +384,13 @@ void mixed_Algorithm(){
  * Check if the defined time has elapsed
 */
 bool waitUntil(int delayTime){
-  return (programCounter % (10 * delayTime) == 0);
+  return (programCounter % (20 * delayTime) == 0);
 }
 /**
  * @brief Lee la información de los sensores y la envía hacia el puerto serie en
  * formato JSON
 */
 void modoMonitoreo(){
-
   while (true)
   {
     if (waitUntil(TIME_TO_MEASURE_IN_MONITORING))
@@ -458,21 +434,30 @@ void modoMonitoreo(){
       serial_info.trim();
       if (serial_info.equals("salir"))
       {
+        isDataReady = false;
         break;
       }
     }
+
+    isDataReady = getSensorsData();
+
+    Mixed_Algorithm();
+
     // SPL_Algorithm(false);
     delay(DEFAULT_PROGRAM_DELAY);
   }
 }
 
-void SPL_Algorithm(bool showData) {
+void SPL_Algorithm(bool showData, bool includeANOVA) {
   const float umbral = 0; // Sirve de referencia para la comparación
-
-  transpose(datos);
-  // ANOVA analisis, getting only the result
-  bool result = ANOVA_test(datos, ANOVA_DATA_SIZE);
-  transpose(datos);
+  bool result = false;
+  if (includeANOVA)
+  {
+    transpose(datos);
+    // ANOVA analisis, getting only the result
+    result = ANOVA_test(datos, ANOVA_DATA_SIZE);
+    transpose(datos);
+  }
 
   // Comienza impresión de los datos graficados
   if (showData)
@@ -516,8 +501,9 @@ void SPL_Algorithm(bool showData) {
     Serial.println("}");
   }
 
-  if (true)
+  if (result || includeANOVA)
   {
+    result = false;
     double diferenciaY = sensor5.getData() - sensor1.getData();
     double diferenciaX = sensor2.getData() - sensor4.getData();
     // Serial.print("Diferencia en Y: ");
@@ -530,20 +516,20 @@ void SPL_Algorithm(bool showData) {
       if ( abs(diferenciaY) > umbral ) {
         if (diferenciaY > 0)
         {
-          setElevationAngle((float)(posIncidence - 2), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+          setElevationAngle((float)(posIncidence - 1), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
         }
         else {
-          setElevationAngle((float)(posIncidence + 2), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
+          setElevationAngle((float)(posIncidence + 1), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
         }
       }
 
       if ( abs(diferenciaX) > umbral ) {
         if (diferenciaX > 0)
         {
-          setAzimutAngle((float)(posAzimut + 3), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+          setAzimutAngle((float)(posAzimut + 2), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
         }
         else {
-          setAzimutAngle((float)(posAzimut - 3), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+          setAzimutAngle((float)(posAzimut - 2), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
         }
       }
     }
@@ -555,6 +541,38 @@ void SPL_Algorithm(bool showData) {
 int SPA_Algorithm(){
   // Using the algorithm
   return spa_calculate(&spa);
+}
+
+void select_Algorithm(){
+  Serial.print(" data ");
+  isDataReady = getSensorsData();
+
+  // Selecting algorithm
+  if (isDataReady)
+  {
+    Serial.print("\n Selected  ");
+    switch (algorithmToUse)
+    {
+    case 1:
+      Serial.println("SPA");
+      SPA_Algorithm();
+      break;
+
+    case 2:
+      Serial.println("SPL");
+      SPL_Algorithm(false, true);
+      break;
+
+    case 3:
+      Serial.println("Mixed");
+      Mixed_Algorithm();
+      break;
+
+    default:
+      break;
+    }
+    isDataReady = false;
+  }
 }
 
 /**
@@ -585,6 +603,7 @@ bool getSensorsData(){
     };
     return false;
 }
+
 /**
  * @brief Esperará a que haya información en el puerto serie para continuar la ejecución
  * 
@@ -702,11 +721,43 @@ void modoCalibracion(){
       // Asignar Datos
       spa.azm_rotation = serial_info.toFloat();
     }
+    if (serial_info.equals("algorithm"))
+    {
+      waitForSerial();
+      serial_info = Serial.readString();
+      serial_info.trim();
+
+      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio el algoritmo a ");
+
+      if (serial_info.equals("fijo"))
+      {
+        Serial.print("fijo con azimut: ");
+        Serial.print(posAzimut);
+        Serial.print(" incidencia: ");
+        Serial.print(posIncidence);
+        Serial.print("");
+        algorithmToUse = 0;
+      }
+      if (serial_info.equals("SPA"))
+      {
+        Serial.print("SPA");
+        algorithmToUse = 1;
+      }
+      if (serial_info.equals("SPL"))
+      {
+        Serial.print("SPL");
+        algorithmToUse = 2;
+      }
+      if (serial_info.equals("mixed"))
+      {
+        Serial.print("Mixto");
+        algorithmToUse = 3;
+      }
+      Serial.println("\"}");
+    }
 
     Serial.flush();
   }
-  
-
 }
 
 void modoControlManual(){
@@ -788,9 +839,6 @@ void serialEvent(){
   if(serial_info.equals("reset")){
     resetearPuntoMedio();
   }
-  if(serial_info.equals("anova")){
-    SPL_Algorithm(true);
-  }
 
   Serial.readString();
   Serial.flush();
@@ -831,6 +879,6 @@ bool debounce(byte input){
 		while(! digitalRead(input));
 		delay(20);
 		state = true;
-	}      
-	return state;   
+	}
+	return state;
 }

@@ -227,7 +227,8 @@ class ArduinoSerial{
                 }
             }
             catch(err){
-                console.log("LLegó un dato erroneo: ",err.message);
+                console.log("Data undestructured: ");
+                console.log(data);
                 Attempts++;
                 if (Attempts > 10) {
                     console.log("Parece que están ocurriendo demasiados errores, se ha desconectado el arduino ",err.message);
