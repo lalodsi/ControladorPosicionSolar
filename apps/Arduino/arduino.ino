@@ -836,9 +836,6 @@ void serialEvent(){
   if(serial_info.equals("probar")){
     modoPrueba();
   }
-  if(serial_info.equals("reset")){
-    resetearPuntoMedio();
-  }
 
   Serial.readString();
   Serial.flush();
@@ -848,12 +845,6 @@ void serialEvent(){
   Serial.print("\"accion\":\"changeMenu\",");
   Serial.print("\"menu\":\"home\"");
   Serial.println("}");
-}
-
-void resetearPuntoMedio(){
-  // Posición del panel
-  posAzimut = 0.0f;
-  posIncidence = 0.0f;
 }
 
 // Funciones para el uso del Display LCD
