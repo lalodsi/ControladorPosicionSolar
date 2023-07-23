@@ -87,6 +87,12 @@ function sockets(socket) {
         // arduino.sendData(`${data.latitud},${data.longitud}`);
         setTimeout(() => arduino.sendData(`${data.azimut},${data.elevacion}`), 1000);
     } );
+    socket.on( servidor.sockets.controlarAlgoritmo, data =>{
+        console.log(`Se cambiará el algoritmo a ${data.algorithm}`);
+        // arduino.sendData(`${data.latitud},${data.longitud}`);
+        arduino.sendData("algorithm");
+        setTimeout(() => arduino.sendData(`${data.algorithm}`), 500);
+    } );
     socket.on(
         "monitorSerial",
         data => arduino.monitorSerialConnected = data.connected

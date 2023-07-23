@@ -13,6 +13,7 @@ class Server{
         monitorear: "startSendingData",
         intercambiarDatos: "data",
         resultadosAnova: "anova",
+        controlarAlgoritmo: "setAlgoritmo",
         enviarPalabra: "sendString",
         cambiarFechaYHora: "setDate",
         cambiarPosicion: "setPosition",

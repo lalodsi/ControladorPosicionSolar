@@ -8,6 +8,7 @@ const activarForms = function () {
     // formCalibrarPosicionAuto();
     formCalibrarOrientacion();
     formCalibrarAngulosActuales();
+    formElegirAlgoritmo();
 };
 
 /**
@@ -125,4 +126,19 @@ const formCalibrarOrientacion = function () {
         console.log(data);
         socket.emit(eventos.calibrarOrientacion, data);
     })
+}
+
+const formElegirAlgoritmo = function () {
+    const SPA = document.getElementById('SPAbutton');
+    const SPL = document.getElementById('SPLbutton');
+    const Mixed = document.getElementById('Mixedbutton');
+    const Fixed = document.getElementById('Fixedbutton');
+
+    function activateAlgorithm(word) {
+        socket.emit(eventos.controlarAlgoritmo, {algorithm: word})
+    }
+    SPA.addEventListener('click', () => activateAlgorithm('SPA'))
+    SPL.addEventListener('click', () => activateAlgorithm('SPL'))
+    Mixed.addEventListener('click', () => activateAlgorithm('mixed'))
+    Fixed.addEventListener('click', () => activateAlgorithm('fijo'))
 }
