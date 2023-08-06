@@ -133,7 +133,7 @@ int programCounter = 1;
 // Default time between each loop function iteration
 #define DEFAULT_PROGRAM_DELAY 50
 // Time delay to take a measurement in seconds
-#define TIME_TO_MEASURE_IN_MONITORING 1
+#define TIME_TO_MEASURE_IN_MONITORING 0.1
 // Time delay between each measurement in seconds
 #define TIME_TO_MEASUREMENT 1
 // Time delay to get data again from SPA algorithm
@@ -200,6 +200,11 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(PIN_ENCODER_DT), readEncoder,RISING);
 
   clockModule.begin();
+  //
+
+  // clockModule.adjust(DateTime(__DATE__,__TIME__));
+
+  
 
   // Motores de movimiento, pruebas
   pinMode(PIN_MOTOR_ELEVATION_DIR, OUTPUT);
@@ -275,13 +280,12 @@ void loop() {
     Serial.print(spa.incidence);
     Serial.print("\"}");
     Serial.println("}");
-    // setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
-    // setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
   }
 
   if (waitUntil(TIME_TO_RECALCULATE_SPA))
   {
     Serial.println("Recalculating SPA with clock");
+    //  .adjust(DateTime(__DATE__,__TIME__));
     // Updating Time
     spa.year = clockModule.now().year();
     spa.month = clockModule.now().month();
@@ -336,21 +340,6 @@ void Mixed_Algorithm(){
   transpose(datos);
     if (ANOVAresult)
     {
-      Serial.print("{\"accion\":\"MixedAlgorithm\",");
-      Serial.print("\"state\": {");
-      Serial.print("\"azimutCurrent\":\"");
-      Serial.print(posAzimut);
-      Serial.print("\",");
-      Serial.print("\"elevationCurrent\":\"");
-      Serial.print(posIncidence);
-      Serial.print("\",");
-      Serial.print("\"azimutSPA\":\"");
-      Serial.print(spa.azimuth);
-      Serial.print("\",");
-      Serial.print("\"incidenceSPA\":\"");
-      Serial.print(spa.incidence);
-      Serial.print("\"}");
-      Serial.println("}");
 
       // Serial.print("Anova Aceptado, se utilizará el SPL");
       float diffAzimut = abs(spa.azimuth - posAzimut);
@@ -383,8 +372,8 @@ void Mixed_Algorithm(){
 /**
  * Check if the defined time has elapsed
 */
-bool waitUntil(int delayTime){
-  return (programCounter % (20 * delayTime) == 0);
+bool waitUntil(double delayTime){
+  return (programCounter % (int)(20.0 * delayTime) == 0);
 }
 /**
  * @brief Lee la información de los sensores y la envía hacia el puerto serie en
@@ -555,7 +544,10 @@ void select_Algorithm(){
     {
     case 1:
       Serial.println("SPA");
+      // Moving to SPA
       SPA_Algorithm();
+      setAzimutAngle((float)(spa.azimuth), PIN_MOTOR_AZIMUT_DIR, PIN_MOTOR_AZIMUT_STEP, &posAzimut);
+      setElevationAngle((float)(spa.incidence), PIN_MOTOR_ELEVATION_DIR, PIN_MOTOR_ELEVATION_STEP, &posIncidence);
       break;
 
     case 2:
@@ -706,6 +698,52 @@ void modoCalibracion(){
       Serial.print(":");
       Serial.print(spa.second);
       Serial.println("\"}");
+
+      clockModule.adjust(DateTime(__DATE__,__TIME__));
+
+      switch (monthText.toInt())
+      {
+      case 1:
+        monthText = "Jan";
+        break;
+      case 2:
+        monthText = "Feb";
+        break;
+      case 3:
+        monthText = "Mar";
+        break;
+      case 4:
+        monthText = "Apr";
+        break;
+      case 5:
+        monthText = "May";
+        break;
+      case 6:
+        monthText = "Jun";
+        break;
+      case 7:
+        monthText = "Jul";
+        break;
+      case 8:
+        monthText = "Aug";
+        break;
+      case 9:
+        monthText = "Sep";
+        break;
+      case 10:
+        monthText = "Oct";
+        break;
+      case 11:
+        monthText = "Nov";
+        break;
+      case 12:
+        monthText = "Dec";
+        break;
+      default:
+        break;
+      }
+
+      clockModule.adjust(DateTime(__DATE__,__TIME__));
     }
     if (serial_info.equals("orientation")){
       waitForSerial();
