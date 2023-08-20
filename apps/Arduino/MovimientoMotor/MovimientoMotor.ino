@@ -40,22 +40,26 @@ void loop() {
     Serial.print(" son: ");
     Serial.println(pasos_enteros);
     Serial.println("Acabo la conversión");
-    if (pasos_enteros < 0){
-      pasos_enteros = (pasos_enteros * (- 1) + 1);
-      digitalWrite(dirpin, LOW);
-      Serial.println(pasos_enteros);
-    }
-    else{
-      digitalWrite(dirpin, HIGH);
-    }
+    // if (pasos_enteros < 0){
+    //   pasos_enteros = (pasos_enteros * (- 1) + 1);
+    //   digitalWrite(dirpin, LOW);
+    //   Serial.println(pasos_enteros);
+    // }
+    // else{
+    //   digitalWrite(dirpin, HIGH);
+    // }
     
-    for(int x = 0; x < pasos_enteros; x++){
-      digitalWrite(steppin, HIGH);
-      delayMicroseconds(dlay);
-      digitalWrite(steppin, LOW);
-      delayMicroseconds(dlay);
-    }
+    // for(int x = 0; x < pasos_enteros; x++){
+    //   digitalWrite(steppin, HIGH);
+    //   delayMicroseconds(dlay);
+    //   digitalWrite(steppin, LOW);
+    //   delayMicroseconds(dlay);
+    // }
   }  
+    digitalWrite(steppin, HIGH);
+    delayMicroseconds(dlay);
+    digitalWrite(steppin, LOW);
+    delayMicroseconds(dlay);
 }
 
 float transvalores(float gradoElevacion1){//, float gradoElev){

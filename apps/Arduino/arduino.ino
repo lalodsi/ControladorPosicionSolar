@@ -684,20 +684,6 @@ void modoCalibracion(){
       spa.hour = hourText.toInt();
       spa.minute = minutesText.toInt();
       spa.second = secondsText.toInt();
-      // Actualizar la info en el modulo de reloj
-      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora a ");
-      Serial.print(spa.year);
-      Serial.print("-");
-      Serial.print(spa.month);
-      Serial.print("-");
-      Serial.print(spa.day);
-      Serial.print(", ");
-      Serial.print(spa.hour);
-      Serial.print(":");
-      Serial.print(spa.minute);
-      Serial.print(":");
-      Serial.print(spa.second);
-      Serial.println("\"}");
 
       clockModule.adjust(DateTime(__DATE__,__TIME__));
 
@@ -743,7 +729,22 @@ void modoCalibracion(){
         break;
       }
 
-      clockModule.adjust(DateTime(__DATE__,__TIME__));
+      // Actualizar la info en el modulo de reloj
+      Serial.print("{\"accion\":\"mensaje\",\"message\":\"Arduino cambio la fecha y hora a ");
+      Serial.print(spa.year);
+      Serial.print("-");
+      Serial.print(spa.month);
+      Serial.print("-");
+      Serial.print(spa.day);
+      Serial.print(", ");
+      Serial.print(spa.hour);
+      Serial.print(":");
+      Serial.print(spa.minute);
+      Serial.print(":");
+      Serial.print(spa.second);
+      Serial.println("\"}");
+
+      clockModule.adjust(DateTime(spa.year, spa.month, spa.day, spa.hour, spa.minute, spa.second));
     }
     if (serial_info.equals("orientation")){
       waitForSerial();

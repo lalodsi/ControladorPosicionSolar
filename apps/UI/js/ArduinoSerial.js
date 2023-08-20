@@ -131,7 +131,7 @@ class ArduinoSerial{
         console.clear()
         this.parser.on('data', data => {
             try{
-                // console.log(data);
+                console.log(data);
                 const datos = JSON.parse(data);
                 // Cambiar Menu
                 if (datos.accion === "changeMenu") {
