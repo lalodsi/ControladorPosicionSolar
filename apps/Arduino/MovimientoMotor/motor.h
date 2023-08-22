@@ -21,7 +21,7 @@
  * Relación de la caja de engranes del motor de elevacion
  * Valor: 1/30
 */
-#define RELATION_GEAR_BOX 0.03333
+#define RELATION_GEAR_BOX 0.06667
 
 /**
  * Relación del engrane para el movimiento de elevación
@@ -30,22 +30,28 @@
 #define RELATION_ELEVATION_GEARS 0.05
 
 /**
- * Relación del engrane para el movimiento de elevación
+ * Relación del engrane para el movimiento azimutal
  * Valor: 1/19 * 15/39
 */
 #define RELATION_AZIMUTH_CHAIN 0.020243
 
-// Cantidad de ms que se espera antes de dar otro paso en el motor
+// Cantidad de us que se espera antes de dar otro paso en el motor
 #define ELEVATION_MOTOR_DELAY 1300
 
-// Cantidad de ms que se espera antes de dar otro paso en el motor
+// Cantidad de us que se espera antes de dar otro paso en el motor
 #define AZIMUTH_MOTOR_DELAY 1300
+
+// Pasos por revolución del motor de elevacion
+#define STEPS_PER_REVOLUTION_ELEVATION 0.9
+
+// Pasos por revolución del motor de azimut
+#define STEPS_PER_REVOLUTION_AZIMUTH 1.8
 
 /**
  * Obtiene los pasos necesarios para moverse a un determinado ángulo
 */
 long int getStepsTo(float grades, float gearRelation){//, float gradoElev){
-  long int steps = ceil((grades) / (1.8 * gearRelation));
+  long int steps = ceil((grades) / (gearRelation));
   return steps;
 }
 
@@ -91,7 +97,7 @@ void setMotorDirection(float angle, int dirPin){
 */
 void setElevationAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
   double diff = angle - *currentAngle;
-  long int stepsNeeded = getStepsFromTo(*currentAngle, angle, RELATION_GEAR_BOX * RELATION_ELEVATION_GEARS);
+  long int stepsNeeded = getStepsFromTo(*currentAngle, angle, STEPS_PER_REVOLUTION_ELEVATION * RELATION_GEAR_BOX * RELATION_ELEVATION_GEARS);
   setMotorDirection(-diff, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, ELEVATION_MOTOR_DELAY);
   *currentAngle = angle;
@@ -102,7 +108,7 @@ void setElevationAngle(float angle, int dirPin, int stepsPin, double* currentAng
 */
 void setAzimutAngle(float angle, int dirPin, int stepsPin, double* currentAngle) {
   double diff = angle - *currentAngle;
-  long int stepsNeeded = getStepsFromTo(*currentAngle, angle, RELATION_AZIMUTH_CHAIN);
+  long int stepsNeeded = getStepsFromTo(*currentAngle, angle, STEPS_PER_REVOLUTION_AZIMUTH * RELATION_AZIMUTH_CHAIN);
   setMotorDirection(diff, dirPin);
   setMotorSteps(stepsNeeded, stepsPin, AZIMUTH_MOTOR_DELAY);
   *currentAngle = angle;

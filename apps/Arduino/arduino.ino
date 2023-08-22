@@ -39,11 +39,12 @@
 // Input and Output ports
 ///////////////////////////////////////////////////////////////////////////////////////////////
 // Entradas analogicas
-  #define PIN_ANALOG_LIGHT_SENSOR_1   A0
-  #define PIN_ANALOG_LIGHT_SENSOR_2   A1
+  //Despues
+  #define PIN_ANALOG_LIGHT_SENSOR_1   A6
+  #define PIN_ANALOG_LIGHT_SENSOR_2   A3
   #define PIN_ANALOG_LIGHT_SENSOR_3   A2
-  #define PIN_ANALOG_LIGHT_SENSOR_4   A3
-  #define PIN_ANALOG_LIGHT_SENSOR_5   A6
+  #define PIN_ANALOG_LIGHT_SENSOR_4   A0
+  #define PIN_ANALOG_LIGHT_SENSOR_5   A1
 // Motores
   #define PIN_MOTOR_ELEVATION_DIR     3
   #define PIN_MOTOR_ELEVATION_STEP    2
@@ -326,7 +327,6 @@ void loop() {
 */
 void Mixed_Algorithm(){
 
-  if (isDataReady){
   // Serial.println("Printing matrix");
   // for (int i = 0; i < 5; i++){
   //   for (int j = 0; j < 5; j++){
@@ -340,12 +340,15 @@ void Mixed_Algorithm(){
   transpose(datos);
     if (ANOVAresult)
     {
-
-      // Serial.print("Anova Aceptado, se utilizará el SPL");
+      Serial.println("{\"accion\":\"mensaje\",\"message\":\"Anova Aceptado, se utilizará el SPL\"}");
       float diffAzimut = abs(spa.azimuth - posAzimut);
       float diffIncidence = abs(spa.incidence - posIncidence);
+      Serial.print("Diferencia Azimut: ");
+      Serial.print(diffAzimut);
+      Serial.print("   diferencia Elevacion: ");
+      Serial.println(diffIncidence);
       // Applying SPL
-      if (diffAzimut < 15 || diffIncidence < 15)
+      if (diffAzimut < 15 && diffIncidence < 15)
       {
         // Serial.print(" con una diferencia de ");
         // Serial.print(" azimut: ");
@@ -366,7 +369,6 @@ void Mixed_Algorithm(){
     }
 
     dataMeasurementIndex = 0;
-  }
 }
 
 /**
@@ -428,9 +430,9 @@ void modoMonitoreo(){
       }
     }
 
-    isDataReady = getSensorsData();
+    // isDataReady = getSensorsData();
 
-    Mixed_Algorithm();
+    select_Algorithm();
 
     // SPL_Algorithm(false);
     delay(DEFAULT_PROGRAM_DELAY);
@@ -438,8 +440,10 @@ void modoMonitoreo(){
 }
 
 void SPL_Algorithm(bool showData, bool includeANOVA) {
-  const float umbral = 0; // Sirve de referencia para la comparación
-  bool result = false;
+  const float umbral = 40; // Sirve de referencia para la comparación
+  // Se salta la verificación del anova si no se decide incluir
+  // toma la suposición de que el anova ya se realizó
+  bool result = !includeANOVA;
   if (includeANOVA)
   {
     transpose(datos);
@@ -493,7 +497,7 @@ void SPL_Algorithm(bool showData, bool includeANOVA) {
   if (result || includeANOVA)
   {
     result = false;
-    double diferenciaY = sensor5.getData() - sensor1.getData();
+    double diferenciaY = sensor1.getData() - sensor5.getData();
     double diferenciaX = sensor2.getData() - sensor4.getData();
     // Serial.print("Diferencia en Y: ");
     // Serial.print(diferenciaY);
@@ -533,7 +537,7 @@ int SPA_Algorithm(){
 }
 
 void select_Algorithm(){
-  Serial.print(" data ");
+  // Serial.print(" data ");
   isDataReady = getSensorsData();
 
   // Selecting algorithm

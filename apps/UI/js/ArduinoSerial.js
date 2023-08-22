@@ -226,7 +226,7 @@ class ArduinoSerial{
                 }
             }
             catch(err){
-                console.log("Data undestructured: ");
+                // console.log("Data undestructured: ");
                 console.log(data);
             }
         });
