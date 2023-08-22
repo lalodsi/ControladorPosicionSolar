@@ -1,0 +1,20 @@
+{
+  "name": "mediciones",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc modificador.ts",
+    "start": "npm run build && node modificador.js",
+    "plot": "python datos18Julio.txt"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "plotly": "^1.0.6",
+    "plotly.js-dist": "^2.25.2",
+    "plotly.js-dist-min": "^2.25.2"
+  }
+}

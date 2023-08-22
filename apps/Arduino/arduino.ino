@@ -179,13 +179,14 @@ void setup() {
   spa.timezone      = -6.0;
   spa.delta_ut1     = 0;
   spa.delta_t       = 67;
-  spa.longitude     = -100.2841667;
-  spa.latitude      = 20.54138889;
+  spa.longitude     = -99.1332;
+  spa.latitude      = 19.4326;
   spa.elevation     = 2000.0;
   spa.pressure      = 1019;
   // Temperatura media anual
   // Querétaro: https://cuentame.inegi.org.mx/monografias/informacion/queret/territorio/clima.aspx
-  spa.temperature   = 18;
+  // Ciudad de México: https://cuentame.inegi.org.mx/monografias/informacion/df/territorio/clima.aspx?tema=me&e=09
+  spa.temperature   = 16;
   spa.slope         = 0;
   spa.azm_rotation  = 5;
   spa.atmos_refract = 0.5667;
